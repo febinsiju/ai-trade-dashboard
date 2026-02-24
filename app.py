@@ -1,84 +1,170 @@
 import streamlit as st
 import yfinance as yf
-import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
+import time
 
-st.set_page_config(page_title="AI Global Trade Dashboard", layout="wide")
+st.set_page_config(page_title="AI Trade Bot Pro", layout="wide")
 
-st.title("🌍 AI Global Trade Intelligence Dashboard")
-st.warning("⚠️ AI-based analytical tool. Not financial advice.")
+# =============================
+# FUTURISTIC STYLING
+# =============================
+st.markdown("""
+<style>
+body {
+    background-color: #0e1117;
+}
+.main {
+    background-color: #0e1117;
+}
+h1, h2, h3 {
+    color: #00f5ff;
+}
+.stButton>button {
+    background-color: #00f5ff;
+    color: black;
+    border-radius: 10px;
+    height: 3em;
+    width: 100%;
+}
+.stTextInput>div>div>input {
+    background-color: #1a1f2b;
+    color: white;
+}
+.metric-card {
+    background-color: #1a1f2b;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 15px #00f5ff;
+}
+</style>
+""", unsafe_allow_html=True)
 
-# =========================
+# =============================
+# SESSION STATE LOGIN
+# =============================
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+def login_page():
+    st.title("🤖 AI TRADE BOT PRO")
+    st.subheader("Secure Login Portal")
+
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+
+    if st.button("Login"):
+        if username and password:
+            st.session_state.logged_in = True
+            st.success("Login Successful 🚀")
+            time.sleep(1)
+            st.rerun()
+        else:
+            st.error("Enter valid credentials")
+
+if not st.session_state.logged_in:
+    login_page()
+    st.stop()
+
+# =============================
+# SIDEBAR
+# =============================
+st.sidebar.title("⚡ AI Navigation")
+page = st.sidebar.radio("Go to", ["Dashboard", "AI Analyzer"])
+
+st.title("🌌 AI Global Trade Intelligence")
+
+# =============================
 # SAFE METRIC FUNCTION
-# =========================
-
-def safe_metric(column, label, ticker):
+# =============================
+def safe_metric(label, ticker):
     data = yf.download(ticker, period="5d")
     if not data.empty and "Close" in data.columns:
-        price = round(data["Close"].iloc[-1], 2)
-        column.metric(label, f"${price}")
-    else:
-        column.metric(label, "Data unavailable")
+        return round(data["Close"].iloc[-1], 2)
+    return None
 
-# =========================
-# GLOBAL MARKET SNAPSHOT
-# =========================
+# =============================
+# DASHBOARD PAGE
+# =============================
+if page == "Dashboard":
 
-st.subheader("📊 Global Market Snapshot")
+    st.subheader("📊 Live Global Market")
 
-col1, col2, col3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
-safe_metric(col1, "Bitcoin (BTC)", "BTC-USD")
-safe_metric(col2, "Ethereum (ETH)", "ETH-USD")
-safe_metric(col3, "Gold", "GC=F")
+    btc = safe_metric("BTC", "BTC-USD")
+    eth = safe_metric("ETH", "ETH-USD")
+    gold = safe_metric("GOLD", "GC=F")
 
-st.divider()
+    with col1:
+        st.markdown('<div class="metric-card">', unsafe_allow_html=True)
+        st.metric("Bitcoin (BTC)", f"${btc}" if btc else "Unavailable")
+        st.markdown('</div>', unsafe_allow_html=True)
 
-# =========================
-# AI STOCK ANALYZER
-# =========================
+    with col2:
+        st.markdown('<div class="metric-card">', unsafe_allow_html=True)
+        st.metric("Ethereum (ETH)", f"${eth}" if eth else "Unavailable")
+        st.markdown('</div>', unsafe_allow_html=True)
 
-st.subheader("🤖 AI Stock Analyzer")
+    with col3:
+        st.markdown('<div class="metric-card">', unsafe_allow_html=True)
+        st.metric("Gold", f"${gold}" if gold else "Unavailable")
+        st.markdown('</div>', unsafe_allow_html=True)
 
-stock_symbol = st.text_input("Enter Stock Symbol (Example: RELIANCE.NS)", "RELIANCE.NS")
+# =============================
+# AI ANALYZER PAGE
+# =============================
+if page == "AI Analyzer":
 
-if st.button("Analyze Stock"):
+    st.subheader("🧠 Neural Trade Prediction Engine")
 
-    stock = yf.download(stock_symbol, start="2023-01-01")
+    stock_symbol = st.text_input("Enter Stock Symbol (Example: RELIANCE.NS)", "RELIANCE.NS")
 
-    if stock.empty or "Close" not in stock.columns:
-        st.error("Unable to fetch stock data. Please check symbol.")
-    else:
-        stock["MA10"] = stock["Close"].rolling(window=10).mean()
-        stock["MA50"] = stock["Close"].rolling(window=50).mean()
-        stock["Target"] = (stock["Close"].shift(-1) > stock["Close"]).astype(int)
+    if st.button("🚀 Analyze Market"):
 
-        stock = stock.dropna()
+        progress = st.progress(0)
+        status = st.empty()
 
-        if len(stock) < 50:
-            st.error("Not enough data to analyze.")
+        for i in range(100):
+            time.sleep(0.01)
+            progress.progress(i + 1)
+            status.text("Analyzing AI patterns...")
+
+        stock = yf.download(stock_symbol, start="2023-01-01")
+
+        if stock.empty or "Close" not in stock.columns:
+            st.error("Unable to fetch data.")
         else:
-            X = stock[["MA10", "MA50"]]
-            y = stock["Target"]
+            stock["MA10"] = stock["Close"].rolling(10).mean()
+            stock["MA50"] = stock["Close"].rolling(50).mean()
+            stock["Target"] = (stock["Close"].shift(-1) > stock["Close"]).astype(int)
+            stock = stock.dropna()
 
-            X_train, X_test, y_train, y_test = train_test_split(
-                X, y, test_size=0.2, shuffle=False
-            )
+            if len(stock) > 50:
+                X = stock[["MA10", "MA50"]]
+                y = stock["Target"]
 
-            model = RandomForestClassifier(n_estimators=100)
-            model.fit(X_train, y_train)
+                X_train, X_test, y_train, y_test = train_test_split(
+                    X, y, test_size=0.2, shuffle=False
+                )
 
-            latest = stock[["MA10", "MA50"]].iloc[-1:]
-            prediction = model.predict(latest)
-            probability = model.predict_proba(latest)
+                model = RandomForestClassifier(n_estimators=100)
+                model.fit(X_train, y_train)
 
-            confidence = round(np.max(probability) * 100, 2)
+                latest = stock[["MA10", "MA50"]].iloc[-1:]
+                prediction = model.predict(latest)
+                probability = model.predict_proba(latest)
+                confidence = round(np.max(probability) * 100, 2)
 
-            if prediction[0] == 1:
-                st.success(f"📈 BUY Signal (Confidence: {confidence}%)")
+                st.success("AI Analysis Complete ✅")
+
+                if prediction[0] == 1:
+                    st.success(f"📈 BUY Signal (Confidence: {confidence}%)")
+                else:
+                    st.error(f"📉 SELL Signal (Confidence: {confidence}%)")
+
+                st.line_chart(stock["Close"])
             else:
-                st.error(f"📉 SELL Signal (Confidence: {confidence}%)")
-
-            st.line_chart(stock["Close"])
+                st.error("Not enough historical data.")
