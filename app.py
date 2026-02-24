@@ -79,11 +79,15 @@ st.title("🌌 AI Global Trade Intelligence")
 # =============================
 # SAFE METRIC FUNCTION
 # =============================
-def safe_metric(label, ticker):
-    data = yf.download(ticker, period="5d")
-    if not data.empty and "Close" in data.columns:
-        return round(data["Close"].iloc[-1], 2)
-    return None
+def safe_metric(ticker):
+    try:
+        data = yf.download(ticker, period="5d")
+        if not data.empty and "Close" in data.columns:
+            return float(data["Close"].iloc[-1])
+        else:
+            return None
+    except:
+        return None
 
 # =============================
 # DASHBOARD PAGE
@@ -94,23 +98,32 @@ if page == "Dashboard":
 
     col1, col2, col3 = st.columns(3)
 
-    btc = safe_metric("BTC", "BTC-USD")
-    eth = safe_metric("ETH", "ETH-USD")
-    gold = safe_metric("GOLD", "GC=F")
+    btc = safe_metric("BTC-USD")
+    eth = safe_metric("ETH-USD")
+    gold = safe_metric("GC=F")
 
     with col1:
         st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-        st.metric("Bitcoin (BTC)", f"${btc}" if btc else "Unavailable")
+        if btc is not None:
+    st.metric("Bitcoin (BTC)", f"${round(btc,2)}")
+else:
+    st.metric("Bitcoin (BTC)", "Unavailable")
         st.markdown('</div>', unsafe_allow_html=True)
 
     with col2:
         st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-        st.metric("Ethereum (ETH)", f"${eth}" if eth else "Unavailable")
+        if btc is not None:
+    st.metric("Ethereum (ETH)", f"${round(btc,2)}")
+else:
+    st.metric("Ethereum (ETH)", "Unavailable")
         st.markdown('</div>', unsafe_allow_html=True)
 
     with col3:
         st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-        st.metric("Gold", f"${gold}" if gold else "Unavailable")
+        if btc is not None:
+    st.metric("Gold (GOLD)", f"${round(btc,2)}")
+else:
+    st.metric("Gold (GOLD)", "Unavailable")
         st.markdown('</div>', unsafe_allow_html=True)
 
 # =============================
