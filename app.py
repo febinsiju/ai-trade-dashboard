@@ -29,7 +29,10 @@ btc = yf.download("BTC-USD", period="1d", interval="1m")
 eth = yf.download("ETH-USD", period="1d", interval="1m")
 gold = yf.download("GC=F", period="1d", interval="1m")
 
-col1.metric("Bitcoin (BTC)", f"${round(btc['Close'][-1],2)}")
+if not btc.empty and "Close" in btc.columns:
+    col1.metric("Bitcoin (BTC)", f"${round(btc['Close'].iloc[-1],2)}")
+else:
+    col1.metric("Bitcoin (BTC)", "Data unavailable")
 col2.metric("Ethereum (ETH)", f"${round(eth['Close'][-1],2)}")
 col3.metric("Gold", f"${round(gold['Close'][-1],2)}")
 
