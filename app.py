@@ -4,7 +4,11 @@ import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-
+def safe_metric(column, label, dataframe):
+    if not dataframe.empty and "Close" in dataframe.columns:
+        column.metric(label, f"${round(dataframe['Close'].iloc[-1],2)}")
+    else:
+        column.metric(label, "Data unavailable")
 st.set_page_config(page_title="AI Global Trade Dashboard", layout="wide")
 
 st.markdown("""
@@ -25,15 +29,19 @@ st.subheader("📊 Global Market Snapshot")
 
 col1, col2, col3 = st.columns(3)
 
-btc = yf.download("BTC-USD", period="1d", interval="1m")
-eth = yf.download("ETH-USD", period="1d", interval="1m")
+btc = yf.download("BTC-USD", period="5d")
+eth = yf.download("ETH-USD", period="5d")
 gold = yf.download("GC=F", period="1d", interval="1m")
 
 if not btc.empty and "Close" in btc.columns:
     col1.metric("Bitcoin (BTC)", f"${round(btc['Close'].iloc[-1],2)}")
 else:
     col1.metric("Bitcoin (BTC)", "Data unavailable")
-col2.metric("Ethereum (ETH)", f"${round(eth['Close'][-1],2)}")
+
+if not eth.empty and "Close" in eth.columns:
+    col2.metric("Ethereum (ETH)", f"${round(eth['Close'].iloc[-1],2)}")
+else:
+    col2.metric("Ethereum (ETH)", "Data unavailable")
 col3.metric("Gold", f"${round(gold['Close'][-1],2)}")
 
 st.divider()
