@@ -47,27 +47,93 @@ if menu == "Home":
     st.markdown('<div class="hero-title">AI Trading Intelligence Platform</div>', unsafe_allow_html=True)
 
     st.write("""
-    This platform provides institutional-grade AI trading tools.
+The AI Trading Intelligence Platform is designed to bridge the gap between 
+quantitative research and practical trading decision-making. 
 
-    We combine:
-    • Machine Learning Signal Generation  
-    • Historical Backtesting  
-    • Risk & Performance Analytics  
-    • Real-Time Market Monitoring  
+This system leverages machine learning algorithms, statistical modeling, 
+and market-derived technical indicators to generate structured trading signals 
+based on historical and real-time financial data.
 
-    Use the navigation panel to explore each module.
-    """)
+Unlike basic trading dashboards that only display price charts, this platform 
+integrates predictive modeling, risk assessment, and strategy validation 
+into one cohesive research environment. Our objective is not merely to 
+forecast price direction, but to provide data-driven insights that support 
+disciplined and informed trading decisions.
+""")
+
+    st.write("""
+At its core, the platform operates on three foundational pillars:
+
+• **Alpha Generation** – Machine learning models analyze technical and statistical features to identify potential directional opportunities.  
+• **Risk Management** – Performance metrics such as Sharpe ratio, volatility, and drawdown are calculated to assess sustainability.  
+• **Strategy Validation** – Historical backtesting ensures that predictive logic is evaluated against real market conditions before deployment.  
+
+By combining these elements, the system aims to simulate the workflow 
+used by institutional quantitative trading desks.
+""")
+
+    st.write("""
+Whether you are exploring algorithmic trading for the first time or 
+developing a systematic investment approach, this platform provides a 
+structured framework for research, experimentation, and analysis.
+
+Use the navigation menu to explore each specialized module in detail.
+""")
 
     st.divider()
 
     st.markdown('<div class="section-box">', unsafe_allow_html=True)
     st.subheader("AI Prediction Engine")
-    st.write("Generate BUY/SELL signals using ML models.")
+    st.write("""
+The AI Prediction Engine applies machine learning classification models 
+to market data in order to generate BUY or SELL signals. 
+
+By analyzing patterns within moving averages and other quantitative features, 
+the engine attempts to identify short-term directional bias with an associated 
+confidence score.
+
+This module is intended for signal exploration and research purposes.
+""")
     st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown('<div class="section-box">', unsafe_allow_html=True)
-    st.subheader("Strategy Backtesting")
-    st.write("Test AI performance vs Buy & Hold.")
+    st.subheader("Strategy Backtesting Laboratory")
+    st.write("""
+Before deploying any predictive model, historical validation is essential. 
+The Backtesting Laboratory evaluates how a strategy would have performed 
+against past market data.
+
+The system compares AI-driven results against a traditional Buy & Hold 
+approach, allowing users to measure excess return, equity growth, 
+and structural performance consistency.
+""")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('<div class="section-box">', unsafe_allow_html=True)
+    st.subheader("Risk & Performance Analytics")
+    st.write("""
+Sustainable trading requires disciplined risk management. This module 
+calculates institutional-grade metrics including:
+
+• Sharpe Ratio  
+• Annualized Volatility  
+• Maximum Drawdown  
+
+These measurements help determine whether a strategy's returns 
+justify the level of risk undertaken.
+""")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('<div class="section-box">', unsafe_allow_html=True)
+    st.subheader("Market Intelligence Dashboard")
+    st.write("""
+The Market Overview module provides real-time monitoring of major indices 
+and digital assets. It serves as a situational awareness tool, enabling users 
+to observe broader market conditions while conducting strategy research.
+
+Integrated candlestick charts and short-term performance metrics 
+offer a clear snapshot of market structure and recent price action.
+""")
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ===============================
