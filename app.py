@@ -47,94 +47,157 @@ if menu == "Home":
     st.markdown('<div class="hero-title">AI Trading Intelligence Platform</div>', unsafe_allow_html=True)
 
     st.write("""
-The AI Trading Intelligence Platform is designed to bridge the gap between 
-quantitative research and practical trading decision-making. 
+The AI Trading Intelligence Platform is a quantitative research environment 
+designed to transform raw market data into structured, data-driven trading insights.
 
-This system leverages machine learning algorithms, statistical modeling, 
-and market-derived technical indicators to generate structured trading signals 
-based on historical and real-time financial data.
+Modern financial markets generate enormous amounts of information every second. 
+Price fluctuations, volatility shifts, liquidity changes, and trend formations 
+all create complex patterns that are difficult to interpret through manual observation alone.
 
-Unlike basic trading dashboards that only display price charts, this platform 
-integrates predictive modeling, risk assessment, and strategy validation 
-into one cohesive research environment. Our objective is not merely to 
-forecast price direction, but to provide data-driven insights that support 
-disciplined and informed trading decisions.
+This platform applies machine learning techniques and statistical modeling 
+to systematically analyze those patterns and extract actionable signals.
 """)
 
     st.write("""
-At its core, the platform operates on three foundational pillars:
+Unlike traditional trading dashboards that only visualize price movements, 
+this system integrates predictive analytics, performance validation, and 
+risk measurement into one unified framework.
 
-• **Alpha Generation** – Machine learning models analyze technical and statistical features to identify potential directional opportunities.  
-• **Risk Management** – Performance metrics such as Sharpe ratio, volatility, and drawdown are calculated to assess sustainability.  
-• **Strategy Validation** – Historical backtesting ensures that predictive logic is evaluated against real market conditions before deployment.  
-
-By combining these elements, the system aims to simulate the workflow 
-used by institutional quantitative trading desks.
-""")
-
-    st.write("""
-Whether you are exploring algorithmic trading for the first time or 
-developing a systematic investment approach, this platform provides a 
-structured framework for research, experimentation, and analysis.
-
-Use the navigation menu to explore each specialized module in detail.
+The objective is not to guarantee profit — no system can do that — 
+but to reduce emotional bias and provide probabilistic insight 
+into potential market direction.
 """)
 
     st.divider()
 
+    st.header("Our Quantitative Framework")
+
+    st.write("""
+The platform is built upon a structured research methodology similar to 
+those used within institutional quantitative trading teams.
+
+It consists of four interconnected layers:
+""")
+
+    st.write("""
+**1. Data Acquisition Layer**  
+Market data is retrieved from reliable financial sources and structured 
+for analytical processing. Historical price series are cleaned, transformed, 
+and prepared for feature extraction.
+
+**2. Feature Engineering Layer**  
+Technical indicators such as moving averages, momentum metrics, 
+and return-based statistics are calculated to represent market behavior 
+in a format suitable for machine learning models.
+
+**3. Machine Learning Layer**  
+Classification algorithms analyze historical relationships between features 
+and future price movements. The model produces probabilistic BUY or SELL signals 
+based on learned market structure.
+
+**4. Validation & Risk Assessment Layer**  
+Performance is evaluated through historical backtesting. Risk-adjusted metrics 
+such as Sharpe Ratio and Maximum Drawdown are calculated to assess sustainability.
+""")
+
+    st.divider()
+
+    st.header("Platform Capabilities")
+
     st.markdown('<div class="section-box">', unsafe_allow_html=True)
     st.subheader("AI Prediction Engine")
     st.write("""
-The AI Prediction Engine applies machine learning classification models 
-to market data in order to generate BUY or SELL signals. 
+The AI Prediction Engine applies supervised machine learning models to 
+detect short-term directional bias in financial assets.
 
-By analyzing patterns within moving averages and other quantitative features, 
-the engine attempts to identify short-term directional bias with an associated 
-confidence score.
+Users can input stocks, cryptocurrencies, or indices and generate 
+a structured BUY or SELL signal with an associated confidence level.
 
-This module is intended for signal exploration and research purposes.
+The purpose of this engine is exploratory — enabling users to 
+analyze how algorithmic models interpret market data under different conditions.
 """)
     st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown('<div class="section-box">', unsafe_allow_html=True)
     st.subheader("Strategy Backtesting Laboratory")
     st.write("""
-Before deploying any predictive model, historical validation is essential. 
-The Backtesting Laboratory evaluates how a strategy would have performed 
-against past market data.
+Backtesting is a critical component of quantitative research. 
+Before trusting any signal, it must be evaluated against historical market conditions.
 
-The system compares AI-driven results against a traditional Buy & Hold 
-approach, allowing users to measure excess return, equity growth, 
-and structural performance consistency.
+This module compares AI-driven strategy performance against 
+a traditional Buy & Hold approach, allowing users to measure:
+
+• Equity curve growth  
+• Relative performance  
+• Compounded returns  
+• Structural consistency  
+
+This process ensures that strategies are evaluated systematically rather than emotionally.
 """)
     st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown('<div class="section-box">', unsafe_allow_html=True)
     st.subheader("Risk & Performance Analytics")
     st.write("""
-Sustainable trading requires disciplined risk management. This module 
-calculates institutional-grade metrics including:
+Returns alone do not define a successful strategy. 
+Risk exposure plays an equally important role.
 
-• Sharpe Ratio  
+The Risk Analytics module calculates institutional-grade metrics including:
+
+• Sharpe Ratio (risk-adjusted return)  
 • Annualized Volatility  
 • Maximum Drawdown  
+• Return Stability Indicators  
 
-These measurements help determine whether a strategy's returns 
-justify the level of risk undertaken.
+These metrics provide insight into whether performance is sustainable 
+under real-world market fluctuations.
 """)
     st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown('<div class="section-box">', unsafe_allow_html=True)
     st.subheader("Market Intelligence Dashboard")
     st.write("""
-The Market Overview module provides real-time monitoring of major indices 
-and digital assets. It serves as a situational awareness tool, enabling users 
-to observe broader market conditions while conducting strategy research.
+The Market Overview module provides a consolidated view of 
+major financial indices and digital assets.
 
-Integrated candlestick charts and short-term performance metrics 
-offer a clear snapshot of market structure and recent price action.
+Integrated candlestick visualization allows users to observe:
+
+• Recent price structure  
+• Short-term momentum  
+• Market direction trends  
+
+This dashboard serves as a situational awareness tool 
+for monitoring broader financial conditions while conducting research.
 """)
     st.markdown('</div>', unsafe_allow_html=True)
+
+    st.divider()
+
+    st.header("Intended Use & Philosophy")
+
+    st.write("""
+This platform is designed for educational, research, and exploratory purposes.
+
+Financial markets are inherently uncertain, and no predictive model 
+can eliminate risk entirely. Instead, the objective of this system is to:
+
+• Reduce emotional decision-making  
+• Introduce structured analytical thinking  
+• Provide probabilistic insight  
+• Encourage disciplined strategy evaluation  
+
+Quantitative trading is not about certainty — it is about managing probabilities 
+within a controlled risk framework.
+""")
+
+    st.write("""
+By combining machine learning, technical analysis, and structured validation, 
+the AI Trading Intelligence Platform offers a foundational environment 
+for systematic trading research.
+
+Use the navigation menu to explore each module in depth 
+and begin your analytical workflow.
+""")
 
 # ===============================
 # AI PREDICTION PAGE
