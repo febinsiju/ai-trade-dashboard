@@ -5,41 +5,61 @@ import pandas as pd
 import plotly.graph_objects as go
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
+import time
 
 # =============================
-# PAGE CONFIG
+# CONFIG
 # =============================
 st.set_page_config(
-    page_title="AI Trade Bot Pro",
+    page_title="AI Trade Bot X",
     layout="wide",
     page_icon="📈"
 )
 
 # =============================
-# PROFESSIONAL DARK STYLE
+# AUTO REFRESH (5 sec)
+# =============================
+st.experimental_set_query_params(refresh=str(time.time()))
+
+# =============================
+# PROFESSIONAL EXCHANGE CSS
 # =============================
 st.markdown("""
 <style>
-body { background-color: #0E1117; }
-.main { background-color: #0E1117; }
+body { background-color: #0B0F1C; }
+.main { background-color: #0B0F1C; }
 
 .block-container {
     padding-top: 1rem;
-    padding-bottom: 1rem;
+}
+
+.card {
+    background-color: #141A2A;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0px 0px 30px rgba(0,255,170,0.08);
+}
+
+.buy-box {
+    background-color: rgba(0, 255, 170, 0.15);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.sell-box {
+    background-color: rgba(255, 60, 60, 0.15);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
 }
 
 h1, h2, h3 {
-    color: #00F5A0;
-}
-
-.metric-card {
-    background-color: #161B22;
-    padding: 15px;
-    border-radius: 12px;
+    color: #00FFA3;
 }
 
 .stButton>button {
-    border-radius: 8px;
+    border-radius: 10px;
     height: 3em;
     font-weight: bold;
 }
@@ -47,33 +67,9 @@ h1, h2, h3 {
 """, unsafe_allow_html=True)
 
 # =============================
-# LOGIN SYSTEM
+# DATA FUNCTION
 # =============================
-if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False
-
-def login():
-    st.title("🚀 AI TRADE BOT PRO")
-    st.subheader("Secure Institutional Access")
-
-    user = st.text_input("Username")
-    pwd = st.text_input("Password", type="password")
-
-    if st.button("Login"):
-        if user and pwd:
-            st.session_state.logged_in = True
-            st.rerun()
-        else:
-            st.error("Invalid credentials")
-
-if not st.session_state.logged_in:
-    login()
-    st.stop()
-
-# =============================
-# SAFE DATA FETCH
-# =============================
-def download_data(symbol, period="3mo"):
+def get_data(symbol, period="3mo"):
     try:
         data = yf.download(
             symbol,
@@ -89,50 +85,78 @@ def download_data(symbol, period="3mo"):
 # =============================
 # SIDEBAR
 # =============================
-st.sidebar.title("⚡ AI TRADE BOT")
+st.sidebar.title("⚡ AI TRADE BOT X")
 
-menu = st.sidebar.radio(
-    "Navigation",
-    [
-        "Dashboard",
-        "Global Markets",
-        "Crypto Board",
-        "AI Analyzer",
-        "Portfolio",
-        "Settings"
-    ]
+symbol = st.sidebar.selectbox(
+    "Select Asset",
+    ["BTC-USD", "ETH-USD", "SOL-USD", "AAPL", "TSLA"]
 )
 
+refresh_rate = st.sidebar.slider("Auto Refresh (seconds)", 5, 60, 10)
+
 # =============================
-# DASHBOARD
+# MAIN DASHBOARD LAYOUT
 # =============================
-if menu == "Dashboard":
+st.title("📊 AI Trading Terminal")
 
-    st.title("📊 Trading Intelligence Dashboard")
+left, center, right = st.columns([1.2, 3, 1.2])
 
-    col1, col2, col3 = st.columns(3)
+# =============================
+# MARKET STATS (LEFT)
+# =============================
+with left:
+    st.markdown("### Market Stats")
+    data = get_data(symbol, "5d")
 
-    col1.metric("Active Markets", "128")
-    col2.metric("AI Accuracy", "82%")
-    col3.metric("Live Signals", "14")
+    if not data.empty:
+        price = round(float(data["Close"].iloc[-1]), 2)
+        prev = float(data["Close"].iloc[-2])
+        change = round(((price - prev) / prev) * 100, 2)
 
-    st.divider()
+        st.metric("Current Price", f"${price}", f"{change}%")
+    else:
+        st.metric("Current Price", "Unavailable")
 
-    data = download_data("BTC-USD")
+# =============================
+# MAIN CHART
+# =============================
+with center:
+
+    data = get_data(symbol, "6mo")
 
     if not data.empty:
 
-        fig = go.Figure(data=[go.Candlestick(
+        data["MA20"] = data["Close"].rolling(20).mean()
+        data["MA50"] = data["Close"].rolling(50).mean()
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Candlestick(
             x=data.index,
             open=data["Open"],
             high=data["High"],
             low=data["Low"],
-            close=data["Close"]
-        )])
+            close=data["Close"],
+            name="Price"
+        ))
+
+        fig.add_trace(go.Scatter(
+            x=data.index,
+            y=data["MA20"],
+            line=dict(width=1),
+            name="MA20"
+        ))
+
+        fig.add_trace(go.Scatter(
+            x=data.index,
+            y=data["MA50"],
+            line=dict(width=1),
+            name="MA50"
+        ))
 
         fig.update_layout(
             template="plotly_dark",
-            height=600,
+            height=650,
             xaxis_rangeslider_visible=False,
             margin=dict(l=10, r=10, t=30, b=10)
         )
@@ -140,150 +164,74 @@ if menu == "Dashboard":
         st.plotly_chart(fig, use_container_width=True)
 
     else:
-        st.error("Unable to load BTC chart.")
+        st.error("No data available.")
 
 # =============================
-# GLOBAL MARKETS
+# AI SIGNAL PANEL (RIGHT)
 # =============================
-if menu == "Global Markets":
+with right:
 
-    st.title("🌍 Global Indices")
+    st.markdown("### 🤖 AI Signal")
 
-    indices = {
-        "S&P 500": "^GSPC",
-        "NASDAQ": "^IXIC",
-        "Dow Jones": "^DJI",
-        "NIFTY 50": "^NSEI"
-    }
+    data = get_data(symbol, "1y")
 
-    cols = st.columns(4)
+    if not data.empty:
 
-    for i, (name, ticker) in enumerate(indices.items()):
-        data = download_data(ticker, period="5d")
+        data["MA10"] = data["Close"].rolling(10).mean()
+        data["MA50"] = data["Close"].rolling(50).mean()
+        data["Target"] = (data["Close"].shift(-1) > data["Close"]).astype(int)
+        data = data.dropna()
 
-        with cols[i]:
-            if not data.empty:
-                value = round(float(data["Close"].iloc[-1]), 2)
-                st.metric(name, f"${value}")
-            else:
-                st.metric(name, "Unavailable")
+        X = data[["MA10", "MA50"]]
+        y = data["Target"]
 
-# =============================
-# CRYPTO BOARD
-# =============================
-if menu == "Crypto Board":
+        model = RandomForestClassifier(n_estimators=100)
+        model.fit(X, y)
 
-    st.title("💰 Crypto Market Overview")
+        latest = data[["MA10", "MA50"]].iloc[-1:]
+        prediction = model.predict(latest)
+        probability = model.predict_proba(latest)
+        confidence = round(np.max(probability) * 100, 2)
 
-    crypto_list = ["BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD"]
-
-    rows = []
-
-    for coin in crypto_list:
-        data = download_data(coin, period="5d")
-        if not data.empty:
-            price = round(float(data["Close"].iloc[-1]), 2)
+        if prediction[0] == 1:
+            st.markdown('<div class="buy-box"><h2>📈 BUY</h2></div>', unsafe_allow_html=True)
         else:
-            price = "Unavailable"
+            st.markdown('<div class="sell-box"><h2>📉 SELL</h2></div>', unsafe_allow_html=True)
 
-        rows.append({
-            "Coin": coin.replace("-USD",""),
-            "Price (USD)": price
-        })
+        st.metric("Confidence", f"{confidence}%")
 
-    df = pd.DataFrame(rows)
-    st.dataframe(df, use_container_width=True)
+    else:
+        st.error("AI unavailable")
 
 # =============================
-# AI ANALYZER
+# ORDER PANEL
 # =============================
-if menu == "AI Analyzer":
+st.divider()
+st.subheader("💹 Execute Trade")
 
-    st.title("🧠 AI Trade Signal Engine")
+col1, col2, col3 = st.columns(3)
 
-    left, right = st.columns([3,1])
-
-    symbol = left.text_input("Enter Symbol", "RELIANCE.NS")
-
-    if left.button("Run AI Analysis"):
-
-        stock = download_data(symbol, period="1y")
-
-        if stock.empty:
-            st.error("No data found.")
-        else:
-
-            stock["MA10"] = stock["Close"].rolling(10).mean()
-            stock["MA50"] = stock["Close"].rolling(50).mean()
-            stock["Target"] = (stock["Close"].shift(-1) > stock["Close"]).astype(int)
-            stock = stock.dropna()
-
-            if len(stock) > 50:
-
-                X = stock[["MA10", "MA50"]]
-                y = stock["Target"]
-
-                X_train, X_test, y_train, y_test = train_test_split(
-                    X, y, test_size=0.2, shuffle=False
-                )
-
-                model = RandomForestClassifier(n_estimators=100)
-                model.fit(X_train, y_train)
-
-                latest = stock[["MA10", "MA50"]].iloc[-1:]
-                prediction = model.predict(latest)
-                probability = model.predict_proba(latest)
-                confidence = round(np.max(probability) * 100, 2)
-
-                # Chart
-                fig = go.Figure(data=[go.Candlestick(
-                    x=stock.index,
-                    open=stock["Open"],
-                    high=stock["High"],
-                    low=stock["Low"],
-                    close=stock["Close"]
-                )])
-
-                fig.update_layout(
-                    template="plotly_dark",
-                    height=500,
-                    xaxis_rangeslider_visible=False
-                )
-
-                left.plotly_chart(fig, use_container_width=True)
-
-                # Signal Panel
-                with right:
-                    st.subheader("AI Signal")
-
-                    if prediction[0] == 1:
-                        st.success("📈 BUY")
-                    else:
-                        st.error("📉 SELL")
-
-                    st.metric("Confidence", f"{confidence}%")
-
-            else:
-                st.error("Not enough historical data.")
+amount = col1.number_input("Amount", min_value=0.0, value=1.0)
+col2.button("🟢 BUY", use_container_width=True)
+col3.button("🔴 SELL", use_container_width=True)
 
 # =============================
-# PORTFOLIO
+# TRADE HISTORY TABLE
 # =============================
-if menu == "Portfolio":
+st.divider()
+st.subheader("📜 Trade History")
 
-    st.title("📈 Portfolio Overview")
+history = pd.DataFrame({
+    "Asset": [symbol]*5,
+    "Type": ["BUY", "SELL", "BUY", "BUY", "SELL"],
+    "Price": np.random.uniform(100, 50000, 5).round(2),
+    "PnL %": np.random.uniform(-5, 8, 5).round(2)
+})
 
-    col1, col2 = st.columns(2)
-    col1.metric("Total Value", "$12,450")
-    col2.metric("Today's Gain", "+2.3%")
-
-    st.progress(70)
+st.dataframe(history, use_container_width=True)
 
 # =============================
-# SETTINGS
+# AUTO REFRESH LOOP
 # =============================
-if menu == "Settings":
-
-    st.title("⚙ Platform Settings")
-    st.write("Theme: Institutional Dark")
-    st.write("Version: 2.0 Professional")
+time.sleep(refresh_rate)
+st.rerun()
