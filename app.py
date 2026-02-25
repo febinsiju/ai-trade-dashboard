@@ -8,7 +8,7 @@ import time
 st.set_page_config(page_title="AI Trade Bot Pro", layout="wide")
 
 # =============================
-# FUTURISTIC STYLING
+# FUTURISTIC STYLE
 # =============================
 st.markdown("""
 <style>
@@ -18,20 +18,15 @@ h1, h2, h3 { color: #00f5ff; }
 .stButton>button {
     background-color: #00f5ff;
     color: black;
-    border-radius: 10px;
+    border-radius: 8px;
     height: 3em;
-    width: 100%;
 }
 .stTextInput>div>div>input {
     background-color: #1a1f2b;
     color: white;
 }
-.metric-card {
-    background-color: #1a1f2b;
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 0 15px #00f5ff;
+.block-container {
+    padding-top: 2rem;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -42,40 +37,32 @@ h1, h2, h3 { color: #00f5ff; }
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
-def login_page():
+def login():
     st.title("🤖 AI TRADE BOT PRO")
     st.subheader("Secure Access Portal")
 
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
+    user = st.text_input("Username")
+    pwd = st.text_input("Password", type="password")
 
     if st.button("Login"):
-        if username and password:
+        if user and pwd:
             st.session_state.logged_in = True
             st.success("Access Granted 🚀")
             time.sleep(1)
             st.rerun()
         else:
-            st.error("Invalid Credentials")
+            st.error("Enter valid credentials")
 
 if not st.session_state.logged_in:
-    login_page()
+    login()
     st.stop()
 
 # =============================
-# SIDEBAR
-# =============================
-st.sidebar.title("⚡ Navigation")
-page = st.sidebar.radio("Select Module", ["Dashboard", "AI Analyzer"])
-
-st.title("🌌 AI Global Trade Intelligence")
-
-# =============================
-# SAFE DATA FETCH FUNCTION
+# SAFE DATA FETCH
 # =============================
 def safe_metric(ticker):
     try:
-        data = yf.download(ticker, period="5d")
+        data = yf.download(ticker, period="5d", progress=False)
         if not data.empty and "Close" in data.columns:
             return float(data["Close"].iloc[-1])
         return None
@@ -83,50 +70,82 @@ def safe_metric(ticker):
         return None
 
 # =============================
-# DASHBOARD
+# SIDEBAR NAVIGATION
 # =============================
-if page == "Dashboard":
+st.sidebar.title("⚡ AI Trade Bot Pro")
 
-    st.subheader("📊 Live Global Market")
+menu = st.sidebar.selectbox(
+    "Navigation",
+    [
+        "🏠 Home",
+        "🌍 Global Markets",
+        "📊 Crypto Board",
+        "🧠 AI Analyzer",
+        "📈 Portfolio",
+        "⚙ Settings"
+    ]
+)
+
+# =============================
+# HOME PAGE
+# =============================
+if menu == "🏠 Home":
+    st.title("🌌 AI Trade Intelligence Platform")
 
     col1, col2, col3 = st.columns(3)
+    col1.metric("Active Markets", "128")
+    col2.metric("AI Accuracy", "82%")
+    col3.metric("Live Signals", "14")
 
-    btc = safe_metric("BTC-USD")
-    eth = safe_metric("ETH-USD")
-    gold = safe_metric("GC=F")
+    st.divider()
+    st.info("Next-generation AI-powered market intelligence dashboard.")
 
-    with col1:
-        st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-        if btc is not None:
-            st.metric("Bitcoin (BTC)", f"${round(btc,2)}")
+# =============================
+# GLOBAL MARKETS
+# =============================
+if menu == "🌍 Global Markets":
+    st.title("🌍 Global Indices Overview")
+
+    indices = {
+        "S&P 500": "^GSPC",
+        "NASDAQ": "^IXIC",
+        "Dow Jones": "^DJI",
+        "NIFTY 50": "^NSEI"
+    }
+
+    for name, ticker in indices.items():
+        value = safe_metric(ticker)
+        if value:
+            st.metric(name, f"${round(value,2)}")
         else:
-            st.metric("Bitcoin (BTC)", "Unavailable")
-        st.markdown('</div>', unsafe_allow_html=True)
+            st.metric(name, "Unavailable")
 
-    with col2:
-        st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-        if eth is not None:
-            st.metric("Ethereum (ETH)", f"${round(eth,2)}")
-        else:
-            st.metric("Ethereum (ETH)", "Unavailable")
-        st.markdown('</div>', unsafe_allow_html=True)
+# =============================
+# CRYPTO BOARD
+# =============================
+if menu == "📊 Crypto Board":
+    st.title("📊 Live Crypto Market")
 
-    with col3:
-        st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-        if gold is not None:
-            st.metric("Gold", f"${round(gold,2)}")
-        else:
-            st.metric("Gold", "Unavailable")
-        st.markdown('</div>', unsafe_allow_html=True)
+    crypto_list = ["BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD"]
+
+    data_rows = []
+
+    for coin in crypto_list:
+        price = safe_metric(coin)
+        data_rows.append({
+            "Coin": coin.replace("-USD",""),
+            "Price (USD)": round(price,2) if price else "Unavailable"
+        })
+
+    st.table(data_rows)
 
 # =============================
 # AI ANALYZER
 # =============================
-if page == "AI Analyzer":
+if menu == "🧠 AI Analyzer":
+    st.title("🧠 Neural Trade Prediction Engine")
 
-    st.subheader("🧠 Neural Trade Prediction Engine")
-
-    stock_symbol = st.text_input("Enter Stock Symbol (Example: RELIANCE.NS)", "RELIANCE.NS")
+    stock_symbol = st.text_input("Enter Stock Symbol", "RELIANCE.NS")
 
     if st.button("🚀 Analyze Market"):
 
@@ -139,10 +158,10 @@ if page == "AI Analyzer":
             status.text("Analyzing market patterns using AI...")
 
         try:
-            stock = yf.download(stock_symbol, start="2023-01-01")
+            stock = yf.download(stock_symbol, start="2023-01-01", progress=False)
 
             if stock.empty or "Close" not in stock.columns:
-                st.error("Unable to fetch stock data.")
+                st.error("Unable to fetch data.")
             else:
                 stock["MA10"] = stock["Close"].rolling(10).mean()
                 stock["MA50"] = stock["Close"].rolling(50).mean()
@@ -174,7 +193,27 @@ if page == "AI Analyzer":
 
                     st.line_chart(stock["Close"])
                 else:
-                    st.error("Not enough historical data for analysis.")
+                    st.error("Not enough historical data.")
 
-        except Exception as e:
+        except:
             st.error("Something went wrong during analysis.")
+
+# =============================
+# PORTFOLIO (DEMO)
+# =============================
+if menu == "📈 Portfolio":
+    st.title("📈 Portfolio Overview")
+
+    st.metric("Total Value", "$12,450")
+    st.metric("Today's Gain", "+2.3%")
+    st.progress(70)
+    st.info("Portfolio module coming in next version.")
+
+# =============================
+# SETTINGS
+# =============================
+if menu == "⚙ Settings":
+    st.title("⚙ Platform Settings")
+    st.write("Theme: Futuristic Dark")
+    st.write("Version: 1.0 Pro")
+    st.write("Developer Mode: Enabled")
