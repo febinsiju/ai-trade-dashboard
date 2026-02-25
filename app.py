@@ -4,8 +4,6 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
-from streamlit_autorefresh import st_autorefresh
 
 # =============================
 # PAGE CONFIG
@@ -17,7 +15,7 @@ st.set_page_config(
 )
 
 # =============================
-# SIDEBAR SETTINGS
+# SIDEBAR
 # =============================
 st.sidebar.title("⚡ AI TRADE BOT X")
 
@@ -28,8 +26,16 @@ symbol = st.sidebar.selectbox(
 
 refresh_rate = st.sidebar.slider("Auto Refresh (seconds)", 5, 60, 10)
 
-# Auto refresh (SAFE METHOD)
-st_autorefresh(interval=refresh_rate * 1000, key="refresh")
+# =============================
+# AUTO REFRESH (NO EXTRA LIB)
+# =============================
+if "last_refresh" not in st.session_state:
+    st.session_state.last_refresh = 0
+
+import time
+if time.time() - st.session_state.last_refresh > refresh_rate:
+    st.session_state.last_refresh = time.time()
+    st.rerun()
 
 # =============================
 # PROFESSIONAL DARK STYLE
@@ -38,7 +44,6 @@ st.markdown("""
 <style>
 body { background-color: #0B0F1C; }
 .main { background-color: #0B0F1C; }
-
 .block-container { padding-top: 1rem; }
 
 .buy-box {
@@ -56,34 +61,27 @@ body { background-color: #0B0F1C; }
 }
 
 h1, h2, h3 { color: #00FFA3; }
-
-.stButton>button {
-    border-radius: 8px;
-    height: 3em;
-    font-weight: bold;
-}
 </style>
 """, unsafe_allow_html=True)
 
 # =============================
-# DATA FUNCTION (CACHED)
+# DATA FUNCTION
 # =============================
 @st.cache_data(ttl=60)
 def get_data(symbol, period="6mo"):
     try:
-        data = yf.download(
+        return yf.download(
             symbol,
             period=period,
             progress=False,
             auto_adjust=True,
             threads=False
         )
-        return data
     except:
         return pd.DataFrame()
 
 # =============================
-# MAIN TITLE
+# MAIN LAYOUT
 # =============================
 st.title("📊 AI Trading Terminal")
 
@@ -145,8 +143,7 @@ with center:
         fig.update_layout(
             template="plotly_dark",
             height=650,
-            xaxis_rangeslider_visible=False,
-            margin=dict(l=10, r=10, t=30, b=10)
+            xaxis_rangeslider_visible=False
         )
 
         st.plotly_chart(fig, use_container_width=True)
@@ -202,9 +199,7 @@ st.divider()
 st.subheader("💹 Execute Trade")
 
 col1, col2, col3 = st.columns(3)
-
 amount = col1.number_input("Amount", min_value=0.0, value=1.0)
-
 col2.button("🟢 BUY", use_container_width=True)
 col3.button("🔴 SELL", use_container_width=True)
 
