@@ -6,129 +6,125 @@ import plotly.graph_objects as go
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
-# ==================================
-# PAGE CONFIG
-# ==================================
-st.set_page_config(
-    page_title="AI Trading Terminal Pro",
-    layout="wide",
-    page_icon="📈"
-)
+st.set_page_config(layout="wide", page_title="AI Trading Research Terminal")
 
-# ==================================
-# PROFESSIONAL DARK THEME
-# ==================================
+# ==============================
+# PROFESSIONAL DARK STYLE
+# ==============================
 st.markdown("""
 <style>
 body { background-color: #0E1117; }
 .main { background-color: #0E1117; }
 .block-container { padding-top: 1rem; }
-h1 { color: #00FFA3; }
+
+.control-box {
+    background-color: #141A2A;
+    padding: 15px;
+    border-radius: 12px;
+}
 
 .signal-buy {
     background-color: rgba(0,255,163,0.15);
-    padding: 20px;
+    padding: 15px;
     border-radius: 12px;
-    text-align: center;
+    text-align:center;
 }
 
 .signal-sell {
     background-color: rgba(255,60,60,0.15);
-    padding: 20px;
+    padding: 15px;
     border-radius: 12px;
-    text-align: center;
+    text-align:center;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ==================================
-# SIDEBAR CONTROLS
-# ==================================
-st.sidebar.title("⚙️ Trading Controls")
+st.title("📊 AI Trading Research Terminal")
 
-symbol = st.sidebar.text_input("Asset Symbol", "BTC-USD")
-period = st.sidebar.selectbox("Historical Period", ["6mo", "1y", "2y", "5y"])
-backtest_toggle = st.sidebar.checkbox("Enable Backtesting", value=True)
+# ==============================
+# TOP CENTER CONTROLS
+# ==============================
+st.markdown('<div class="control-box">', unsafe_allow_html=True)
 
-# ==================================
+c1, c2, c3, c4, c5, c6 = st.columns(6)
+
+symbol = c1.text_input("Symbol", "BTC-USD")
+period = c2.selectbox("Period", ["6mo", "1y", "2y", "5y"])
+model_type = c3.selectbox("Model", ["Random Forest"])
+risk_pct = c4.slider("Risk % per Trade", 1, 10, 2)
+backtest_toggle = c5.checkbox("Backtest", True)
+run_button = c6.button("🚀 Run")
+
+st.markdown('</div>', unsafe_allow_html=True)
+
+if not run_button:
+    st.stop()
+
+# ==============================
 # LOAD DATA
-# ==================================
-@st.cache_data
-def load_data(symbol, period):
-    return yf.download(symbol, period=period, progress=False)
-
-data = load_data(symbol, period)
-
-st.title("📊 AI Trading Intelligence Terminal")
+# ==============================
+data = yf.download(symbol, period=period, progress=False)
 
 if data.empty:
     st.error("No data found.")
     st.stop()
 
-# ==================================
-# INDICATORS
-# ==================================
+# ==============================
+# FEATURE ENGINEERING
+# ==============================
 data["MA20"] = data["Close"].rolling(20).mean()
 data["MA50"] = data["Close"].rolling(50).mean()
-
-# RSI
-delta = data["Close"].diff()
-gain = delta.clip(lower=0)
-loss = -delta.clip(upper=0)
-avg_gain = gain.rolling(14).mean()
-avg_loss = loss.rolling(14).mean()
-rs = avg_gain / avg_loss
-data["RSI"] = 100 - (100 / (1 + rs))
-
-# MACD
-data["EMA12"] = data["Close"].ewm(span=12, adjust=False).mean()
-data["EMA26"] = data["Close"].ewm(span=26, adjust=False).mean()
-data["MACD"] = data["EMA12"] - data["EMA26"]
-data["Signal_Line"] = data["MACD"].ewm(span=9, adjust=False).mean()
-
+data["Return"] = data["Close"].pct_change()
 data["Target"] = (data["Close"].shift(-1) > data["Close"]).astype(int)
 data = data.dropna()
 
-# ==================================
-# MODEL TRAINING
-# ==================================
-features = ["MA20", "MA50", "RSI", "MACD"]
+features = ["MA20", "MA50"]
 X = data[features]
 y = data["Target"]
 
-split = int(len(data) * 0.8)
+split = int(len(data)*0.8)
 
-X_train = X[:split]
-X_test = X[split:]
-y_train = y[:split]
-y_test = y[split:]
+X_train, X_test = X[:split], X[split:]
+y_train, y_test = y[:split], y[split:]
 
 model = RandomForestClassifier(n_estimators=300)
 model.fit(X_train, y_train)
 
-predictions = model.predict(X_test)
-accuracy = round(accuracy_score(y_test, predictions) * 100, 2)
+pred = model.predict(X_test)
+accuracy = round(accuracy_score(y_test, pred)*100, 2)
 
 latest = X.iloc[-1:]
-prediction = model.predict(latest)
-prob = model.predict_proba(latest)
-confidence = round(np.max(prob) * 100, 2)
+signal = model.predict(latest)
+confidence = round(np.max(model.predict_proba(latest))*100,2)
 
-# ==================================
-# METRICS PANEL
-# ==================================
-col1, col2, col3 = st.columns(3)
-col1.metric("Model Accuracy", f"{accuracy}%")
-col2.metric("Confidence", f"{confidence}%")
+# ==============================
+# PERFORMANCE METRICS
+# ==============================
+data_test = data.iloc[split:].copy()
+data_test["Prediction"] = pred
+data_test["Strategy_Return"] = data_test["Return"] * data_test["Prediction"]
+data_test["Equity"] = (1 + data_test["Strategy_Return"]).cumprod()
+data_test["Market"] = (1 + data_test["Return"]).cumprod()
 
-current_price = round(float(data["Close"].iloc[-1]), 2)
-col3.metric("Current Price", f"${current_price}")
+sharpe = round(
+    (data_test["Strategy_Return"].mean() /
+     data_test["Strategy_Return"].std()) * np.sqrt(252), 2
+)
 
-# ==================================
-# MAIN CHART
-# ==================================
-st.subheader("Price Chart")
+drawdown = round(
+    ((data_test["Equity"].cummax() - data_test["Equity"]) /
+     data_test["Equity"].cummax()).max()*100,2
+)
 
+m1, m2, m3, m4 = st.columns(4)
+m1.metric("Model Accuracy", f"{accuracy}%")
+m2.metric("Sharpe Ratio", sharpe)
+m3.metric("Max Drawdown", f"{drawdown}%")
+m4.metric("Confidence", f"{confidence}%")
+
+# ==============================
+# PRICE CHART
+# ==============================
 fig = go.Figure()
 
 fig.add_trace(go.Candlestick(
@@ -143,62 +139,28 @@ fig.add_trace(go.Candlestick(
 fig.add_trace(go.Scatter(x=data.index, y=data["MA20"], name="MA20"))
 fig.add_trace(go.Scatter(x=data.index, y=data["MA50"], name="MA50"))
 
-fig.update_layout(
-    template="plotly_dark",
-    height=600,
-    xaxis_rangeslider_visible=False
-)
-
+fig.update_layout(template="plotly_dark", height=600, xaxis_rangeslider_visible=False)
 st.plotly_chart(fig, use_container_width=True)
 
-# ==================================
-# RSI & MACD PANELS
-# ==================================
-col_rsi, col_macd = st.columns(2)
-
-with col_rsi:
-    st.subheader("RSI Indicator")
-    fig_rsi = go.Figure()
-    fig_rsi.add_trace(go.Scatter(x=data.index, y=data["RSI"], name="RSI"))
-    fig_rsi.update_layout(template="plotly_dark", height=300)
-    st.plotly_chart(fig_rsi, use_container_width=True)
-
-with col_macd:
-    st.subheader("MACD Indicator")
-    fig_macd = go.Figure()
-    fig_macd.add_trace(go.Scatter(x=data.index, y=data["MACD"], name="MACD"))
-    fig_macd.add_trace(go.Scatter(x=data.index, y=data["Signal_Line"], name="Signal"))
-    fig_macd.update_layout(template="plotly_dark", height=300)
-    st.plotly_chart(fig_macd, use_container_width=True)
-
-# ==================================
-# AI SIGNAL PANEL
-# ==================================
+# ==============================
+# SIGNAL PANEL
+# ==============================
 st.subheader("AI Trade Signal")
 
-if prediction[0] == 1:
+if signal[0] == 1:
     st.markdown('<div class="signal-buy"><h2>📈 BUY</h2></div>', unsafe_allow_html=True)
 else:
     st.markdown('<div class="signal-sell"><h2>📉 SELL</h2></div>', unsafe_allow_html=True)
 
-# ==================================
-# BACKTEST SECTION
-# ==================================
+# ==============================
+# EQUITY CURVE
+# ==============================
 if backtest_toggle:
+    st.subheader("Strategy vs Market")
 
-    st.subheader("Strategy Backtest")
+    fig2 = go.Figure()
+    fig2.add_trace(go.Scatter(x=data_test.index, y=data_test["Equity"], name="Strategy"))
+    fig2.add_trace(go.Scatter(x=data_test.index, y=data_test["Market"], name="Buy & Hold"))
+    fig2.update_layout(template="plotly_dark", height=400)
 
-    data_test = data.iloc[split:].copy()
-    data_test["Prediction"] = predictions
-    data_test["Return"] = data_test["Close"].pct_change()
-    data_test["Strategy"] = data_test["Return"] * data_test["Prediction"]
-
-    data_test["Cumulative_Market"] = (1 + data_test["Return"]).cumprod()
-    data_test["Cumulative_Strategy"] = (1 + data_test["Strategy"]).cumprod()
-
-    fig_bt = go.Figure()
-    fig_bt.add_trace(go.Scatter(x=data_test.index, y=data_test["Cumulative_Market"], name="Buy & Hold"))
-    fig_bt.add_trace(go.Scatter(x=data_test.index, y=data_test["Cumulative_Strategy"], name="AI Strategy"))
-    fig_bt.update_layout(template="plotly_dark", height=400)
-
-    st.plotly_chart(fig_bt, use_container_width=True)
+    st.plotly_chart(fig2, use_container_width=True)
