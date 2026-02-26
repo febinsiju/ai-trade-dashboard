@@ -9,7 +9,7 @@ from sklearn.metrics import accuracy_score
 import datetime
 
 # ==================================================
-# CONFIG
+# PAGE CONFIG
 # ==================================================
 
 st.set_page_config(
@@ -19,7 +19,46 @@ st.set_page_config(
 )
 
 # ==================================================
-# SESSION STATE FOR PAGE SWITCHING
+# GLOBAL STYLING (BIG PROFESSIONAL TYPOGRAPHY)
+# ==================================================
+
+st.markdown("""
+<style>
+
+.big-title {
+    font-size: 52px;
+    font-weight: 800;
+    margin-bottom: 25px;
+}
+
+.section-heading {
+    font-size: 38px;
+    font-weight: 700;
+    margin-top: 70px;
+    margin-bottom: 30px;
+}
+
+.big-text {
+    font-size: 20px;
+    line-height: 1.9;
+    margin-bottom: 25px;
+}
+
+.big-points {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.footer-heading {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# ==================================================
+# SESSION STATE
 # ==================================================
 
 if "page" not in st.session_state:
@@ -29,7 +68,7 @@ def switch_page(page_name):
     st.session_state.page = page_name
 
 # ==================================================
-# SIDEBAR NAV
+# SIDEBAR NAVIGATION
 # ==================================================
 
 st.sidebar.title("QuantNova Navigation")
@@ -42,111 +81,78 @@ sidebar_choice = st.sidebar.radio(
 st.session_state.page = sidebar_choice
 
 # ==================================================
-# HOME PAGE (LONG PROFESSIONAL LANDING)
+# HOME PAGE
 # ==================================================
 
 if st.session_state.page == "Home":
 
-    st.title("🚀 QuantNova AI Trading Intelligence Platform")
+    st.markdown('<div class="big-title">🚀 QuantNova AI Trading Intelligence Platform</div>', unsafe_allow_html=True)
 
     st.markdown("""
-    ## Redefining Financial Decision Intelligence
-
+    <div class="big-text">
     QuantNova is a next-generation quantitative research platform engineered
-    to transform raw financial data into structured, machine-driven insight.
+    to convert raw financial market data into structured, machine-driven intelligence.
 
-    Modern markets operate at extraordinary speed and complexity.
-    Traditional human-driven analysis struggles to process the scale
-    and depth of available data.
-
-    QuantNova leverages machine learning, structured validation,
-    and systematic modeling to generate probabilistic trading signals.
-    """)
+    In today’s algorithm-dominated markets, traditional emotional decision-making
+    is replaced by structured, probability-based reasoning.
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("---")
 
-    st.header("🌍 Why Quantitative Intelligence Matters")
+    st.markdown('<div class="section-heading">🌍 Why Quantitative Intelligence Matters</div>', unsafe_allow_html=True)
 
     st.markdown("""
-    Financial markets are dynamic, multi-factor systems influenced by:
-
-    - Macroeconomic indicators  
-    - Institutional capital flows  
-    - Algorithmic execution systems  
-    - Behavioral biases  
-
-    QuantNova removes emotional bias and replaces it with
-    systematic probability-based reasoning.
-    """)
+    <div class="big-points">• Eliminates emotional bias in trading decisions</div>
+    <div class="big-points">• Processes large-scale historical datasets</div>
+    <div class="big-points">• Detects structural price behavior patterns</div>
+    <div class="big-points">• Applies supervised machine learning models</div>
+    <div class="big-points">• Compares AI results vs traditional strategies</div>
+    """, unsafe_allow_html=True)
 
     st.markdown("---")
 
-    st.header("🧠 AI Architecture Overview")
+    st.markdown('<div class="section-heading">🧠 AI System Architecture</div>', unsafe_allow_html=True)
 
     st.markdown("""
-    Our predictive framework follows a structured pipeline:
-
-    ### 1️⃣ Data Acquisition
-    - Live stock data retrieval
-    - Historical market structures
-
-    ### 2️⃣ Feature Engineering
-    - Moving averages
-    - Return structures
-    - Trend behavior metrics
-
-    ### 3️⃣ Model Training
-    - Supervised learning
-    - Ensemble classification models
-    - Pattern recognition logic
-
-    ### 4️⃣ Validation
-    - Historical backtesting
-    - Accuracy scoring
-    - Risk-adjusted evaluation
-
-    ### 5️⃣ Decision Output
-    - BUY / SELL signal
-    - Confidence probability
-    - Performance benchmarking
-    """)
+    <div class="big-points">1️⃣ Data Acquisition – Live stock data retrieval</div>
+    <div class="big-points">2️⃣ Feature Engineering – Moving averages & return modeling</div>
+    <div class="big-points">3️⃣ Model Training – Random Forest ensemble learning</div>
+    <div class="big-points">4️⃣ Validation – Structured backtesting workflows</div>
+    <div class="big-points">5️⃣ Decision Output – BUY/SELL signal with confidence probability</div>
+    """, unsafe_allow_html=True)
 
     st.markdown("---")
 
-    st.header("📊 Risk-Adjusted Philosophy")
+    st.markdown('<div class="section-heading">📊 Risk-Adjusted Philosophy</div>', unsafe_allow_html=True)
 
     st.markdown("""
-    Raw returns alone do not define performance.
+    <div class="big-text">
+    True performance is not measured by raw return alone.
 
-    QuantNova compares AI strategy output against
-    baseline Buy & Hold structures and evaluates:
-
-    - Structural stability
-    - Drawdown sensitivity
-    - Consistency of signal generation
-    """)
+    QuantNova benchmarks AI strategy output against Buy & Hold
+    while evaluating structural stability, risk exposure,
+    and consistency of signal generation.
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("---")
 
-    st.header("🔮 Future Vision")
+    st.markdown('<div class="section-heading">🔮 Future Development Roadmap</div>', unsafe_allow_html=True)
 
     st.markdown("""
-    Our roadmap includes:
-
-    - Automated daily retraining
-    - Multi-asset support (stocks + crypto)
-    - Deep learning integration
-    - Reinforcement learning agents
-    - Institutional-level performance metrics
-    """)
+    <div class="big-points">• Automated daily model retraining</div>
+    <div class="big-points">• Multi-asset support (Stocks & Crypto)</div>
+    <div class="big-points">• Deep learning integration</div>
+    <div class="big-points">• Reinforcement learning agents</div>
+    <div class="big-points">• Institutional-grade performance metrics</div>
+    """, unsafe_allow_html=True)
 
     st.markdown("---")
 
-    st.subheader("⚠️ Disclaimer")
-    st.info("This platform is developed for academic and research demonstration purposes only.")
+    st.info("⚠️ Developed for academic research and demonstration purposes only.")
 
-    # ================= FOOTER ==================
-
+    # FOOTER
     st.markdown("---")
     st.markdown("### 📌 Explore More")
 
@@ -172,12 +178,12 @@ elif st.session_state.page == "AI Engine":
 
     st.title("🧠 AI Prediction Engine")
 
-    symbol = st.text_input("Enter Stock Symbol", "AAPL")
+    symbol = st.text_input("Enter Stock Symbol (Example: AAPL)", "AAPL")
 
     data = yf.download(symbol, period="2y")
 
     if data.empty:
-        st.error("Invalid Symbol")
+        st.error("Invalid Stock Symbol")
         st.stop()
 
     data["SMA10"] = data["Close"].rolling(10).mean()
@@ -207,10 +213,10 @@ elif st.session_state.page == "AI Engine":
 
     if pred == 1:
         st.success("📈 BUY Signal")
-        st.metric("Confidence", f"{round(prob[1]*100,2)}%")
+        st.metric("Confidence Level", f"{round(prob[1]*100,2)}%")
     else:
         st.error("📉 SELL Signal")
-        st.metric("Confidence", f"{round(prob[0]*100,2)}%")
+        st.metric("Confidence Level", f"{round(prob[0]*100,2)}%")
 
 # ==================================================
 # BACKTESTING
@@ -259,16 +265,11 @@ elif st.session_state.page == "About Us":
     st.title("🏢 About QuantNova")
 
     st.markdown("""
-    QuantNova was built as an academic AI research initiative
-    focused on merging financial analytics with machine learning.
+    QuantNova was conceptualized as an academic AI research initiative
+    designed to demonstrate the power of machine learning in financial markets.
 
-    Our objective is to demonstrate how structured AI systems
-    can assist in disciplined decision-making.
-
-    Developed by:
-    - Project Lead: Your Name
-    - AI Research Team: Team Members
-    - Presentation & Strategy: Team Members
+    Our mission is to merge data science, financial modeling,
+    and structured decision intelligence into a unified research platform.
     """)
 
 # ==================================================
@@ -278,10 +279,8 @@ elif st.session_state.page == "About Us":
 elif st.session_state.page == "Contact":
 
     st.title("📞 Contact Us")
-
     st.write("📧 Email: quantnova.ai@gmail.com")
     st.write("📍 Location: Academic Research Initiative")
-    st.write("🕒 Availability: Mon–Fri")
 
 # ==================================================
 # FOLLOW US
@@ -290,13 +289,12 @@ elif st.session_state.page == "Contact":
 elif st.session_state.page == "Follow Us":
 
     st.title("🌍 Follow QuantNova")
-
     st.write("🔗 LinkedIn: linkedin.com/company/quantnova")
     st.write("🐦 Twitter: twitter.com/quantnova_ai")
     st.write("📸 Instagram: instagram.com/quantnova_ai")
 
 # ==================================================
-# FOOTER COPYRIGHT
+# COPYRIGHT
 # ==================================================
 
 st.markdown("---")
