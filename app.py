@@ -7,6 +7,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import datetime
+import os
 
 # =====================================================
 # PAGE CONFIG
@@ -18,7 +19,17 @@ st.set_page_config(
 )
 
 # =====================================================
-# SESSION STATE NAVIGATION
+# SAFE IMAGE FUNCTION (Prevents Crashes)
+# =====================================================
+
+def safe_image(path, caption=None):
+    if os.path.exists(path):
+        st.image(path, caption=caption, use_container_width=True)
+    else:
+        st.warning(f"Image file '{path}' not found. Please upload it to your project directory.")
+
+# =====================================================
+# SIDEBAR NAVIGATION
 # =====================================================
 
 if "page" not in st.session_state:
@@ -91,7 +102,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================================
-# HOME PAGE
+# HOME
 # =====================================================
 
 if st.session_state.page == "Home":
@@ -100,56 +111,22 @@ if st.session_state.page == "Home":
 
     st.markdown("""
     <div class="large-paragraph">
-    QuantNova is a quantitative research platform developed to explore the integration
-    of artificial intelligence with financial market analytics. Modern financial markets
-    operate within highly dynamic environments influenced by institutional capital flows,
-    algorithmic execution systems, and global economic variables. Understanding such
-    complexity requires structured analytical tools capable of processing large volumes
-    of data and extracting meaningful patterns.
+    QuantNova is a quantitative research platform integrating artificial intelligence
+    with financial market analytics. The system is designed to transform historical
+    market data into structured predictive intelligence using disciplined machine
+    learning methodologies.
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown("""
     <div class="large-paragraph">
-    This platform applies machine learning methodologies to historical market data in
-    order to construct predictive intelligence models. Rather than relying on intuition
-    or speculation, QuantNova emphasizes statistical reasoning, disciplined validation,
-    and systematic feature engineering to evaluate directional probabilities.
+    By applying ensemble learning models and structured validation pipelines,
+    the platform generates probabilistic signals that assist in evaluating
+    potential market direction while emphasizing risk-aware interpretation.
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown('<div class="section-heading">Intelligent Learning Framework</div>', unsafe_allow_html=True)
-
-    st.markdown("""
-    <div class="large-paragraph">
-    The system follows a structured pipeline beginning with real-time data acquisition,
-    followed by transformation into engineered features such as moving averages and
-    return differentials. These features are processed through ensemble machine learning
-    algorithms that detect recurring structural behavior within historical price movements.
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div class="large-paragraph">
-    Predictions are generated with probabilistic confidence measures, allowing users to
-    interpret model outputs within a risk-aware framework. The objective is not absolute
-    certainty, but structured decision support grounded in historical evidence.
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown('<div class="section-heading">Backtesting and Validation</div>', unsafe_allow_html=True)
-
-    st.markdown("""
-    <div class="large-paragraph">
-    QuantNova incorporates comparative backtesting to evaluate the AI-driven strategy
-    against traditional buy-and-hold approaches. By analyzing cumulative growth and
-    signal consistency, the system demonstrates the importance of disciplined model
-    evaluation before practical deployment.
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("---")
-    st.info("This platform is developed strictly for academic research and demonstration purposes.")
+    st.info("Developed for academic research and demonstration purposes.")
 
 # =====================================================
 # AI ENGINE
@@ -183,9 +160,7 @@ elif st.session_state.page == "AI Engine":
     model = RandomForestClassifier(n_estimators=150)
     model.fit(X_train, y_train)
 
-    predictions = model.predict(X_test)
-    accuracy = accuracy_score(y_test, predictions)
-
+    accuracy = accuracy_score(y_test, model.predict(X_test))
     st.metric("Model Accuracy", f"{round(accuracy*100,2)}%")
 
     latest = X.iloc[-1:].values
@@ -211,29 +186,12 @@ elif st.session_state.page == "Backtesting Laboratory":
 
     data = yf.download(symbol, period="2y")
     data["Return"] = data["Close"].pct_change()
-    data["Target"] = np.where(data["Close"].shift(-1) > data["Close"], 1, 0)
     data = data.dropna()
 
-    X = data[["Return"]]
-    y = data["Target"]
-
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, shuffle=False
-    )
-
-    model = RandomForestClassifier()
-    model.fit(X_train, y_train)
-    preds = model.predict(X_test)
-
-    test = data.iloc[-len(X_test):].copy()
-    test["Strategy"] = preds * test["Return"]
-
-    test["Market"] = (1 + test["Return"]).cumprod()
-    test["AI"] = (1 + test["Strategy"]).cumprod()
+    data["Market"] = (1 + data["Return"]).cumprod()
 
     fig, ax = plt.subplots()
-    ax.plot(test["Market"], label="Buy and Hold")
-    ax.plot(test["AI"], label="AI Strategy")
+    ax.plot(data["Market"], label="Buy and Hold")
     ax.legend()
     st.pyplot(fig)
 
@@ -247,49 +205,25 @@ elif st.session_state.page == "About Us":
 
     st.markdown("""
     We are CSE B S2 students of TocH Institute Of Science And Technology (TIST),
-    Ernakulam, Kerala. QuantNova was developed as an academic initiative to explore
-    artificial intelligence applications in financial market analytics.
+    Ernakulam, Kerala. QuantNova was developed as an academic initiative to
+    explore the practical application of artificial intelligence in financial
+    market prediction systems.
     """)
 
-    # Founder
+    # Founder Card
     st.markdown('<div class="profile-card">', unsafe_allow_html=True)
-    st.image("founder_image.jpg", use_container_width=True)
+    safe_image("founder_image.jpg", "Founder – QuantNova")
     st.markdown('<div class="profile-name">[Your Name]</div>', unsafe_allow_html=True)
     st.markdown('<div class="profile-role">Founder & Lead Architect</div>', unsafe_allow_html=True)
-    st.markdown("""
-    <div class="profile-text">
-    The Founder conceptualized and architected the QuantNova platform, designing
-    the machine learning framework, data engineering structure, and predictive
-    validation methodology. The long-term vision is to expand this initiative
-    into a research-oriented AI intelligence system.
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div class="profile-text">Architect of the AI framework, predictive modeling pipeline, and validation system.</div>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # Co-Founder
+    # Co-Founder Card
     st.markdown('<div class="profile-card">', unsafe_allow_html=True)
-    st.image("ganga_image.jpg", use_container_width=True)
+    safe_image("ganga_image.jpg", "Co-Founder – QuantNova")
     st.markdown('<div class="profile-name">Ganga AR</div>', unsafe_allow_html=True)
     st.markdown('<div class="profile-role">Co-Founder & Research Strategist</div>', unsafe_allow_html=True)
-    st.markdown("""
-    <div class="profile-text">
-    Ganga AR contributed to system validation, model evaluation discussions,
-    and strengthening research documentation to ensure academic rigor.
-    </div>
-    """, unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-    # Team Members
-    st.markdown('<div class="profile-card">', unsafe_allow_html=True)
-    st.markdown('<div class="profile-name">Fiza KF</div>', unsafe_allow_html=True)
-    st.markdown('<div class="profile-role">Core Development Member</div>', unsafe_allow_html=True)
-    st.markdown('<div class="profile-text">Contributed to research support and documentation refinement.</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-    st.markdown('<div class="profile-card">', unsafe_allow_html=True)
-    st.markdown('<div class="profile-name">Gania Gibu</div>', unsafe_allow_html=True)
-    st.markdown('<div class="profile-role">Conceptual & Interface Support</div>', unsafe_allow_html=True)
-    st.markdown('<div class="profile-text">Contributed to conceptual clarity and interface refinement.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="profile-text">Contributed to analytical validation and structured research refinement.</div>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 # =====================================================
@@ -299,7 +233,6 @@ elif st.session_state.page == "About Us":
 elif st.session_state.page == "Contact":
     st.title("Contact")
     st.write("Email: quantnova.ai@gmail.com")
-    st.write("Institution: TocH Institute Of Science And Technology")
 
 # =====================================================
 # FOLLOW
@@ -307,9 +240,7 @@ elif st.session_state.page == "Contact":
 
 elif st.session_state.page == "Follow Us":
     st.title("Follow Us")
-    st.write("LinkedIn: linkedin.com")
-    st.write("Instagram: instagram.com")
-    st.write("Twitter: twitter.com")
+    st.write("LinkedIn | Instagram | Twitter")
 
 # =====================================================
 # FOOTER
