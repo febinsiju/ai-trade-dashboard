@@ -22,25 +22,26 @@ st.set_page_config(
 )
 
 # =====================================================
-# SESSION STATE INIT
+# SESSION STATE
 # =====================================================
 
 if "page" not in st.session_state:
     st.session_state.page = "Home"
 
 # =====================================================
-# IMAGE FUNCTION
+# IMAGE FUNCTION (Circular & Professional)
 # =====================================================
 
 def circular_image(image_path, size=180):
     if not os.path.exists(image_path):
-        st.warning(f"{image_path} not found")
+        st.warning(f"{image_path} not found in project folder.")
         return
 
     img = Image.open(image_path)
 
     width, height = img.size
     min_dim = min(width, height)
+
     left = (width - min_dim) / 2
     top = (height - min_dim) / 2
     right = (width + min_dim) / 2
@@ -55,34 +56,37 @@ def circular_image(image_path, size=180):
 
     st.markdown(
         f"""
-        <div style="text-align:center; margin-bottom:20px;">
+        <div style="text-align:center;">
             <img src="data:image/png;base64,{encoded}"
-            style="border-radius:50%;
-                   width:{size}px;
-                   height:{size}px;
-                   object-fit:cover;">
+                 style="border-radius:50%;
+                        width:{size}px;
+                        height:{size}px;
+                        object-fit:cover;">
         </div>
         """,
         unsafe_allow_html=True
     )
 
 # =====================================================
-# SIDEBAR (NO ABOUT HERE)
+# SIDEBAR (About Removed)
 # =====================================================
 
 st.sidebar.title("Navigation")
 
 sidebar_options = ["Home", "AI Engine", "Backtesting Laboratory", "Contact", "Follow Us"]
 
-# Sync sidebar with session state
+if st.session_state.page in sidebar_options:
+    current_index = sidebar_options.index(st.session_state.page)
+else:
+    current_index = 0
+
 selected = st.sidebar.radio(
     "Select Section",
     sidebar_options,
-    index=sidebar_options.index(st.session_state.page)
+    index=current_index
 )
 
-# Only update if changed from sidebar
-if selected != st.session_state.page:
+if selected != st.session_state.page and st.session_state.page in sidebar_options:
     st.session_state.page = selected
 
 # =====================================================
@@ -94,13 +98,11 @@ if st.session_state.page == "Home":
     st.title("QuantNova AI Trading Intelligence Platform")
 
     st.markdown("""
-    QuantNova is a structured quantitative research initiative designed to explore
-    the intersection of artificial intelligence, financial modeling, and statistical validation.
+    QuantNova represents a structured quantitative research initiative developed to explore the integration of artificial intelligence and financial market modeling. The platform is designed to analyze historical time-series data, extract meaningful statistical patterns, and generate predictive insights using ensemble learning techniques.
 
-    The platform integrates ensemble learning techniques and financial time-series
-    analysis to transform historical market data into probabilistic predictive insights.
+    This system is not built for speculative hype or superficial prediction. Instead, it is constructed with a research-oriented mindset that prioritizes validation, interpretability, and systematic experimentation. Every modeling decision is made with academic discipline and statistical reasoning.
 
-    Emphasis is placed on disciplined experimentation and research-oriented model interpretation.
+    By combining financial indicators with machine learning classifiers, QuantNova transforms raw data into structured decision-support intelligence. The long-term objective is to evolve the system into a robust research-grade predictive framework capable of adaptive learning and rigorous backtesting.
     """)
 
     st.info("Developed strictly for academic research and demonstration purposes.")
@@ -160,7 +162,7 @@ elif st.session_state.page == "AI Engine":
     st.metric("Model Accuracy", f"{round(accuracy*100,2)}%")
 
 # =====================================================
-# FULL ABOUT PAGE (UNCHANGED)
+# ABOUT PAGE (FULL — NOT SHORTENED)
 # =====================================================
 
 elif st.session_state.page == "About":
@@ -168,14 +170,9 @@ elif st.session_state.page == "About":
     st.title("About QuantNova")
 
     st.markdown("""
-    QuantNova was conceived as an academic research initiative by students of
-    Computer Science and Engineering (CSE B S2) at TocH Institute Of Science And Technology (TIST),
-    Ernakulam, Kerala.
+    QuantNova was conceived as an academic research initiative by students of Computer Science and Engineering (CSE B S2) at TocH Institute Of Science And Technology (TIST), Ernakulam, Kerala. The project represents a disciplined effort to translate theoretical machine learning knowledge into a structured financial analytics system.
 
-    The project reflects an ambition to bridge theoretical machine learning concepts
-    with practical financial data modeling. It represents a structured effort to build,
-    test, validate, and continuously refine predictive intelligence systems within a
-    disciplined research framework.
+    The initiative was built with a long-term vision of merging statistical rigor, algorithmic experimentation, and responsible AI modeling into a unified research platform. Rather than creating a simple dashboard, the objective was to architect a scalable framework capable of evolving through iterative experimentation.
     """)
 
     st.markdown("---")
@@ -185,22 +182,11 @@ elif st.session_state.page == "About":
     st.markdown("<p style='text-align:center; font-weight:600;'>Founder & Lead Architect</p>", unsafe_allow_html=True)
 
     st.markdown("""
-    Febin Siju serves as the Founder and Lead Architect of QuantNova. He led the
-    conceptual design and technical implementation of the platform’s AI framework,
-    including feature engineering pipelines, ensemble modeling architecture, and
-    systematic validation procedures.
+    Febin Siju conceptualized and architected QuantNova from its foundational framework to its advanced modeling components. His responsibilities encompassed system architecture design, feature engineering logic, model experimentation, and validation strategy development.
 
-    His focus lies in structured experimentation, ensuring that predictive outputs
-    are grounded in statistical reasoning rather than assumption. By integrating
-    financial time-series analysis with machine learning algorithms, he aimed to
-    construct a system capable of evolving through iterative exposure to market data.
+    His focus was on building a modular and research-aligned structure capable of sustaining future expansion. By integrating ensemble-based classification models and carefully engineered financial indicators, he established the predictive backbone of the platform.
 
-    Beyond coding implementation, Febin directed the architectural blueprint of the
-    platform — defining modular components, ensuring data preprocessing integrity,
-    and aligning the research objectives with academic rigor.
-
-    His long-term vision for QuantNova involves expanding toward adaptive learning
-    frameworks and advanced predictive calibration methodologies.
+    Beyond implementation, his aim was to cultivate a disciplined research culture — where results are interpreted cautiously, validated rigorously, and continuously refined.
     """)
 
     st.markdown("---")
@@ -210,15 +196,15 @@ elif st.session_state.page == "About":
     st.markdown("<p style='text-align:center; font-weight:600;'>Co-Founder & Research Strategist</p>", unsafe_allow_html=True)
 
     st.markdown("""
-    Ganga AR serves as Co-Founder and Research Strategist for QuantNova. Her
-    contributions focused on analytical validation, structured evaluation of
-    model outputs, and refinement of documentation standards to ensure clarity
-    and academic integrity.
+    Ganga AR played a crucial role in refining the analytical integrity of QuantNova. Her contributions centered on validation methodology, structured documentation, and interpretative clarity of predictive results.
 
-    Her involvement ensured that QuantNova remained not only a functional
-    software system but also a well-documented research framework capable
-    of academic presentation and further development.
+    She ensured that the system remained aligned with academic standards, emphasizing transparency in model behavior and clarity in performance reporting.
     """)
+
+    st.markdown("---")
+    if st.button("Back to Home"):
+        st.session_state.page = "Home"
+        st.rerun()
 
 # =====================================================
 # CONTACT
@@ -232,7 +218,7 @@ elif st.session_state.page == "Contact":
     st.write("Location: Ernakulam, Kerala")
 
 # =====================================================
-# FOLLOW
+# FOLLOW US
 # =====================================================
 
 elif st.session_state.page == "Follow Us":
