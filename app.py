@@ -196,16 +196,46 @@ elif st.session_state.page == "Market Dashboard":
     st.plotly_chart(fig, use_container_width=True)
 
 # =====================================================
-# ABOUT PAGE (UNTOUCHED CONTENT STRUCTURE)
+# ABOUT PAGE (UNCHANGED)
 # =====================================================
 
 elif st.session_state.page == "About":
 
     st.title("About QuantNova")
 
-    st.write("Your full original About page content remains exactly here as before.")
-    st.write("Founder section, co-founder section, paragraphs unchanged.")
+    st.markdown("""
+    QuantNova was conceived as an academic research initiative by students of Computer Science and Engineering (CSE B S2) at TocH Institute Of Science And Technology (TIST), Ernakulam, Kerala. The project represents a disciplined effort to translate theoretical machine learning knowledge into a structured financial analytics system.
 
+    The initiative was built with a long-term vision of merging statistical rigor, algorithmic experimentation, and responsible AI modeling into a unified research platform. Rather than creating a simple dashboard, the objective was to architect a scalable framework capable of evolving through iterative experimentation.
+    """)
+
+    st.markdown("---")
+
+    circular_image("founder_image.jpg", 180)
+    st.markdown("<h3 style='text-align:center;'>Febin Siju</h3>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center; font-weight:600;'>Founder & Lead Architect</p>", unsafe_allow_html=True)
+
+    st.markdown("""
+    Febin Siju conceptualized and architected QuantNova from its foundational framework to its advanced modeling components. His responsibilities encompassed system architecture design, feature engineering logic, model experimentation, and validation strategy development.
+
+    His focus was on building a modular and research-aligned structure capable of sustaining future expansion. By integrating ensemble-based classification models and carefully engineered financial indicators, he established the predictive backbone of the platform.
+
+    Beyond implementation, his aim was to cultivate a disciplined research culture — where results are interpreted cautiously, validated rigorously, and continuously refined.
+    """)
+
+    st.markdown("---")
+
+    circular_image("ganga_image.jpg", 180)
+    st.markdown("<h3 style='text-align:center;'>Ganga AR</h3>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center; font-weight:600;'>Co-Founder & Research Strategist</p>", unsafe_allow_html=True)
+
+    st.markdown("""
+    Ganga AR played a crucial role in refining the analytical integrity of QuantNova. Her contributions centered on validation methodology, structured documentation, and interpretative clarity of predictive results.
+
+    She ensured that the system remained aligned with academic standards, emphasizing transparency in model behavior and clarity in performance reporting.
+    """)
+
+    st.markdown("---")
     if st.button("Back to Home"):
         st.session_state.page = "Home"
         st.rerun()
