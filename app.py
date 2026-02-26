@@ -231,7 +231,28 @@ elif st.session_state.page == "About Us":
     # Co-Founder Card
     st.markdown('<div class="profile-card">', unsafe_allow_html=True)
 
-    if os.path.exists("ganga_image.jpg"):
+    from PIL import Image
+import base64
+from io import BytesIO
+
+def circular_image(image_path, size=160):
+    img = Image.open(image_path).resize((size, size))
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    encoded = base64.b64encode(buffer.getvalue()).decode()
+
+    st.markdown(
+        f"""
+        <div style="text-align:center;">
+            <img src="data:image/png;base64,{encoded}"
+            style="border-radius:50%; width:{size}px; height:{size}px; object-fit:cover;">
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+if os.path.exists("ganga_image.jpg"):
+    circular_image("ganga_image.jpg")
         st.markdown("""
         <div style="text-align:center;">
             <img src="ganga_image.jpg" width="160"
