@@ -19,16 +19,6 @@ st.set_page_config(
 )
 
 # =====================================================
-# SAFE IMAGE FUNCTION (Prevents Crashes)
-# =====================================================
-
-def safe_image(path, caption=None):
-    if os.path.exists(path):
-        st.image(path, caption=caption, use_container_width=True)
-    else:
-        st.warning(f"Image file '{path}' not found. Please upload it to your project directory.")
-
-# =====================================================
 # SIDEBAR NAVIGATION
 # =====================================================
 
@@ -80,9 +70,10 @@ st.markdown("""
 }
 
 .profile-name {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
-    margin-top: 20px;
+    margin-top: 10px;
+    text-align: center;
 }
 
 .profile-role {
@@ -90,6 +81,7 @@ st.markdown("""
     font-weight: 600;
     color: #2c3e50;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .profile-text {
@@ -111,22 +103,23 @@ if st.session_state.page == "Home":
 
     st.markdown("""
     <div class="large-paragraph">
-    QuantNova is a quantitative research platform integrating artificial intelligence
-    with financial market analytics. The system is designed to transform historical
-    market data into structured predictive intelligence using disciplined machine
-    learning methodologies.
+    QuantNova is a quantitative research platform designed to integrate artificial
+    intelligence with financial market analytics. The system transforms historical
+    price data into structured predictive intelligence using disciplined machine
+    learning methodologies and statistical reasoning.
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown("""
     <div class="large-paragraph">
-    By applying ensemble learning models and structured validation pipelines,
-    the platform generates probabilistic signals that assist in evaluating
-    potential market direction while emphasizing risk-aware interpretation.
+    By applying ensemble learning algorithms and structured validation pipelines,
+    the platform generates probabilistic signals to assist in evaluating potential
+    market direction. Emphasis is placed on risk-aware interpretation rather than
+    speculative certainty.
     </div>
     """, unsafe_allow_html=True)
 
-    st.info("Developed for academic research and demonstration purposes.")
+    st.info("Developed strictly for academic research and demonstration purposes.")
 
 # =====================================================
 # AI ENGINE
@@ -205,25 +198,54 @@ elif st.session_state.page == "About Us":
 
     st.markdown("""
     We are CSE B S2 students of TocH Institute Of Science And Technology (TIST),
-    Ernakulam, Kerala. QuantNova was developed as an academic initiative to
-    explore the practical application of artificial intelligence in financial
-    market prediction systems.
+    Ernakulam, Kerala. QuantNova was developed as an academic initiative to explore
+    the practical application of artificial intelligence in financial prediction systems.
     """)
 
     # Founder Card
     st.markdown('<div class="profile-card">', unsafe_allow_html=True)
-    safe_image("founder_image.jpg", "Founder – QuantNova")
+
+    if os.path.exists("founder_image.jpg"):
+        st.markdown("""
+        <div style="text-align:center;">
+            <img src="founder_image.jpg" width="160"
+            style="border-radius:50%; margin-bottom:20px;">
+        </div>
+        """, unsafe_allow_html=True)
+
     st.markdown('<div class="profile-name">[Your Name]</div>', unsafe_allow_html=True)
     st.markdown('<div class="profile-role">Founder & Lead Architect</div>', unsafe_allow_html=True)
-    st.markdown('<div class="profile-text">Architect of the AI framework, predictive modeling pipeline, and validation system.</div>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="profile-text">
+    Architect of the AI framework, predictive modeling system, and validation pipeline.
+    Led the conceptualization and implementation of QuantNova with the objective of
+    creating a structured machine learning system capable of evolving through data exposure.
+    </div>
+    """, unsafe_allow_html=True)
+
     st.markdown('</div>', unsafe_allow_html=True)
 
     # Co-Founder Card
     st.markdown('<div class="profile-card">', unsafe_allow_html=True)
-    safe_image("ganga_image.jpg", "Co-Founder – QuantNova")
+
+    if os.path.exists("ganga_image.jpg"):
+        st.markdown("""
+        <div style="text-align:center;">
+            <img src="ganga_image.jpg" width="160"
+            style="border-radius:50%; margin-bottom:20px;">
+        </div>
+        """, unsafe_allow_html=True)
+
     st.markdown('<div class="profile-name">Ganga AR</div>', unsafe_allow_html=True)
     st.markdown('<div class="profile-role">Co-Founder & Research Strategist</div>', unsafe_allow_html=True)
-    st.markdown('<div class="profile-text">Contributed to analytical validation and structured research refinement.</div>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="profile-text">
+    Contributed to analytical validation, performance evaluation, and structured
+    documentation refinement. Played a key role in strengthening the academic
+    and research foundations of the platform.
+    </div>
+    """, unsafe_allow_html=True)
+
     st.markdown('</div>', unsafe_allow_html=True)
 
 # =====================================================
@@ -233,6 +255,7 @@ elif st.session_state.page == "About Us":
 elif st.session_state.page == "Contact":
     st.title("Contact")
     st.write("Email: quantnova.ai@gmail.com")
+    st.write("Institution: TocH Institute Of Science And Technology")
 
 # =====================================================
 # FOLLOW
@@ -240,7 +263,9 @@ elif st.session_state.page == "Contact":
 
 elif st.session_state.page == "Follow Us":
     st.title("Follow Us")
-    st.write("LinkedIn | Instagram | Twitter")
+    st.write("LinkedIn")
+    st.write("Instagram")
+    st.write("Twitter")
 
 # =====================================================
 # FOOTER
