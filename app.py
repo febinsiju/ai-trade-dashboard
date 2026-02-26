@@ -22,7 +22,7 @@ st.set_page_config(
 )
 
 # =====================================================
-# SESSION STATE NAVIGATION
+# SESSION STATE
 # =====================================================
 
 if "page" not in st.session_state:
@@ -67,14 +67,14 @@ def circular_image(image_path, size=180):
     )
 
 # =====================================================
-# SIDEBAR
+# SIDEBAR (ABOUT REMOVED)
 # =====================================================
 
 st.sidebar.title("Navigation")
 
 selected = st.sidebar.radio(
     "Select Section",
-    ["Home", "AI Engine", "Backtesting Laboratory", "About Us", "Contact", "Follow Us"]
+    ["Home", "AI Engine", "Backtesting Laboratory", "Contact", "Follow Us"]
 )
 
 st.session_state.page = selected
@@ -106,7 +106,7 @@ if st.session_state.page == "Home":
 
     with col1:
         if st.button("About Us"):
-            st.session_state.page = "About Us"
+            st.session_state.page = "About"
 
     with col2:
         if st.button("Contact Us"):
@@ -162,10 +162,10 @@ elif st.session_state.page == "AI Engine":
         st.metric("Confidence Level", f"{round(prob[0]*100,2)}%")
 
 # =====================================================
-# ABOUT US (FULL DETAILED VERSION — UNCHANGED)
+# FULL ABOUT PAGE (UNCHANGED CONTENT)
 # =====================================================
 
-elif st.session_state.page == "About Us":
+elif st.session_state.page == "About":
 
     st.title("About QuantNova")
 
