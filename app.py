@@ -22,14 +22,14 @@ st.set_page_config(
 )
 
 # =====================================================
-# SESSION STATE
+# SESSION STATE INIT
 # =====================================================
 
 if "page" not in st.session_state:
     st.session_state.page = "Home"
 
 # =====================================================
-# IMAGE FUNCTION (NO STRETCH + CIRCULAR)
+# IMAGE FUNCTION
 # =====================================================
 
 def circular_image(image_path, size=180):
@@ -67,17 +67,23 @@ def circular_image(image_path, size=180):
     )
 
 # =====================================================
-# SIDEBAR (ABOUT REMOVED)
+# SIDEBAR (NO ABOUT HERE)
 # =====================================================
 
 st.sidebar.title("Navigation")
 
+sidebar_options = ["Home", "AI Engine", "Backtesting Laboratory", "Contact", "Follow Us"]
+
+# Sync sidebar with session state
 selected = st.sidebar.radio(
     "Select Section",
-    ["Home", "AI Engine", "Backtesting Laboratory", "Contact", "Follow Us"]
+    sidebar_options,
+    index=sidebar_options.index(st.session_state.page)
 )
 
-st.session_state.page = selected
+# Only update if changed from sidebar
+if selected != st.session_state.page:
+    st.session_state.page = selected
 
 # =====================================================
 # HOME PAGE
@@ -107,14 +113,17 @@ if st.session_state.page == "Home":
     with col1:
         if st.button("About Us"):
             st.session_state.page = "About"
+            st.rerun()
 
     with col2:
         if st.button("Contact Us"):
             st.session_state.page = "Contact"
+            st.rerun()
 
     with col3:
         if st.button("Follow Us"):
             st.session_state.page = "Follow Us"
+            st.rerun()
 
 # =====================================================
 # AI ENGINE
@@ -150,19 +159,8 @@ elif st.session_state.page == "AI Engine":
     accuracy = accuracy_score(y_test, model.predict(X_test))
     st.metric("Model Accuracy", f"{round(accuracy*100,2)}%")
 
-    latest = X.iloc[-1:].values
-    pred = model.predict(latest)[0]
-    prob = model.predict_proba(latest)[0]
-
-    if pred == 1:
-        st.success("Model Signal: BUY")
-        st.metric("Confidence Level", f"{round(prob[1]*100,2)}%")
-    else:
-        st.error("Model Signal: SELL")
-        st.metric("Confidence Level", f"{round(prob[0]*100,2)}%")
-
 # =====================================================
-# FULL ABOUT PAGE (UNCHANGED CONTENT)
+# FULL ABOUT PAGE (UNCHANGED)
 # =====================================================
 
 elif st.session_state.page == "About":
@@ -202,8 +200,7 @@ elif st.session_state.page == "About":
     and aligning the research objectives with academic rigor.
 
     His long-term vision for QuantNova involves expanding toward adaptive learning
-    frameworks, incorporating additional technical indicators, and exploring
-    probabilistic confidence calibration methods to enhance decision-support reliability.
+    frameworks and advanced predictive calibration methodologies.
     """)
 
     st.markdown("---")
@@ -217,14 +214,6 @@ elif st.session_state.page == "About":
     contributions focused on analytical validation, structured evaluation of
     model outputs, and refinement of documentation standards to ensure clarity
     and academic integrity.
-
-    She played a critical role in assessing model performance metrics,
-    interpreting predictive confidence levels, and ensuring that the platform
-    maintained a disciplined, research-oriented perspective.
-
-    Ganga contributed significantly to strengthening the theoretical
-    foundations of the initiative, aligning implementation with
-    established machine learning principles and structured testing methodology.
 
     Her involvement ensured that QuantNova remained not only a functional
     software system but also a well-documented research framework capable
