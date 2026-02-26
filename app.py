@@ -92,6 +92,33 @@ if page == "Home":
     """)
 
     st.info("Developed strictly for academic research and demonstration purposes.")
+    st.markdown("---")
+st.markdown("## About Us")
+
+st.markdown("""
+QuantNova was conceived as an academic research initiative by students of
+Computer Science and Engineering (CSE B S2) at TocH Institute Of Science And Technology (TIST),
+Ernakulam, Kerala.
+
+The project reflects an ambition to bridge theoretical machine learning concepts
+with practical financial data modeling. It represents a structured effort to build,
+test, validate, and continuously refine predictive intelligence systems within a
+disciplined research framework.
+""")
+
+st.markdown("---")
+st.markdown("## Contact Us")
+
+st.write("Email: quantnova.ai@gmail.com")
+st.write("Institution: TocH Institute Of Science And Technology")
+st.write("Location: Ernakulam, Kerala")
+
+st.markdown("---")
+st.markdown("## Follow Us")
+
+st.write("LinkedIn")
+st.write("Instagram")
+st.write("Twitter")
 
 # =====================================================
 # AI ENGINE
