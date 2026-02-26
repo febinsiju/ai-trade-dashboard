@@ -262,14 +262,64 @@ elif st.session_state.page == "Backtesting Lab":
 
 elif st.session_state.page == "About Us":
 
-    st.title("🏢 About QuantNova")
+    st.title("About QuantNova")
 
     st.markdown("""
-    QuantNova was conceptualized as an academic AI research initiative
-    designed to demonstrate the power of machine learning in financial markets.
+    We are second semester Computer Science and Engineering students (CSE B S2)
+    from TocH Institute Of Science And Technology (TIST), Ernakulam, Kerala.
+    QuantNova was developed as an advanced academic initiative to explore
+    the integration of artificial intelligence with financial market analytics.
 
-    Our mission is to merge data science, financial modeling,
-    and structured decision intelligence into a unified research platform.
+    Our objective is to bridge theoretical academic learning with real-world
+    machine learning implementation. This platform demonstrates how data-driven
+    systems can be structured, validated, and refined to produce probabilistic
+    financial insights.
+    """)
+
+    st.header("Founder")
+
+    st.markdown("""
+    The Founder conceptualized and architected the QuantNova platform with
+    the vision of building a self-improving artificial intelligence system
+    capable of learning from financial data. Responsibilities included system
+    architecture design, machine learning implementation, feature engineering,
+    model validation, and strategic planning.
+
+    The long-term vision behind this initiative is to expand the platform
+    into a continuously evolving quantitative research system that integrates
+    deeper analytics, enhanced risk management, and advanced predictive modeling.
+    """)
+
+    st.image("founder_image.jpg", caption="Founder – QuantNova", use_container_width=True)
+
+    st.header("Co-Founder – Ganga AR")
+
+    st.markdown("""
+    The Co-Founder played a significant role in refining analytical structure,
+    supporting model evaluation, and strengthening research documentation.
+    Contributions include system validation discussions, performance review,
+    logical consistency verification, and collaborative development planning.
+
+    Her involvement ensured that the platform maintains academic rigor,
+    clarity of explanation, and structured reasoning throughout.
+    """)
+
+    st.header("Core Team Members")
+
+    st.subheader("Fiza KF")
+
+    st.markdown("""
+    Contributed to structural organization, research assistance, and documentation
+    enhancement. Assisted in improving presentation quality and ensuring
+    the project aligns with professional academic standards.
+    """)
+
+    st.subheader("Gania Gibu")
+
+    st.markdown("""
+    Assisted in conceptual refinement, interface clarity, and documentation support.
+    Contributed insights during development discussions to improve usability
+    and explanatory depth of the platform.
     """)
 
 # ==================================================
