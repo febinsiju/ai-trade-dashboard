@@ -6,8 +6,11 @@ import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-import datetime
+from PIL import Image
+import base64
+from io import BytesIO
 import os
+import datetime
 
 # =====================================================
 # PAGE CONFIG
@@ -19,11 +22,35 @@ st.set_page_config(
 )
 
 # =====================================================
-# SIDEBAR NAVIGATION
+# IMAGE RENDER FUNCTION (CIRCULAR + RELIABLE)
 # =====================================================
 
-if "page" not in st.session_state:
-    st.session_state.page = "Home"
+def circular_image(image_path, size=160):
+    if not os.path.exists(image_path):
+        st.warning(f"{image_path} not found")
+        return
+
+    img = Image.open(image_path).resize((size, size))
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    encoded = base64.b64encode(buffer.getvalue()).decode()
+
+    st.markdown(
+        f"""
+        <div style="text-align:center;">
+            <img src="data:image/png;base64,{encoded}"
+            style="border-radius:50%;
+                   width:{size}px;
+                   height:{size}px;
+                   object-fit:cover;">
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# =====================================================
+# SIDEBAR
+# =====================================================
 
 st.sidebar.title("Navigation")
 
@@ -32,92 +59,25 @@ page = st.sidebar.radio(
     ["Home", "AI Engine", "Backtesting Laboratory", "About Us", "Contact", "Follow Us"]
 )
 
-st.session_state.page = page
-
-# =====================================================
-# GLOBAL STYLING
-# =====================================================
-
-st.markdown("""
-<style>
-
-.big-title {
-    font-size: 52px;
-    font-weight: 800;
-    margin-bottom: 30px;
-}
-
-.section-heading {
-    font-size: 38px;
-    font-weight: 700;
-    margin-top: 70px;
-    margin-bottom: 25px;
-}
-
-.large-paragraph {
-    font-size: 20px;
-    line-height: 1.9;
-    text-align: justify;
-    margin-bottom: 30px;
-}
-
-.profile-card {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 18px rgba(0,0,0,0.08);
-    margin-bottom: 60px;
-}
-
-.profile-name {
-    font-size: 26px;
-    font-weight: 700;
-    margin-top: 10px;
-    text-align: center;
-}
-
-.profile-role {
-    font-size: 18px;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.profile-text {
-    font-size: 18px;
-    line-height: 1.8;
-    text-align: justify;
-}
-
-</style>
-""", unsafe_allow_html=True)
-
 # =====================================================
 # HOME
 # =====================================================
 
-if st.session_state.page == "Home":
+if page == "Home":
 
-    st.markdown('<div class="big-title">QuantNova AI Trading Intelligence Platform</div>', unsafe_allow_html=True)
-
-    st.markdown("""
-    <div class="large-paragraph">
-    QuantNova is a quantitative research platform designed to integrate artificial
-    intelligence with financial market analytics. The system transforms historical
-    price data into structured predictive intelligence using disciplined machine
-    learning methodologies and statistical reasoning.
-    </div>
-    """, unsafe_allow_html=True)
+    st.title("QuantNova AI Trading Intelligence Platform")
 
     st.markdown("""
-    <div class="large-paragraph">
+    QuantNova is a quantitative research platform integrating artificial intelligence
+    with financial market analytics. The system transforms historical price data
+    into structured predictive intelligence using disciplined machine learning methodologies.
+    """)
+
+    st.markdown("""
     By applying ensemble learning algorithms and structured validation pipelines,
-    the platform generates probabilistic signals to assist in evaluating potential
-    market direction. Emphasis is placed on risk-aware interpretation rather than
-    speculative certainty.
-    </div>
-    """, unsafe_allow_html=True)
+    the platform generates probabilistic signals designed for research-oriented
+    evaluation rather than speculative certainty.
+    """)
 
     st.info("Developed strictly for academic research and demonstration purposes.")
 
@@ -125,7 +85,7 @@ if st.session_state.page == "Home":
 # AI ENGINE
 # =====================================================
 
-elif st.session_state.page == "AI Engine":
+elif page == "AI Engine":
 
     st.title("AI Prediction Engine")
 
@@ -171,113 +131,76 @@ elif st.session_state.page == "AI Engine":
 # BACKTESTING
 # =====================================================
 
-elif st.session_state.page == "Backtesting Laboratory":
+elif page == "Backtesting Laboratory":
 
     st.title("Strategy Backtesting Laboratory")
 
     symbol = st.text_input("Stock Symbol", "AAPL")
 
     data = yf.download(symbol, period="2y")
+
+    if data.empty:
+        st.error("Invalid stock symbol.")
+        st.stop()
+
     data["Return"] = data["Close"].pct_change()
     data = data.dropna()
 
-    data["Market"] = (1 + data["Return"]).cumprod()
+    data["Market Growth"] = (1 + data["Return"]).cumprod()
 
     fig, ax = plt.subplots()
-    ax.plot(data["Market"], label="Buy and Hold")
-    ax.legend()
+    ax.plot(data["Market Growth"])
+    ax.set_title("Buy & Hold Performance")
     st.pyplot(fig)
 
 # =====================================================
 # ABOUT US
 # =====================================================
 
-elif st.session_state.page == "About Us":
+elif page == "About Us":
 
     st.title("About QuantNova")
 
-    st.markdown("""
+    st.write("""
     We are CSE B S2 students of TocH Institute Of Science And Technology (TIST),
     Ernakulam, Kerala. QuantNova was developed as an academic initiative to explore
     the practical application of artificial intelligence in financial prediction systems.
     """)
 
-    # Founder Card
-    st.markdown('<div class="profile-card">', unsafe_allow_html=True)
+    st.markdown("---")
 
-    if os.path.exists("founder_image.jpg"):
-        st.image("founder_image.jpg", width=160)
-    else:
-        st.warning("Founder image not found")
-        st.markdown("""
-        <div style="text-align:center;">
-            <img src="founder_image.jpg" width="160"
-            style="border-radius:50%; margin-bottom:20px;">
-        </div>
-        """, unsafe_allow_html=True)
+    # Founder
+    circular_image("founder_image.jpg", 160)
+    st.subheader("Febin Siju")
+    st.write("Founder & Lead Architect")
 
-    st.markdown('<div class="profile-name">[Your Name]</div>', unsafe_allow_html=True)
-    st.markdown('<div class="profile-role">Founder & Lead Architect</div>', unsafe_allow_html=True)
-    st.markdown("""
-    <div class="profile-text">
+    st.write("""
     Architect of the AI framework, predictive modeling system, and validation pipeline.
     Led the conceptualization and implementation of QuantNova with the objective of
     creating a structured machine learning system capable of evolving through data exposure.
-    </div>
-    """, unsafe_allow_html=True)
+    """)
 
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown("---")
 
-    # Co-Founder Card
-    st.markdown('<div class="profile-card">', unsafe_allow_html=True)
+    # Co-Founder
+    circular_image("ganga_image.jpg", 160)
+    st.subheader("Ganga AR")
+    st.write("Co-Founder & Research Strategist")
 
-    from PIL import Image
-import base64
-from io import BytesIO
-
-def circular_image(image_path, size=160):
-    img = Image.open(image_path).resize((size, size))
-    buffer = BytesIO()
-    img.save(buffer, format="PNG")
-    encoded = base64.b64encode(buffer.getvalue()).decode()
-
-    st.markdown(
-        f"""
-        <div style="text-align:center;">
-            <img src="data:image/png;base64,{encoded}"
-            style="border-radius:50%; width:{size}px; height:{size}px; object-fit:cover;">
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-if os.path.exists("ganga_image.jpg"):
-    circular_image("ganga_image.jpg")
-        st.markdown("""
-        <div style="text-align:center;">
-            <img src="ganga_image.jpg" width="160"
-            style="border-radius:50%; margin-bottom:20px;">
-        </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown('<div class="profile-name">Ganga AR</div>', unsafe_allow_html=True)
-    st.markdown('<div class="profile-role">Co-Founder & Research Strategist</div>', unsafe_allow_html=True)
-    st.markdown("""
-    <div class="profile-text">
+    st.write("""
     Contributed to analytical validation, performance evaluation, and structured
     documentation refinement. Played a key role in strengthening the academic
     and research foundations of the platform.
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown('</div>', unsafe_allow_html=True)
+    """)
 
 # =====================================================
 # CONTACT
 # =====================================================
 
-elif st.session_state.page == "Contact":
+elif page == "Contact":
+
     st.title("Contact")
+
     st.write("Email: quantnova.ai@gmail.com")
     st.write("Institution: TocH Institute Of Science And Technology")
 
@@ -285,8 +208,10 @@ elif st.session_state.page == "Contact":
 # FOLLOW
 # =====================================================
 
-elif st.session_state.page == "Follow Us":
+elif page == "Follow Us":
+
     st.title("Follow Us")
+
     st.write("LinkedIn")
     st.write("Instagram")
     st.write("Twitter")
