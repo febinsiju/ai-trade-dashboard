@@ -208,7 +208,7 @@ elif st.session_state.page == "About Us":
     if os.path.exists("founder_image.jpg"):
         st.image("founder_image.jpg", width=160)
     else:
-        st.warning("Founder image not found"):
+        st.warning("Founder image not found")
         st.markdown("""
         <div style="text-align:center;">
             <img src="founder_image.jpg" width="160"
