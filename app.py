@@ -29,7 +29,7 @@ if "page" not in st.session_state:
     st.session_state.page = "Home"
 
 # =====================================================
-# IMAGE FUNCTION (Circular & Professional)
+# IMAGE FUNCTION
 # =====================================================
 
 def circular_image(image_path, size=180):
@@ -127,6 +127,23 @@ if st.session_state.page == "Home":
             st.session_state.page = "Follow Us"
             st.rerun()
 
+    # =====================================================
+    # CONTACT & FOLLOW SECTION (NOT BUTTONS)
+    # =====================================================
+
+    st.markdown("---")
+    st.markdown("## Contact Us")
+    st.markdown("""
+    +91 8089411348  
+    +91 7012958445
+    """)
+
+    st.markdown("## Follow Us On")
+    st.markdown("""
+    @f_eb_in_  
+    _gan.ga__
+    """)
+
 # =====================================================
 # AI ENGINE
 # =====================================================
@@ -162,7 +179,7 @@ elif st.session_state.page == "AI Engine":
     st.metric("Model Accuracy", f"{round(accuracy*100,2)}%")
 
 # =====================================================
-# ABOUT PAGE (FULL — NOT SHORTENED)
+# ABOUT PAGE (UNCHANGED)
 # =====================================================
 
 elif st.session_state.page == "About":
@@ -207,7 +224,7 @@ elif st.session_state.page == "About":
         st.rerun()
 
 # =====================================================
-# CONTACT
+# CONTACT PAGE
 # =====================================================
 
 elif st.session_state.page == "Contact":
@@ -218,7 +235,7 @@ elif st.session_state.page == "Contact":
     st.write("Location: Ernakulam, Kerala")
 
 # =====================================================
-# FOLLOW US
+# FOLLOW PAGE
 # =====================================================
 
 elif st.session_state.page == "Follow Us":
