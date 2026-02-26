@@ -22,22 +22,34 @@ st.set_page_config(
 )
 
 # =====================================================
-# IMAGE RENDER FUNCTION (CIRCULAR + RELIABLE)
+# IMAGE FUNCTION (NO STRETCH + CIRCULAR)
 # =====================================================
 
-def circular_image(image_path, size=160):
+def circular_image(image_path, size=180):
     if not os.path.exists(image_path):
         st.warning(f"{image_path} not found")
         return
 
-    img = Image.open(image_path).resize((size, size))
+    img = Image.open(image_path)
+
+    # Crop to square (center crop)
+    width, height = img.size
+    min_dim = min(width, height)
+    left = (width - min_dim) / 2
+    top = (height - min_dim) / 2
+    right = (width + min_dim) / 2
+    bottom = (height + min_dim) / 2
+
+    img = img.crop((left, top, right, bottom))
+    img = img.resize((size, size))
+
     buffer = BytesIO()
     img.save(buffer, format="PNG")
     encoded = base64.b64encode(buffer.getvalue()).decode()
 
     st.markdown(
         f"""
-        <div style="text-align:center;">
+        <div style="text-align:center; margin-bottom:20px;">
             <img src="data:image/png;base64,{encoded}"
             style="border-radius:50%;
                    width:{size}px;
@@ -68,15 +80,15 @@ if page == "Home":
     st.title("QuantNova AI Trading Intelligence Platform")
 
     st.markdown("""
-    QuantNova is a quantitative research platform integrating artificial intelligence
-    with financial market analytics. The system transforms historical price data
-    into structured predictive intelligence using disciplined machine learning methodologies.
-    """)
+    QuantNova is a structured quantitative research initiative designed to explore
+    the intersection of artificial intelligence, financial modeling, and statistical validation.
 
-    st.markdown("""
-    By applying ensemble learning algorithms and structured validation pipelines,
-    the platform generates probabilistic signals designed for research-oriented
-    evaluation rather than speculative certainty.
+    The platform is built upon disciplined experimentation, incorporating ensemble learning
+    methods and structured feature engineering to convert historical market behavior into
+    probabilistic predictive insights.
+
+    Rather than promoting speculation, QuantNova emphasizes data-driven reasoning,
+    controlled validation pipelines, and systematic evaluation of predictive confidence.
     """)
 
     st.info("Developed strictly for academic research and demonstration purposes.")
@@ -110,7 +122,7 @@ elif page == "AI Engine":
         X, y, test_size=0.2, shuffle=False
     )
 
-    model = RandomForestClassifier(n_estimators=150)
+    model = RandomForestClassifier(n_estimators=200)
     model.fit(X_train, y_train)
 
     accuracy = accuracy_score(y_test, model.predict(X_test))
@@ -145,7 +157,6 @@ elif page == "Backtesting Laboratory":
 
     data["Return"] = data["Close"].pct_change()
     data = data.dropna()
-
     data["Market Growth"] = (1 + data["Return"]).cumprod()
 
     fig, ax = plt.subplots()
@@ -161,36 +172,70 @@ elif page == "About Us":
 
     st.title("About QuantNova")
 
-    st.write("""
-    We are CSE B S2 students of TocH Institute Of Science And Technology (TIST),
-    Ernakulam, Kerala. QuantNova was developed as an academic initiative to explore
-    the practical application of artificial intelligence in financial prediction systems.
+    st.markdown("""
+    QuantNova was conceived as an academic research initiative by students of
+    Computer Science and Engineering (CSE B S2) at TocH Institute Of Science And Technology (TIST),
+    Ernakulam, Kerala.
+
+    The project reflects an ambition to bridge theoretical machine learning concepts
+    with practical financial data modeling. It represents a structured effort to build,
+    test, validate, and continuously refine predictive intelligence systems within a
+    disciplined research framework.
     """)
 
     st.markdown("---")
 
-    # Founder
-    circular_image("founder_image.jpg", 160)
-    st.subheader("Febin Siju")
-    st.write("Founder & Lead Architect")
+    # Founder Section
+    circular_image("founder_image.jpg", 180)
+    st.markdown("<h3 style='text-align:center;'>Febin Siju</h3>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center; font-weight:600;'>Founder & Lead Architect</p>", unsafe_allow_html=True)
 
-    st.write("""
-    Architect of the AI framework, predictive modeling system, and validation pipeline.
-    Led the conceptualization and implementation of QuantNova with the objective of
-    creating a structured machine learning system capable of evolving through data exposure.
+    st.markdown("""
+    Febin Siju serves as the Founder and Lead Architect of QuantNova. He led the
+    conceptual design and technical implementation of the platform’s AI framework,
+    including feature engineering pipelines, ensemble modeling architecture, and
+    systematic validation procedures.
+
+    His focus lies in structured experimentation, ensuring that predictive outputs
+    are grounded in statistical reasoning rather than assumption. By integrating
+    financial time-series analysis with machine learning algorithms such as
+    Random Forest classifiers, he aimed to construct a system capable of evolving
+    through iterative exposure to market data.
+
+    Beyond coding implementation, Febin directed the architectural blueprint of the
+    platform — defining modular components, ensuring data preprocessing integrity,
+    and aligning the research objectives with academic rigor.
+
+    His long-term vision for QuantNova involves expanding toward adaptive learning
+    frameworks, incorporating additional technical indicators, and exploring
+    probabilistic confidence calibration methods to enhance decision-support reliability.
     """)
 
     st.markdown("---")
 
-    # Co-Founder
-    circular_image("ganga_image.jpg", 160)
-    st.subheader("Ganga AR")
-    st.write("Co-Founder & Research Strategist")
+    # Co-Founder Section
+    circular_image("ganga_image.jpg", 180)
+    st.markdown("<h3 style='text-align:center;'>Ganga AR</h3>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center; font-weight:600;'>Co-Founder & Research Strategist</p>", unsafe_allow_html=True)
 
-    st.write("""
-    Contributed to analytical validation, performance evaluation, and structured
-    documentation refinement. Played a key role in strengthening the academic
-    and research foundations of the platform.
+    st.markdown("""
+    Ganga AR serves as Co-Founder and Research Strategist for QuantNova. Her
+    contributions focused on analytical validation, structured evaluation of
+    model outputs, and refinement of documentation standards to ensure clarity
+    and academic integrity.
+
+    She played a critical role in assessing model performance metrics,
+    interpreting predictive confidence levels, and ensuring that the platform
+    maintained a disciplined, research-oriented perspective rather than
+    speculative positioning.
+
+    Ganga contributed significantly to strengthening the theoretical
+    foundations of the initiative, aligning implementation with
+    established machine learning principles and structured testing methodology.
+
+    Her involvement ensured that QuantNova remained not only a functional
+    software system but also a well-documented research framework capable
+    of academic presentation and further development.
     """)
 
 # =====================================================
@@ -203,6 +248,7 @@ elif page == "Contact":
 
     st.write("Email: quantnova.ai@gmail.com")
     st.write("Institution: TocH Institute Of Science And Technology")
+    st.write("Location: Ernakulam, Kerala")
 
 # =====================================================
 # FOLLOW
