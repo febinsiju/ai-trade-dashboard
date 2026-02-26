@@ -275,6 +275,10 @@ elif st.session_state.page == "About":
     software system but also a well-documented research framework capable
     of academic presentation and further development.
     """)
+    st.markdown("---")
+    if st.button("Back to Home"):
+        st.session_state.page = "Home"
+        st.rerun()
 
 # =====================================================
 # FOOTER
