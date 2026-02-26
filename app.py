@@ -32,6 +32,7 @@ def circular_image(image_path, size=180):
 
     img = Image.open(image_path)
 
+    # Crop to square (center crop)
     width, height = img.size
     min_dim = min(width, height)
     left = (width - min_dim) / 2
@@ -60,7 +61,7 @@ def circular_image(image_path, size=180):
     )
 
 # =====================================================
-# SIDEBAR NAVIGATION
+# SIDEBAR
 # =====================================================
 
 st.sidebar.title("Navigation")
@@ -71,7 +72,7 @@ page = st.sidebar.radio(
 )
 
 # =====================================================
-# HOME PAGE
+# HOME
 # =====================================================
 
 if page == "Home":
@@ -82,54 +83,15 @@ if page == "Home":
     QuantNova is a structured quantitative research initiative designed to explore
     the intersection of artificial intelligence, financial modeling, and statistical validation.
 
-    The platform integrates ensemble learning techniques and financial time-series
-    analysis to transform historical market data into probabilistic predictive insights.
+    The platform is built upon disciplined experimentation, incorporating ensemble learning
+    methods and structured feature engineering to convert historical market behavior into
+    probabilistic predictive insights.
 
-    Emphasis is placed on disciplined experimentation, systematic validation,
-    and research-oriented model interpretation.
+    Rather than promoting speculation, QuantNova emphasizes data-driven reasoning,
+    controlled validation pipelines, and systematic evaluation of predictive confidence.
     """)
 
     st.info("Developed strictly for academic research and demonstration purposes.")
-
-    # =====================================================
-    # ABOUT (Displayed at bottom of Home)
-    # =====================================================
-
-    st.markdown("---")
-    st.markdown("## About Us")
-
-    st.markdown("""
-    QuantNova was conceived as an academic research initiative by students of
-    Computer Science and Engineering (CSE B S2) at TocH Institute Of Science And Technology (TIST),
-    Ernakulam, Kerala.
-
-    The project reflects an ambition to bridge theoretical machine learning concepts
-    with practical financial data modeling. It represents a structured effort to build,
-    test, validate, and continuously refine predictive intelligence systems within a
-    disciplined research framework.
-    """)
-
-    # =====================================================
-    # CONTACT (Displayed at bottom of Home)
-    # =====================================================
-
-    st.markdown("---")
-    st.markdown("## Contact Us")
-
-    st.write("Email: quantnova.ai@gmail.com")
-    st.write("Institution: TocH Institute Of Science And Technology")
-    st.write("Location: Ernakulam, Kerala")
-
-    # =====================================================
-    # FOLLOW (Displayed at bottom of Home)
-    # =====================================================
-
-    st.markdown("---")
-    st.markdown("## Follow Us")
-
-    st.write("LinkedIn")
-    st.write("Instagram")
-    st.write("Twitter")
 
 # =====================================================
 # AI ENGINE
@@ -203,7 +165,7 @@ elif page == "Backtesting Laboratory":
     st.pyplot(fig)
 
 # =====================================================
-# ABOUT US PAGE (UNCHANGED)
+# ABOUT US
 # =====================================================
 
 elif page == "About Us":
@@ -223,30 +185,61 @@ elif page == "About Us":
 
     st.markdown("---")
 
+    # Founder Section
     circular_image("founder_image.jpg", 180)
     st.markdown("<h3 style='text-align:center;'>Febin Siju</h3>", unsafe_allow_html=True)
     st.markdown("<p style='text-align:center; font-weight:600;'>Founder & Lead Architect</p>", unsafe_allow_html=True)
 
     st.markdown("""
-    Architect of the AI framework, predictive modeling system, and validation pipeline.
-    Led the conceptualization and implementation of QuantNova with the objective of
-    creating a structured machine learning system capable of evolving through data exposure.
+    Febin Siju serves as the Founder and Lead Architect of QuantNova. He led the
+    conceptual design and technical implementation of the platform’s AI framework,
+    including feature engineering pipelines, ensemble modeling architecture, and
+    systematic validation procedures.
+
+    His focus lies in structured experimentation, ensuring that predictive outputs
+    are grounded in statistical reasoning rather than assumption. By integrating
+    financial time-series analysis with machine learning algorithms such as
+    Random Forest classifiers, he aimed to construct a system capable of evolving
+    through iterative exposure to market data.
+
+    Beyond coding implementation, Febin directed the architectural blueprint of the
+    platform — defining modular components, ensuring data preprocessing integrity,
+    and aligning the research objectives with academic rigor.
+
+    His long-term vision for QuantNova involves expanding toward adaptive learning
+    frameworks, incorporating additional technical indicators, and exploring
+    probabilistic confidence calibration methods to enhance decision-support reliability.
     """)
 
     st.markdown("---")
 
+    # Co-Founder Section
     circular_image("ganga_image.jpg", 180)
     st.markdown("<h3 style='text-align:center;'>Ganga AR</h3>", unsafe_allow_html=True)
     st.markdown("<p style='text-align:center; font-weight:600;'>Co-Founder & Research Strategist</p>", unsafe_allow_html=True)
 
     st.markdown("""
-    Contributed to analytical validation, performance evaluation, and structured
-    documentation refinement. Played a key role in strengthening the academic
-    and research foundations of the platform.
+    Ganga AR serves as Co-Founder and Research Strategist for QuantNova. Her
+    contributions focused on analytical validation, structured evaluation of
+    model outputs, and refinement of documentation standards to ensure clarity
+    and academic integrity.
+
+    She played a critical role in assessing model performance metrics,
+    interpreting predictive confidence levels, and ensuring that the platform
+    maintained a disciplined, research-oriented perspective rather than
+    speculative positioning.
+
+    Ganga contributed significantly to strengthening the theoretical
+    foundations of the initiative, aligning implementation with
+    established machine learning principles and structured testing methodology.
+
+    Her involvement ensured that QuantNova remained not only a functional
+    software system but also a well-documented research framework capable
+    of academic presentation and further development.
     """)
 
 # =====================================================
-# CONTACT PAGE (UNCHANGED)
+# CONTACT
 # =====================================================
 
 elif page == "Contact":
@@ -258,7 +251,7 @@ elif page == "Contact":
     st.write("Location: Ernakulam, Kerala")
 
 # =====================================================
-# FOLLOW PAGE (UNCHANGED)
+# FOLLOW
 # =====================================================
 
 elif page == "Follow Us":
