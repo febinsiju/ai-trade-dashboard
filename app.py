@@ -38,13 +38,6 @@ st.markdown("""
 <div class="hero-box">
     <div class="hero-title">AI Trading Intelligence Platform</div>
     <div class="hero-subtext">
-        A quantitative research environment designed to transform raw market data 
-        into structured, data-driven trading intelligence.
-        <br><br>
-        Powered by machine learning, statistical modeling, and systematic 
-        risk evaluation, this platform enables disciplined trading analysis 
-        grounded in measurable performance metrics.
-    </div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -61,7 +54,6 @@ menu = st.sidebar.radio(
 # ===============================
 if menu == "Home":
 
-    st.markdown('<div class="hero-title">AI Trading Intelligence Platform</div>', unsafe_allow_html=True)
 
     st.write("""
 The AI Trading Intelligence Platform is a quantitative research environment 
