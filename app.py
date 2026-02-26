@@ -262,65 +262,185 @@ elif st.session_state.page == "Backtesting Lab":
 
 elif st.session_state.page == "About Us":
 
-    st.title("About QuantNova")
+    st.markdown("""
+    <style>
+
+    .about-title {
+        font-size: 48px;
+        font-weight: 800;
+        margin-bottom: 30px;
+    }
+
+    .about-paragraph {
+        font-size: 20px;
+        line-height: 1.9;
+        text-align: justify;
+        margin-bottom: 40px;
+    }
+
+    .profile-card {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 18px rgba(0,0,0,0.08);
+        margin-bottom: 60px;
+    }
+
+    .profile-name {
+        font-size: 30px;
+        font-weight: 700;
+        margin-top: 20px;
+    }
+
+    .profile-role {
+        font-size: 20px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+
+    .profile-text {
+        font-size: 18px;
+        line-height: 1.8;
+        text-align: justify;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
+
+    st.markdown('<div class="about-title">About QuantNova</div>', unsafe_allow_html=True)
 
     st.markdown("""
+    <div class="about-paragraph">
     We are second semester Computer Science and Engineering students (CSE B S2)
-    from TocH Institute Of Science And Technology (TIST), Ernakulam, Kerala.
+    of TocH Institute Of Science And Technology (TIST), Ernakulam, Kerala.
     QuantNova was developed as an advanced academic initiative to explore
-    the integration of artificial intelligence with financial market analytics.
+    the intersection of artificial intelligence, data science, and financial
+    analytics. Our goal is not merely to build a predictive model, but to
+    construct a structured learning system capable of evolving with exposure
+    to real-world financial data.
+    </div>
 
-    Our objective is to bridge theoretical academic learning with real-world
-    machine learning implementation. This platform demonstrates how data-driven
-    systems can be structured, validated, and refined to produce probabilistic
-    financial insights.
-    """)
+    <div class="about-paragraph">
+    This project represents our collective ambition to move beyond theoretical
+    coursework and implement machine intelligence in a meaningful and measurable
+    way. By combining algorithmic modeling, quantitative validation, and
+    disciplined research methodology, QuantNova stands as a demonstration
+    of applied artificial intelligence in financial systems.
+    </div>
+    """, unsafe_allow_html=True)
 
-    st.header("Founder")
+    # =============================
+    # FOUNDER CARD
+    # =============================
 
-    st.markdown("""
-    The Founder conceptualized and architected the QuantNova platform with
-    the vision of building a self-improving artificial intelligence system
-    capable of learning from financial data. Responsibilities included system
-    architecture design, machine learning implementation, feature engineering,
-    model validation, and strategic planning.
+    st.markdown('<div class="profile-card">', unsafe_allow_html=True)
 
-    The long-term vision behind this initiative is to expand the platform
-    into a continuously evolving quantitative research system that integrates
-    deeper analytics, enhanced risk management, and advanced predictive modeling.
-    """)
+    st.image("founder_image.jpg", use_container_width=True)
 
-    st.image("founder_image.jpg", caption="Founder – QuantNova", use_container_width=True)
-
-    st.header("Co-Founder – Ganga AR")
-
-    st.markdown("""
-    The Co-Founder played a significant role in refining analytical structure,
-    supporting model evaluation, and strengthening research documentation.
-    Contributions include system validation discussions, performance review,
-    logical consistency verification, and collaborative development planning.
-
-    Her involvement ensured that the platform maintains academic rigor,
-    clarity of explanation, and structured reasoning throughout.
-    """)
-
-    st.header("Core Team Members")
-
-    st.subheader("Fiza KF")
+    st.markdown('<div class="profile-name">[Your Name]</div>', unsafe_allow_html=True)
+    st.markdown('<div class="profile-role">Founder & Lead Architect</div>', unsafe_allow_html=True)
 
     st.markdown("""
-    Contributed to structural organization, research assistance, and documentation
-    enhancement. Assisted in improving presentation quality and ensuring
-    the project aligns with professional academic standards.
-    """)
+    <div class="profile-text">
+    As the Founder and Lead Architect of QuantNova, the core system framework,
+    machine learning architecture, data engineering pipeline, and predictive
+    modeling logic were conceptualized and implemented under this leadership.
+    The initiative began with the vision of designing a self-improving
+    artificial intelligence system capable of analyzing financial market
+    behavior through structured statistical reasoning.
 
-    st.subheader("Gania Gibu")
+    The development process involved model selection, feature engineering,
+    algorithm training, validation testing, and strategic evaluation of
+    performance metrics. Beyond technical execution, the project reflects
+    a long-term ambition to integrate advanced quantitative research methods,
+    deeper analytical validation frameworks, and scalable AI infrastructure.
+
+    The objective is to continue evolving QuantNova into a research-grade
+    intelligence system that demonstrates innovation, analytical depth,
+    and technical discipline.
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # =============================
+    # CO-FOUNDER CARD
+    # =============================
+
+    st.markdown('<div class="profile-card">', unsafe_allow_html=True)
+
+    st.image("ganga_image.jpg", use_container_width=True)
+
+    st.markdown('<div class="profile-name">Ganga AR</div>', unsafe_allow_html=True)
+    st.markdown('<div class="profile-role">Co-Founder & Research Strategist</div>', unsafe_allow_html=True)
 
     st.markdown("""
-    Assisted in conceptual refinement, interface clarity, and documentation support.
-    Contributed insights during development discussions to improve usability
-    and explanatory depth of the platform.
-    """)
+    <div class="profile-text">
+    As Co-Founder, Ganga AR played a vital role in strengthening the analytical
+    and research foundations of the platform. Her contributions focused on
+    validating model logic, refining predictive interpretation, and ensuring
+    structured documentation of system processes.
+
+    She actively participated in performance evaluation discussions,
+    optimization reviews, and strategic planning sessions. Through
+    collaborative analysis and methodological review, she helped transform
+    QuantNova from a prototype into a refined academic research system.
+
+    Her involvement ensures the platform maintains intellectual clarity,
+    research rigor, and structured reasoning throughout its implementation.
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # =============================
+    # FIZA CARD
+    # =============================
+
+    st.markdown('<div class="profile-card">', unsafe_allow_html=True)
+
+    st.markdown('<div class="profile-name">Fiza KF</div>', unsafe_allow_html=True)
+    st.markdown('<div class="profile-role">Core Development Member</div>', unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="profile-text">
+    Fiza KF contributed to structural organization, research assistance,
+    and documentation refinement within the QuantNova initiative.
+    Her support enhanced clarity in presentation, system structuring,
+    and collaborative coordination across development stages.
+
+    Through consistent involvement in analytical discussions and
+    documentation enhancement, she played an important role in
+    strengthening the academic integrity and professional presentation
+    of the platform.
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # =============================
+    # GANIA CARD
+    # =============================
+
+    st.markdown('<div class="profile-card">', unsafe_allow_html=True)
+
+    st.markdown('<div class="profile-name">Gania Gibu</div>', unsafe_allow_html=True)
+    st.markdown('<div class="profile-role">Conceptual & Interface Support</div>', unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="profile-text">
+    Gania Gibu contributed to conceptual refinement and interface clarity.
+    Her involvement focused on improving communication of system objectives,
+    assisting documentation efforts, and contributing insights during
+    collaborative design discussions.
+
+    Her support ensured that the platform remains both technically sound
+    and clearly interpretable for academic and demonstration purposes.
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # ==================================================
 # CONTACT
