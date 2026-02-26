@@ -12,23 +12,40 @@ st.set_page_config(layout="wide", page_title="AI Trading Platform")
 # ===============================
 st.markdown("""
 <style>
-body { background-color: #0E1117; }
-.main { background-color: #0E1117; }
-.block-container { padding-top: 2rem; }
+.hero-box {
+    background: linear-gradient(135deg, #141A2A, #1C2438);
+    padding: 60px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+}
 
 .hero-title {
-    font-size: 48px;
+    font-size: 52px;
     font-weight: 800;
     color: #00FFA3;
 }
 
-.section-box {
-    background-color: #141A2A;
-    padding: 30px;
-    border-radius: 16px;
-    margin-bottom: 25px;
+.hero-subtext {
+    font-size: 18px;
+    color: #C5C6C7;
+    margin-top: 20px;
+    line-height: 1.7;
 }
 </style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="hero-box">
+    <div class="hero-title">AI Trading Intelligence Platform</div>
+    <div class="hero-subtext">
+        A quantitative research environment designed to transform raw market data 
+        into structured, data-driven trading intelligence.
+        <br><br>
+        Powered by machine learning, statistical modeling, and systematic 
+        risk evaluation, this platform enables disciplined trading analysis 
+        grounded in measurable performance metrics.
+    </div>
+</div>
 """, unsafe_allow_html=True)
 
 # ===============================
