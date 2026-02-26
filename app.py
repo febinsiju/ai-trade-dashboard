@@ -39,21 +39,23 @@ if "page" not in st.session_state:
     st.session_state.page = "Home"
 
 # =====================================================
-# SIDEBAR
+# SIDEBAR (Safe Navigation - Does NOT Override About)
 # =====================================================
 
 st.sidebar.title("QuantNova Platform")
 
 pages = ["Home", "AI Intelligence Engine", "Strategy Lab", "Market Dashboard"]
 
+# If current page is one of sidebar pages, show correct index
 if st.session_state.page in pages:
     idx = pages.index(st.session_state.page)
 else:
-    idx = 0
+    idx = 0  # Default to Home visually
 
 selected = st.sidebar.radio("Navigate", pages, index=idx)
 
-if selected != st.session_state.page:
+# Only update session_state if user clicks sidebar
+if selected != st.session_state.page and st.session_state.page in pages:
     st.session_state.page = selected
 
 # =====================================================
