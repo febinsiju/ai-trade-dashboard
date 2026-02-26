@@ -216,7 +216,7 @@ elif st.session_state.page == "Market Dashboard":
     st.plotly_chart(fig, use_container_width=True)
 
 # =====================================================
-# ABOUT PAGE (UNCHANGED STRUCTURE)
+# FULL ABOUT PAGE (UNCHANGED)
 # =====================================================
 
 elif st.session_state.page == "About":
@@ -224,10 +224,15 @@ elif st.session_state.page == "About":
     st.title("About QuantNova")
 
     st.markdown("""
-QuantNova was conceived as an academic research initiative by students of Computer Science and Engineering (CSE B S2) at TocH Institute Of Science And Technology (TIST), Ernakulam, Kerala.
+    QuantNova was conceived as an academic research initiative by students of
+    Computer Science and Engineering (CSE B S2) at TocH Institute Of Science And Technology (TIST),
+    Ernakulam, Kerala.
 
-The initiative merges statistical rigor, algorithmic experimentation, and responsible AI modeling into a unified research platform.
-""")
+    The project reflects an ambition to bridge theoretical machine learning concepts
+    with practical financial data modeling. It represents a structured effort to build,
+    test, validate, and continuously refine predictive intelligence systems within a
+    disciplined research framework.
+    """)
 
     st.markdown("---")
 
@@ -236,8 +241,23 @@ The initiative merges statistical rigor, algorithmic experimentation, and respon
     st.markdown("<p style='text-align:center; font-weight:600;'>Founder & Lead Architect</p>", unsafe_allow_html=True)
 
     st.markdown("""
-Febin Siju conceptualized and architected QuantNova from its foundational framework to its advanced modeling components. His responsibilities encompassed system architecture design, feature engineering logic, model experimentation, and validation strategy development.
-""")
+    Febin Siju serves as the Founder and Lead Architect of QuantNova. He led the
+    conceptual design and technical implementation of the platform’s AI framework,
+    including feature engineering pipelines, ensemble modeling architecture, and
+    systematic validation procedures.
+
+    His focus lies in structured experimentation, ensuring that predictive outputs
+    are grounded in statistical reasoning rather than assumption. By integrating
+    financial time-series analysis with machine learning algorithms, he aimed to
+    construct a system capable of evolving through iterative exposure to market data.
+
+    Beyond coding implementation, Febin directed the architectural blueprint of the
+    platform — defining modular components, ensuring data preprocessing integrity,
+    and aligning the research objectives with academic rigor.
+
+    His long-term vision for QuantNova involves expanding toward adaptive learning
+    frameworks and advanced predictive calibration methodologies.
+    """)
 
     st.markdown("---")
 
@@ -246,14 +266,15 @@ Febin Siju conceptualized and architected QuantNova from its foundational framew
     st.markdown("<p style='text-align:center; font-weight:600;'>Co-Founder & Research Strategist</p>", unsafe_allow_html=True)
 
     st.markdown("""
-Ganga AR played a crucial role in refining the analytical integrity of QuantNova, focusing on validation methodology and structured documentation.
-""")
+    Ganga AR serves as Co-Founder and Research Strategist for QuantNova. Her
+    contributions focused on analytical validation, structured evaluation of
+    model outputs, and refinement of documentation standards to ensure clarity
+    and academic integrity.
 
-    st.markdown("---")
-
-    if st.button("Back to Home"):
-        st.session_state.page = "Home"
-        st.rerun()
+    Her involvement ensured that QuantNova remained not only a functional
+    software system but also a well-documented research framework capable
+    of academic presentation and further development.
+    """)
 
 # =====================================================
 # FOOTER
