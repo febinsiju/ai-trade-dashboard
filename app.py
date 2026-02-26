@@ -6,143 +6,236 @@ import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+import datetime
 
-# ==========================================
+# ==================================================
 # PAGE CONFIG
-# ==========================================
+# ==================================================
 
 st.set_page_config(
-    page_title="AI Quant Trading Lab",
+    page_title="QuantNova AI Trading Lab",
     layout="wide",
     page_icon="📊"
 )
 
-st.title("📊 AI Quantitative Trading Research Lab")
+# ==================================================
+# SIDEBAR NAVIGATION
+# ==================================================
 
-st.markdown("Institutional-grade stock prediction and strategy validation system.")
+st.sidebar.title("QuantNova Navigation")
 
-# ==========================================
-# SIDEBAR
-# ==========================================
-
-st.sidebar.header("Model Settings")
-
-stock_symbol = st.sidebar.text_input("Enter Stock Symbol", "AAPL")
-n_estimators = st.sidebar.slider("Model Complexity", 50, 300, 100)
-test_size = st.sidebar.slider("Test Data Size (%)", 10, 40, 20)
-
-# ==========================================
-# LOAD DATA
-# ==========================================
-
-@st.cache_data
-def load_data(symbol):
-    data = yf.download(symbol, period="2y")
-    return data
-
-data = load_data(stock_symbol)
-
-if data.empty:
-    st.error("Invalid stock symbol.")
-    st.stop()
-
-# ==========================================
-# FEATURE ENGINEERING
-# ==========================================
-
-data["SMA_10"] = data["Close"].rolling(10).mean()
-data["SMA_50"] = data["Close"].rolling(50).mean()
-data["Return"] = data["Close"].pct_change()
-data["Target"] = np.where(data["Close"].shift(-1) > data["Close"], 1, 0)
-
-data = data.dropna()
-
-features = ["SMA_10", "SMA_50", "Return"]
-X = data[features]
-y = data["Target"]
-
-# ==========================================
-# TRAIN MODEL
-# ==========================================
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=test_size/100, shuffle=False
+page = st.sidebar.radio(
+    "Go To",
+    ["Home", "AI Engine", "Backtesting Lab", "About Us", "Contact", "Follow Us"]
 )
 
-model = RandomForestClassifier(n_estimators=n_estimators)
-model.fit(X_train, y_train)
+# ==================================================
+# HOME PAGE
+# ==================================================
 
-predictions = model.predict(X_test)
-accuracy = accuracy_score(y_test, predictions)
+if page == "Home":
 
-# ==========================================
-# TABS
-# ==========================================
+    st.title("🚀 QuantNova AI Trading Intelligence Platform")
 
-tab1, tab2, tab3 = st.tabs(["📈 Price Chart", "🧠 AI Prediction", "📊 Backtest"])
+    st.markdown("""
+    ### Transforming Market Data into Structured Intelligence
 
-# ==========================================
-# TAB 1 – PRICE CHART
-# ==========================================
+    QuantNova is an AI-powered quantitative research platform designed to analyze
+    financial markets using machine learning models and structured validation systems.
 
-with tab1:
-    st.subheader("Stock Price with Moving Averages")
+    Unlike traditional trading approaches driven by emotion,
+    our platform relies on probability-based predictive modeling,
+    systematic backtesting, and risk-adjusted performance metrics.
+    """)
+
+    st.markdown("---")
+
+    st.header("🔍 What This Platform Does")
+
+    st.markdown("""
+    1. Fetches live stock market data.
+    2. Engineers technical indicators.
+    3. Trains machine learning models.
+    4. Predicts next-day market direction.
+    5. Validates strategy through historical backtesting.
+    6. Measures performance against Buy & Hold.
+    """)
+
+    st.markdown("---")
+
+    st.header("🧠 Our Quantitative Methodology")
+
+    st.markdown("""
+    The system processes two years of historical data and builds
+    supervised learning models using ensemble techniques.
+
+    The AI learns from:
+    - Moving averages
+    - Price returns
+    - Market structure patterns
+
+    The prediction output includes:
+    - Directional signal (BUY / SELL)
+    - Confidence probability
+    - Model accuracy
+    """)
+
+    st.markdown("---")
+
+    st.subheader("⚠️ Disclaimer")
+    st.info("This platform is developed for educational and research purposes only.")
+
+# ==================================================
+# AI ENGINE PAGE
+# ==================================================
+
+elif page == "AI Engine":
+
+    st.title("🧠 AI Prediction Engine")
+
+    stock_symbol = st.text_input("Enter Stock Symbol (e.g., AAPL, TSLA, MSFT)", "AAPL")
+
+    @st.cache_data
+    def load_data(symbol):
+        return yf.download(symbol, period="2y")
+
+    data = load_data(stock_symbol)
+
+    if data.empty:
+        st.error("Invalid stock symbol.")
+        st.stop()
+
+    data["SMA_10"] = data["Close"].rolling(10).mean()
+    data["SMA_50"] = data["Close"].rolling(50).mean()
+    data["Return"] = data["Close"].pct_change()
+    data["Target"] = np.where(data["Close"].shift(-1) > data["Close"], 1, 0)
+    data = data.dropna()
+
+    X = data[["SMA_10", "SMA_50", "Return"]]
+    y = data["Target"]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, shuffle=False
+    )
+
+    model = RandomForestClassifier(n_estimators=150)
+    model.fit(X_train, y_train)
+
+    predictions = model.predict(X_test)
+    accuracy = accuracy_score(y_test, predictions)
+
+    st.subheader("📊 Model Performance")
+    st.metric("Model Accuracy", f"{round(accuracy*100,2)}%")
+
+    latest = X.iloc[-1:].values
+    prediction = model.predict(latest)[0]
+    prob = model.predict_proba(latest)[0]
+
+    if prediction == 1:
+        st.success("📈 AI Signal: BUY")
+        st.metric("Confidence", f"{round(prob[1]*100,2)}%")
+    else:
+        st.error("📉 AI Signal: SELL")
+        st.metric("Confidence", f"{round(prob[0]*100,2)}%")
+
+# ==================================================
+# BACKTESTING PAGE
+# ==================================================
+
+elif page == "Backtesting Lab":
+
+    st.title("📊 Strategy Backtesting Laboratory")
+
+    symbol = st.text_input("Stock Symbol for Backtest", "AAPL")
+
+    data = yf.download(symbol, period="2y")
+
+    data["Return"] = data["Close"].pct_change()
+    data["Target"] = np.where(data["Close"].shift(-1) > data["Close"], 1, 0)
+    data = data.dropna()
+
+    X = data[["Return"]]
+    y = data["Target"]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, shuffle=False
+    )
+
+    model = RandomForestClassifier()
+    model.fit(X_train, y_train)
+    preds = model.predict(X_test)
+
+    test = data.iloc[-len(X_test):].copy()
+    test["Strategy"] = preds * test["Return"]
+
+    test["Cumulative_Market"] = (1 + test["Return"]).cumprod()
+    test["Cumulative_Strategy"] = (1 + test["Strategy"]).cumprod()
 
     fig, ax = plt.subplots()
-    ax.plot(data["Close"], label="Close Price")
-    ax.plot(data["SMA_10"], label="SMA 10")
-    ax.plot(data["SMA_50"], label="SMA 50")
+    ax.plot(test["Cumulative_Market"], label="Buy & Hold")
+    ax.plot(test["Cumulative_Strategy"], label="AI Strategy")
     ax.legend()
 
     st.pyplot(fig)
 
-# ==========================================
-# TAB 2 – PREDICTION
-# ==========================================
+# ==================================================
+# ABOUT US PAGE
+# ==================================================
 
-with tab2:
-    st.subheader("Next Day Prediction")
+elif page == "About Us":
 
-    latest_data = X.iloc[-1:].values
-    prediction = model.predict(latest_data)[0]
-    probability = model.predict_proba(latest_data)[0]
+    st.title("🏢 About QuantNova")
 
-    if prediction == 1:
-        st.success("📈 AI Signal: BUY")
-        confidence = round(probability[1] * 100, 2)
-    else:
-        st.error("📉 AI Signal: SELL")
-        confidence = round(probability[0] * 100, 2)
+    st.markdown("""
+    QuantNova was conceptualized as an academic AI research initiative
+    focused on applying machine learning to financial market prediction.
 
-    st.metric("Model Accuracy", f"{round(accuracy*100,2)}%")
-    st.metric("Confidence Level", f"{confidence}%")
+    Our mission is to bridge theoretical data science with
+    real-world quantitative trading concepts.
 
-# ==========================================
-# TAB 3 – BACKTEST
-# ==========================================
+    The platform integrates:
+    - Machine learning
+    - Financial analytics
+    - Risk-adjusted evaluation
+    - Automated model retraining concepts
+    """)
 
-with tab3:
-    st.subheader("Strategy Backtest")
+    st.markdown("### 👨‍💻 Development Team")
+    st.write("Lead Developer: Your Name")
+    st.write("Research & Modeling: Team Members")
+    st.write("Presentation & Analysis: Team Members")
 
-    data_test = data.iloc[-len(X_test):].copy()
-    data_test["Prediction"] = predictions
+# ==================================================
+# CONTACT PAGE
+# ==================================================
 
-    data_test["Strategy_Return"] = data_test["Return"] * data_test["Prediction"]
-    data_test["Cumulative_Market"] = (1 + data_test["Return"]).cumprod()
-    data_test["Cumulative_Strategy"] = (1 + data_test["Strategy_Return"]).cumprod()
+elif page == "Contact":
 
-    fig2, ax2 = plt.subplots()
-    ax2.plot(data_test["Cumulative_Market"], label="Buy & Hold")
-    ax2.plot(data_test["Cumulative_Strategy"], label="AI Strategy")
-    ax2.legend()
+    st.title("📞 Contact Us")
 
-    st.pyplot(fig2)
+    st.markdown("""
+    For collaboration, academic research, or project inquiries:
+    """)
 
-    strategy_return = round((data_test["Cumulative_Strategy"].iloc[-1] - 1) * 100, 2)
-    market_return = round((data_test["Cumulative_Market"].iloc[-1] - 1) * 100, 2)
+    st.write("📧 Email: quantnova.ai@gmail.com")
+    st.write("📍 Location: Academic Research Lab")
+    st.write("🕒 Working Hours: Mon–Fri")
 
-    st.metric("AI Strategy Return (%)", strategy_return)
-    st.metric("Market Return (%)", market_return)
+# ==================================================
+# FOLLOW US PAGE
+# ==================================================
+
+elif page == "Follow Us":
+
+    st.title("🌍 Follow QuantNova")
+
+    st.markdown("""
+    Stay connected and follow our research updates.
+    """)
+
+    st.write("🔗 LinkedIn: linkedin.com/company/quantnova")
+    st.write("🐦 Twitter: twitter.com/quantnova_ai")
+    st.write("📸 Instagram: instagram.com/quantnova_ai")
 
 st.markdown("---")
-st.markdown("⚠️ Educational research model. Not financial advice.")
+st.markdown(f"© {datetime.datetime.now().year} QuantNova AI Research Lab")
