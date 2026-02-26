@@ -68,12 +68,12 @@ def circular_image(image_path, size=180):
     )
 
 # =====================================================
-# SIDEBAR (About Removed)
+# SIDEBAR (Only Core Navigation)
 # =====================================================
 
 st.sidebar.title("Navigation")
 
-sidebar_options = ["Home", "AI Engine", "Backtesting Laboratory", "Contact", "Follow Us"]
+sidebar_options = ["Home", "AI Engine", "Backtesting Laboratory"]
 
 if st.session_state.page in sidebar_options:
     current_index = sidebar_options.index(st.session_state.page)
@@ -110,21 +110,11 @@ if st.session_state.page == "Home":
     st.markdown("---")
     st.markdown("### Learn More")
 
-    col1, col2, col3 = st.columns(3)
+    col1 = st.columns(1)[0]
 
     with col1:
         if st.button("About Us"):
             st.session_state.page = "About"
-            st.rerun()
-
-    with col2:
-        if st.button("Contact Us"):
-            st.session_state.page = "Contact"
-            st.rerun()
-
-    with col3:
-        if st.button("Follow Us"):
-            st.session_state.page = "Follow Us"
             st.rerun()
 
     # =====================================================
@@ -141,7 +131,7 @@ if st.session_state.page == "Home":
     st.markdown("## Follow Us On")
     st.markdown("""
     @f_eb_in_  
-    _gan.ga__
+    @_gan.ga__
     """)
 
 # =====================================================
@@ -222,28 +212,6 @@ elif st.session_state.page == "About":
     if st.button("Back to Home"):
         st.session_state.page = "Home"
         st.rerun()
-
-# =====================================================
-# CONTACT PAGE
-# =====================================================
-
-elif st.session_state.page == "Contact":
-
-    st.title("Contact")
-    st.write("Email: quantnova.ai@gmail.com")
-    st.write("Institution: TocH Institute Of Science And Technology")
-    st.write("Location: Ernakulam, Kerala")
-
-# =====================================================
-# FOLLOW PAGE
-# =====================================================
-
-elif st.session_state.page == "Follow Us":
-
-    st.title("Follow Us")
-    st.write("LinkedIn")
-    st.write("Instagram")
-    st.write("Twitter")
 
 # =====================================================
 # FOOTER
