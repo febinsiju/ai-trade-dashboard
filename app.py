@@ -68,12 +68,17 @@ def circular_image(image_path, size=180):
     )
 
 # =====================================================
-# SIDEBAR (Only Core Navigation)
+# SIDEBAR (Platform Navigation)
 # =====================================================
 
-st.sidebar.title("Navigation")
+st.sidebar.title("QuantNova Platform")
 
-sidebar_options = ["Home", "AI Engine", "Backtesting Laboratory"]
+sidebar_options = [
+    "Home",
+    "AI Intelligence Engine",
+    "Strategy Lab",
+    "Market Dashboard"
+]
 
 if st.session_state.page in sidebar_options:
     current_index = sidebar_options.index(st.session_state.page)
@@ -81,7 +86,7 @@ else:
     current_index = 0
 
 selected = st.sidebar.radio(
-    "Select Section",
+    "Navigate",
     sidebar_options,
     index=current_index
 )
@@ -138,7 +143,7 @@ if st.session_state.page == "Home":
 # AI ENGINE
 # =====================================================
 
-elif st.session_state.page == "AI Engine":
+elif st.session_state.page == "AI Intelligence Engine":
 
     st.title("AI Prediction Engine")
 
@@ -167,6 +172,24 @@ elif st.session_state.page == "AI Engine":
 
     accuracy = accuracy_score(y_test, model.predict(X_test))
     st.metric("Model Accuracy", f"{round(accuracy*100,2)}%")
+
+# =====================================================
+# STRATEGY LAB (Placeholder)
+# =====================================================
+
+elif st.session_state.page == "Strategy Lab":
+
+    st.title("Strategy Lab")
+    st.write("Advanced backtesting and strategy experimentation module coming next.")
+
+# =====================================================
+# MARKET DASHBOARD (Placeholder)
+# =====================================================
+
+elif st.session_state.page == "Market Dashboard":
+
+    st.title("Market Dashboard")
+    st.write("Interactive market analytics dashboard coming next.")
 
 # =====================================================
 # ABOUT PAGE (UNCHANGED)
