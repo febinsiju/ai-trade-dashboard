@@ -104,17 +104,59 @@ if st.session_state.page == "Home":
     st.title("QuantNova")
     st.subheader("AI-Powered Quantitative Intelligence Platform")
 
-    st.markdown("""QuantNova is a next-generation, research-driven artificial intelligence platform engineered to transform raw financial market data into structured, interpretable, and decision-grade predictive intelligence. It is built not merely as a tool, but as an evolving analytical ecosystem designed for systematic market understanding.
+    st.markdown("""The Operating System for AI-Driven Market Intelligence
 
-At its core, QuantNova bridges advanced machine learning methodologies with disciplined quantitative finance principles. The platform leverages ensemble modeling techniques, statistical signal processing, feature engineering pipelines, and structured backtesting frameworks to convert complex market behavior into measurable probabilities and actionable insights.
+QuantNova is not entering the financial analytics industry.
+It is architecting the layer that will sit beneath it.
 
-Unlike speculative trading interfaces or noise-driven dashboards, QuantNova emphasizes validation over hype, structure over randomness, and research integrity over surface-level prediction. Every analytical output is grounded in data preprocessing rigor, model performance evaluation, and reproducible experimentation protocols.
+We are building an AI-native quantitative intelligence operating system designed to convert global market complexity into structured, self-evolving, probabilistic decision architecture.
 
-The architecture is modular by design — enabling scalable expansion into multi-asset analytics, strategy simulation environments, adaptive learning systems, and real-time intelligence deployment. This foundation ensures that QuantNova can evolve from a research prototype into a full-scale AI financial intelligence infrastructure.
+Financial markets generate terabytes of data every second — but raw data is noise without structured intelligence. The next era of dominance will not belong to those who see more data. It will belong to those who can model uncertainty, quantify asymmetry, validate structure, and adapt faster than systemic change.
 
-Developed with a startup mindset and academic discipline, the platform reflects a commitment to innovation, computational efficiency, and responsible AI implementation. QuantNova is not built to chase market noise — it is built to decode market structure.
+QuantNova is engineered for that era.
 
-As financial markets grow increasingly data-dense and algorithmically competitive, QuantNova positions itself at the intersection of artificial intelligence, quantitative research, and strategic experimentation — delivering analytical clarity where uncertainty dominates.""")
+At its foundation lies a multi-layer intelligence stack:
+
+• Adaptive ensemble learning systems
+• Probabilistic modeling and uncertainty quantification
+• Statistical validation and structural integrity engines
+• Modular experimentation frameworks
+• Scalable backtesting and performance analytics cores
+• Infrastructure-ready deployment architecture
+
+Every signal is measurable.
+Every prediction is probabilistic.
+Every model is reproducible.
+Every system is expandable.
+
+QuantNova is not a dashboard.
+It is not a signal bot.
+It is not a retail trading assistant.
+
+It is a scalable intelligence infrastructure capable of evolving into:
+
+• Cross-asset AI prediction networks
+• Institutional-grade strategy simulation ecosystems
+• Autonomous model evolution engines
+• High-frequency data structuring pipelines
+• Enterprise API intelligence layers
+• AI-powered hedge fund architecture
+
+Markets are increasingly algorithmic. Capital is increasingly automated. Decision cycles are increasingly compressed.
+
+The companies that win in this environment will not build tools — they will build infrastructure.
+
+QuantNova is being designed as that infrastructure.
+
+Not to compete for attention.
+But to become foundational.
+
+Where others optimize indicators, we engineer intelligence systems.
+Where others search for signals, we construct predictive architecture.
+Where others iterate features, we architect dominance.
+
+QuantNova is not a startup experimenting with finance.
+It is a research-driven AI systems company entering financial intelligence as its first domain of deployment.""")
 
     st.markdown("---")
 
