@@ -24,9 +24,75 @@ st.set_page_config(page_title="QuantNova", layout="wide")
 
 st.markdown("""
 <style>
-body {background-color: #0E1117; color: white;}
-.block-container {padding-top: 2rem;}
-h1, h2, h3 {color: #FFFFFF;}
+
+/* GLOBAL BACKGROUND */
+.stApp {
+    background: linear-gradient(135deg, #0E1117 0%, #111827 50%, #0B0F1A 100%);
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* FADE IN ANIMATION */
+.fade-in {
+    animation: fadeIn 1.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0px);}
+}
+
+/* GLOW TITLE */
+.glow-text {
+    font-size: 3.2rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #00C6FF, #0072FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* PREMIUM BUTTON */
+.stButton > button {
+    background: linear-gradient(45deg, #0072FF, #00C6FF);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.stButton > button:hover {
+    box-shadow: 0 0 20px #00C6FF;
+    transform: scale(1.05);
+}
+
+/* CARD EFFECT */
+.card {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(0, 198, 255, 0.3);
+}
+
+/* METRIC STYLE */
+[data-testid="stMetricValue"] {
+    font-size: 28px;
+    font-weight: 700;
+    color: #00C6FF;
+}
+
+/* SIDEBAR */
+section[data-testid="stSidebar"] {
+    background-color: #0B0F1A;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -101,9 +167,10 @@ if selected != st.session_state.page and st.session_state.page in pages:
 
 if st.session_state.page == "Home":
 
-    st.title("QuantNova")
-    st.subheader("AI-Powered Quantitative Intelligence Platform")
+    st.markdown('<div class="fade-in glow-text">QuantNova</div>', unsafe_allow_html=True)
+    st.markdown('<div class="fade-in" style="font-size:1.5rem; font-weight:500;">AI-Powered Quantitative Intelligence Platform</div>', unsafe_allow_html=True)
 
+    st.markdown('<div class="card fade-in">', unsafe_allow_html=True)
     st.markdown("""The Operating System for AI-Driven Market Intelligence
 
 QuantNova is not entering the financial analytics industry.
@@ -157,6 +224,7 @@ Where others iterate features, we architect dominance.
 
 QuantNova is not a startup experimenting with finance.
 It is a research-driven AI systems company entering financial intelligence as its first domain of deployment.""")
+    st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("---")
 
@@ -261,7 +329,11 @@ elif st.session_state.page == "Market Dashboard":
         close=data['Close']
     )])
 
-    st.plotly_chart(fig, use_container_width=True)
+    fig.update_layout(
+    template="plotly_dark",
+    transition_duration=500
+)
+st.plotly_chart(fig, use_container_width=True)
 
 # =====================================================
 # FULL ABOUT PAGE (UNCHANGED)
