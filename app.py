@@ -19,20 +19,28 @@ import datetime
 st.set_page_config(page_title="QuantNova", layout="wide")
 
 # =====================================================
-# DARK SaaS STYLE
+# PREMIUM DARK ANIMATED SaaS STYLE
 # =====================================================
 
 st.markdown("""
 <style>
 
-/* GLOBAL BACKGROUND */
+/* Animated Gradient Background */
 .stApp {
-    background: linear-gradient(135deg, #0E1117 0%, #111827 50%, #0B0F1A 100%);
+    background: linear-gradient(-45deg, #0E1117, #111827, #0B0F1A, #0E1117);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
     color: white;
     font-family: 'Segoe UI', sans-serif;
 }
 
-/* FADE IN ANIMATION */
+@keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+/* Fade In Animation */
 .fade-in {
     animation: fadeIn 1.5s ease-in;
 }
@@ -42,53 +50,53 @@ st.markdown("""
     to {opacity: 1; transform: translateY(0px);}
 }
 
-/* GLOW TITLE */
+/* Glow Title */
 .glow-text {
-    font-size: 3.2rem;
+    font-size: 3.5rem;
     font-weight: 800;
     background: linear-gradient(90deg, #00C6FF, #0072FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-/* PREMIUM BUTTON */
+/* Glass Card */
+.card {
+    background: rgba(255, 255, 255, 0.04);
+    padding: 25px;
+    border-radius: 18px;
+    backdrop-filter: blur(15px);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 35px rgba(0, 198, 255, 0.35);
+}
+
+/* Premium Buttons */
 .stButton > button {
     background: linear-gradient(45deg, #0072FF, #00C6FF);
     color: white;
-    border-radius: 10px;
+    border-radius: 12px;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 25px;
     font-weight: 600;
     transition: 0.3s;
 }
 
 .stButton > button:hover {
-    box-shadow: 0 0 20px #00C6FF;
-    transform: scale(1.05);
+    box-shadow: 0 0 25px #00C6FF;
+    transform: scale(1.07);
 }
 
-/* CARD EFFECT */
-.card {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 20px;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    transition: 0.3s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 25px rgba(0, 198, 255, 0.3);
-}
-
-/* METRIC STYLE */
+/* Metrics */
 [data-testid="stMetricValue"] {
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 700;
     color: #00C6FF;
 }
 
-/* SIDEBAR */
+/* Sidebar */
 section[data-testid="stSidebar"] {
     background-color: #0B0F1A;
 }
@@ -104,7 +112,7 @@ if "page" not in st.session_state:
     st.session_state.page = "Home"
 
 # =====================================================
-# IMAGE FUNCTION (REQUIRED FOR ABOUT PAGE)
+# IMAGE FUNCTION
 # =====================================================
 
 def circular_image(image_path, size=180):
@@ -113,7 +121,6 @@ def circular_image(image_path, size=180):
         return
 
     img = Image.open(image_path)
-
     width, height = img.size
     min_dim = min(width, height)
 
@@ -143,7 +150,7 @@ def circular_image(image_path, size=180):
     )
 
 # =====================================================
-# SIDEBAR (SAFE NAVIGATION)
+# SIDEBAR
 # =====================================================
 
 st.sidebar.title("QuantNova Platform")
@@ -157,7 +164,6 @@ else:
 
 selected = st.sidebar.radio("Navigate", pages, index=idx)
 
-# Only update if current page is a sidebar page
 if selected != st.session_state.page and st.session_state.page in pages:
     st.session_state.page = selected
 
@@ -171,6 +177,7 @@ if st.session_state.page == "Home":
     st.markdown('<div class="fade-in" style="font-size:1.5rem; font-weight:500;">AI-Powered Quantitative Intelligence Platform</div>', unsafe_allow_html=True)
 
     st.markdown('<div class="card fade-in">', unsafe_allow_html=True)
+
     st.markdown("""The Operating System for AI-Driven Market Intelligence
 
 QuantNova is not entering the financial analytics industry.
@@ -224,6 +231,7 @@ Where others iterate features, we architect dominance.
 
 QuantNova is not a startup experimenting with finance.
 It is a research-driven AI systems company entering financial intelligence as its first domain of deployment.""")
+
     st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("---")
@@ -238,8 +246,8 @@ It is a research-driven AI systems company entering financial intelligence as it
     st.write("+91 7012958445")
 
     st.header("Follow Us On")
-    st.write("@f_eb_in_")
-    st.write("@_gan.ga__")
+    st.write("@ f_eb_in_")
+    st.write("@ _gan.ga__")
 
 # =====================================================
 # AI ENGINE
@@ -267,8 +275,9 @@ elif st.session_state.page == "AI Intelligence Engine":
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, shuffle=False)
 
-    model = RandomForestClassifier(n_estimators=200)
-    model.fit(X_train, y_train)
+    with st.spinner("Deploying Intelligence Model..."):
+        model = RandomForestClassifier(n_estimators=200)
+        model.fit(X_train, y_train)
 
     accuracy = accuracy_score(y_test, model.predict(X_test))
     prob = model.predict_proba(X_test.tail(1))[0]
@@ -330,16 +339,17 @@ elif st.session_state.page == "Market Dashboard":
     )])
 
     fig.update_layout(
-    template="plotly_dark",
-    transition_duration=500
-)
-st.plotly_chart(fig, use_container_width=True)
+        template="plotly_dark",
+        transition_duration=500
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
 
 # =====================================================
-# FULL ABOUT PAGE (UNCHANGED)
+# ABOUT PAGE (UNCHANGED)
 # =====================================================
 
-    elif st.session_state.page == "About":
+elif st.session_state.page == "About":
 
     st.title("About QuantNova")
 
@@ -395,6 +405,7 @@ st.plotly_chart(fig, use_container_width=True)
     software system but also a well-documented research framework capable
     of academic presentation and further development.
     """)
+
     st.markdown("---")
     if st.button("Back to Home"):
         st.session_state.page = "Home"
