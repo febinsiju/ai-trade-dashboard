@@ -339,7 +339,7 @@ st.plotly_chart(fig, use_container_width=True)
 # FULL ABOUT PAGE (UNCHANGED)
 # =====================================================
 
-elif st.session_state.page == "About":
+    elif st.session_state.page == "About":
 
     st.title("About QuantNova")
 
