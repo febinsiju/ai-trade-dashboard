@@ -104,11 +104,17 @@ if st.session_state.page == "Home":
     st.title("QuantNova")
     st.subheader("AI-Powered Quantitative Intelligence Platform")
 
-    st.markdown("""
-QuantNova is a next-generation research-driven AI platform designed to transform financial market data into structured predictive intelligence.
+    st.markdown("""QuantNova is a next-generation, research-driven artificial intelligence platform engineered to transform raw financial market data into structured, interpretable, and decision-grade predictive intelligence. It is built not merely as a tool, but as an evolving analytical ecosystem designed for systematic market understanding.
 
-Built with a startup mindset and academic discipline, the system integrates ensemble learning, statistical validation, and modular experimentation frameworks to deliver analytical clarity — not speculation.
-""")
+At its core, QuantNova bridges advanced machine learning methodologies with disciplined quantitative finance principles. The platform leverages ensemble modeling techniques, statistical signal processing, feature engineering pipelines, and structured backtesting frameworks to convert complex market behavior into measurable probabilities and actionable insights.
+
+Unlike speculative trading interfaces or noise-driven dashboards, QuantNova emphasizes validation over hype, structure over randomness, and research integrity over surface-level prediction. Every analytical output is grounded in data preprocessing rigor, model performance evaluation, and reproducible experimentation protocols.
+
+The architecture is modular by design — enabling scalable expansion into multi-asset analytics, strategy simulation environments, adaptive learning systems, and real-time intelligence deployment. This foundation ensures that QuantNova can evolve from a research prototype into a full-scale AI financial intelligence infrastructure.
+
+Developed with a startup mindset and academic discipline, the platform reflects a commitment to innovation, computational efficiency, and responsible AI implementation. QuantNova is not built to chase market noise — it is built to decode market structure.
+
+As financial markets grow increasingly data-dense and algorithmically competitive, QuantNova positions itself at the intersection of artificial intelligence, quantitative research, and strategic experimentation — delivering analytical clarity where uncertainty dominates.""")
 
     st.markdown("---")
 
