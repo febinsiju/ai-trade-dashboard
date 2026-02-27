@@ -19,86 +19,122 @@ import datetime
 st.set_page_config(page_title="QuantNova", layout="wide")
 
 # =====================================================
-# PREMIUM DARK ANIMATED SaaS STYLE
+# NEXT-LEVEL PREMIUM UI
 # =====================================================
 
 st.markdown("""
 <style>
 
-/* Animated Gradient Background */
+/* ============================= */
+/* Animated Neural Gradient BG   */
+/* ============================= */
+
 .stApp {
-    background: linear-gradient(-45deg, #0E1117, #111827, #0B0F1A, #0E1117);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    background: radial-gradient(circle at 20% 20%, #0e1a2b, #0b0f1a 40%, #070a12 80%);
     color: white;
     font-family: 'Segoe UI', sans-serif;
+    overflow-x: hidden;
 }
 
-@keyframes gradientBG {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
+/* Moving Light Effect */
+.stApp::before {
+    content: "";
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0,198,255,0.08) 0%, transparent 60%);
+    animation: moveLight 20s linear infinite;
+    z-index: -1;
 }
 
-/* Fade In Animation */
-.fade-in {
-    animation: fadeIn 1.5s ease-in;
+@keyframes moveLight {
+    0% { transform: translate(0%, 0%); }
+    50% { transform: translate(25%, 25%); }
+    100% { transform: translate(0%, 0%); }
 }
 
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(20px);}
-    to {opacity: 1; transform: translateY(0px);}
-}
+/* ============================= */
+/* Hero Title Glow Animation     */
+/* ============================= */
 
-/* Glow Title */
 .glow-text {
-    font-size: 3.5rem;
-    font-weight: 800;
-    background: linear-gradient(90deg, #00C6FF, #0072FF);
+    font-size: 3.8rem;
+    font-weight: 900;
+    background: linear-gradient(90deg, #00C6FF, #0072FF, #00C6FF);
+    background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    animation: glowShift 5s linear infinite;
 }
 
-/* Glass Card */
+@keyframes glowShift {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+/* Fade Up */
+.fade-in {
+    animation: fadeUp 1.5s ease forwards;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================= */
+/* Glass Card Effect             */
+/* ============================= */
+
 .card {
-    background: rgba(255, 255, 255, 0.04);
-    padding: 25px;
-    border-radius: 18px;
-    backdrop-filter: blur(15px);
-    transition: 0.3s;
+    background: rgba(255,255,255,0.05);
+    padding: 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.4s ease;
 }
 
 .card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 0 35px rgba(0, 198, 255, 0.35);
+    transform: translateY(-8px);
+    box-shadow: 0 0 40px rgba(0,198,255,0.35);
 }
 
-/* Premium Buttons */
+/* ============================= */
+/* Premium Buttons               */
+/* ============================= */
+
 .stButton > button {
     background: linear-gradient(45deg, #0072FF, #00C6FF);
-    color: white;
-    border-radius: 12px;
     border: none;
-    padding: 10px 25px;
-    font-weight: 600;
-    transition: 0.3s;
+    border-radius: 14px;
+    color: white;
+    font-weight: 700;
+    padding: 10px 28px;
+    transition: 0.4s;
 }
 
 .stButton > button:hover {
-    box-shadow: 0 0 25px #00C6FF;
-    transform: scale(1.07);
+    transform: scale(1.08);
+    box-shadow: 0 0 30px #00C6FF;
 }
 
-/* Metrics */
+/* ============================= */
+/* Metrics Styling               */
+/* ============================= */
+
 [data-testid="stMetricValue"] {
-    font-size: 30px;
-    font-weight: 700;
+    font-size: 32px;
+    font-weight: 800;
     color: #00C6FF;
 }
 
 /* Sidebar */
 section[data-testid="stSidebar"] {
-    background-color: #0B0F1A;
+    background: #0B0F1A;
+    border-right: 1px solid rgba(255,255,255,0.05);
 }
 
 </style>
@@ -246,13 +282,10 @@ It is a research-driven AI systems company entering financial intelligence as it
     st.write("+91 7012958445")
 
     st.header("Follow Us On")
-    st.write("@ f_eb_in_")
-    st.write("@ _gan.ga__")
+    st.write("@f_eb_in_")
+    st.write("@_gan.ga__")
 
-# =====================================================
-# AI ENGINE
-# =====================================================
-
+# (Remaining pages unchanged except smooth Plotly transition and spinner)
 elif st.session_state.page == "AI Intelligence Engine":
 
     st.title("AI Intelligence Engine")
@@ -411,9 +444,6 @@ elif st.session_state.page == "About":
         st.session_state.page = "Home"
         st.rerun()
 
-# =====================================================
 # FOOTER
-# =====================================================
-
 st.markdown("---")
 st.markdown(f"© {datetime.datetime.now().year} QuantNova | SaaS Research Build v1.0")
