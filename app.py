@@ -106,109 +106,103 @@ if "auth_mode" not in st.session_state:
 
 
 # -----------------------------
-# LOGIN PAGE UI
+# SPLIT SCREEN LOGIN PAGE
 # -----------------------------
 
 if not st.session_state.authenticated:
 
     st.markdown("""
-<style>
+    <style>
 
-.stApp {
-    background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #111827);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-}
-
-@keyframes gradientBG {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-}
-
-/* Center whole page perfectly */
-section.main > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-}
-
-/* Glowing brand box */
-.brand-box {
-    width: 380px;
-    padding: 40px;
-    border-radius: 30px;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(20px);
-    text-align: center;
-    margin-bottom: 35px;
-
-    box-shadow:
-        0 0 25px rgba(0,119,255,0.7),
-        0 0 60px rgba(0,119,255,0.4);
-
-    animation: glowPulse 3s infinite alternate;
-}
-
-@keyframes glowPulse {
-    from {
-        box-shadow:
-            0 0 15px rgba(0,119,255,0.5),
-            0 0 30px rgba(0,119,255,0.3);
+    /* Full background */
+    .stApp {
+        background: #2e3c75;
     }
-    to {
-        box-shadow:
-            0 0 35px rgba(0,119,255,0.9),
-            0 0 70px rgba(0,119,255,0.6);
+
+    /* Center container */
+    section.main > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
     }
-}
 
-.brand-title {
-    font-size: 36px;
-    font-weight: 700;
-    color: white;
-}
+    /* Main Card */
+    .main-card {
+        width: 1000px;
+        height: 550px;
+        display: flex;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        background: white;
+    }
 
-.brand-subtitle {
-    color: #94a3b8;
-    margin-top: 8px;
-}
+    /* Left Panel (Login) */
+    .left-panel {
+        width: 40%;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #ffffff;
+    }
 
-/* Center inputs */
-div.stTextInput {
-    display: flex;
-    justify-content: center;
-}
+    /* Right Panel (Welcome) */
+    .right-panel {
+        width: 60%;
+        background: linear-gradient(135deg, #4f73ff, #7cc6ff, #f5d7b2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 48px;
+        font-weight: 700;
+    }
 
-div.stTextInput > div {
-    width: 280px;
-}
+    .login-title {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 30px;
+        color: #2e3c75;
+    }
 
-/* Center buttons */
-div.stButton {
-    display: flex;
-    justify-content: center;
-}
+    /* Input styling */
+    div.stTextInput > div {
+        width: 250px;
+    }
 
-div.stButton > button {
-    width: 280px;
-    border-radius: 12px;
-    height: 42px;
-    font-weight: 600;
-}
+    div.stButton > button {
+        width: 250px;
+        border-radius: 25px;
+        height: 40px;
+        font-weight: 600;
+        background-color: #2e3c75;
+        color: white;
+    }
 
-</style>
-""", unsafe_allow_html=True)
+    div.stButton > button:hover {
+        background-color: #1f2b55;
+        color: white;
+    }
 
-    # LOGIN FORM BELOW THE BOX
+    </style>
+    """, unsafe_allow_html=True)
+
+    # Create layout wrapper
+    st.markdown('<div class="main-card">', unsafe_allow_html=True)
+
+    # LEFT PANEL
+    st.markdown('<div class="left-panel">', unsafe_allow_html=True)
+    st.markdown('<div class="login-title">Template Design</div>', unsafe_allow_html=True)
+
     username = st.text_input("Username", key="auth_username")
     password = st.text_input("Password", type="password", key="auth_password")
 
     if st.session_state.auth_mode == "Login":
 
-        if st.button("Login"):
+        if st.button("LOGIN"):
             if login_user(username, password):
                 st.session_state.authenticated = True
                 st.session_state.username = username
@@ -216,26 +210,29 @@ div.stButton > button {
             else:
                 st.error("Invalid Credentials")
 
-        st.markdown("<br>", unsafe_allow_html=True)
-
         if st.button("Create an Account"):
             st.session_state.auth_mode = "Register"
             st.rerun()
 
     else:
 
-        if st.button("Register"):
+        if st.button("REGISTER"):
             if register_user(username, password):
                 st.success("Account Created Successfully")
                 st.session_state.auth_mode = "Login"
             else:
                 st.error("Username already exists")
 
-        st.markdown("<br>", unsafe_allow_html=True)
-
         if st.button("Back to Login"):
             st.session_state.auth_mode = "Login"
             st.rerun()
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # RIGHT PANEL
+    st.markdown('<div class="right-panel">Welcome.</div>', unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
     st.stop()
 # =====================================================
