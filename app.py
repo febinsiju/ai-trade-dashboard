@@ -61,7 +61,7 @@ if "auth_mode" not in st.session_state:
     st.session_state.auth_mode = "Login"
 
 # -----------------------------
-# STYLING FOR PROFESSIONAL CENTERED LOGIN
+# PROFESSIONAL CENTERED STYLE
 # -----------------------------
 st.markdown("""
 <style>
@@ -69,12 +69,9 @@ st.markdown("""
 .stApp {
     background: linear-gradient(135deg, #1e293b, #0f172a);
     height: 100vh;
-}
-section.main > div {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
 /* Card style */
@@ -85,11 +82,13 @@ section.main > div {
     box-shadow: 0 25px 60px rgba(0,0,0,0.6);
     width: 400px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Brand title */
 .login-card h2 {
-    font-family: 'Arial', sans-serif;
     font-size: 32px;
     margin-bottom: 5px;
     color: #0f172a;
@@ -101,15 +100,14 @@ section.main > div {
     margin-bottom: 30px;
 }
 
-/* Input styling */
+/* Inputs */
 div.stTextInput > div {
     width: 100% !important;
     max-width: 300px;
-    margin: auto;
-    margin-bottom: 15px;
+    margin: 10px 0;
 }
 
-/* Button styling */
+/* Buttons */
 div.stButton > button {
     width: 100% !important;
     max-width: 300px;
@@ -149,7 +147,7 @@ if not st.session_state.authenticated:
             st.session_state.auth_mode = "Register"
             st.experimental_rerun()
     
-    else:  # Register
+    else:  # Register mode
         st.subheader("Create a New Account")
         if st.button("REGISTER"):
             if username.strip() == "" or password.strip() == "":
