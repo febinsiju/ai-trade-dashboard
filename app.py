@@ -69,31 +69,44 @@ if "auth_mode" not in st.session_state:
 st.markdown("""
 <style>
 
-/* Background */
-.stApp {
-    background: radial-gradient(circle at 30% 30%, #1e293b, #0f172a 70%);
+/* Remove default padding */
+.block-container {
+    padding-top: 0rem;
 }
 
-/* Glass Card */
+/* Background */
+.stApp {
+    background: radial-gradient(circle at center, #1e293b, #0f172a 70%);
+}
+
+/* Center container */
+.center-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 85vh;
+}
+
+/* Glass card */
 .glass-card {
-    width: 380px;
-    padding: 50px 40px;
-    border-radius: 24px;
+    width: 360px;
+    padding: 45px 35px;
+    border-radius: 22px;
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow:
-        0 0 80px rgba(56, 189, 248, 0.35),
-        0 30px 80px rgba(0, 0, 0, 0.6);
+        0 0 70px rgba(56, 189, 248, 0.35),
+        0 25px 60px rgba(0, 0, 0, 0.6);
     text-align: center;
 }
 
-/* Title inside card */
+/* Title */
 .glass-card h2 {
-    font-size: 30px;
+    margin: 0 0 5px 0;
+    font-size: 28px;
     letter-spacing: 3px;
-    margin-bottom: 8px;
     color: #ffffff;
 }
 
@@ -101,42 +114,36 @@ st.markdown("""
 .glass-card p {
     color: #cbd5e1;
     margin-bottom: 25px;
-    font-size: 14px;
+    font-size: 13px;
 }
 
-/* Make inputs smaller */
+/* Inputs smaller */
 div.stTextInput {
-    width: 280px !important;
-    margin: 0 auto 15px auto !important;
-}
-
-div.stTextInput > div > div > input {
-    background: rgba(255,255,255,0.08) !important;
-    color: white !important;
-    border-radius: 10px !important;
-    border: 1px solid rgba(255,255,255,0.2) !important;
-    height: 38px;
-}
-
-/* Smaller buttons */
-div.stButton {
-    width: 280px !important;
+    width: 240px !important;
     margin: 0 auto 12px auto !important;
 }
 
-div.stButton > button {
-    height: 40px;
-    border-radius: 18px;
+div.stTextInput input {
+    background: rgba(255,255,255,0.08) !important;
+    color: white !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    height: 36px;
+}
+
+/* Buttons smaller */
+div.stButton {
+    width: 240px !important;
+    margin: 0 auto 10px auto !important;
+}
+
+div.stButton button {
+    height: 36px;
+    border-radius: 16px;
     font-weight: 600;
     background: linear-gradient(90deg, #38bdf8, #6366f1);
     border: none;
     color: white;
-    transition: 0.3s ease;
-}
-
-div.stButton > button:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 25px rgba(99,102,241,0.6);
 }
 
 </style>
@@ -147,50 +154,45 @@ div.stButton > button:hover {
 # -----------------------------
 if not st.session_state.authenticated:
 
-    # Vertical spacing
-    st.markdown("<br><br><br><br>", unsafe_allow_html=True)
+    st.markdown('<div class="center-wrapper">', unsafe_allow_html=True)
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
 
-    # 3-column layout for perfect horizontal centering
-    col1, col2, col3 = st.columns([1,2,1])
+    st.markdown("<h2>QUANTNOVA</h2>", unsafe_allow_html=True)
+    st.markdown("<p>AI-Powered Quantitative Intelligence</p>", unsafe_allow_html=True)
 
-    with col2:
-        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    username = st.text_input("Username", key="auth_username")
+    password = st.text_input("Password", type="password", key="auth_password")
 
-        st.markdown("<h2>QUANTNOVA</h2>", unsafe_allow_html=True)
-        st.markdown("<p>AI-Powered Quantitative Intelligence</p>", unsafe_allow_html=True)
-
-        username = st.text_input("Username", key="auth_username")
-        password = st.text_input("Password", type="password", key="auth_password")
-
-        if st.session_state.auth_mode == "Login":
-            if st.button("LOGIN", use_container_width=True):
-                if login_user(username, password):
-                    st.session_state.authenticated = True
-                    st.session_state.username = username
-                    st.rerun()
-                else:
-                    st.error("Invalid username or password")
-
-            if st.button("Create an Account", use_container_width=True):
-                st.session_state.auth_mode = "Register"
+    if st.session_state.auth_mode == "Login":
+        if st.button("LOGIN"):
+            if login_user(username, password):
+                st.session_state.authenticated = True
+                st.session_state.username = username
                 st.rerun()
+            else:
+                st.error("Invalid username or password")
 
-        else:
-            st.subheader("Create a New Account")
-            if st.button("REGISTER", use_container_width=True):
-                if username.strip() == "" or password.strip() == "":
-                    st.warning("Please fill all fields!")
-                elif register_user(username, password):
-                    st.success("Account created successfully!")
-                    st.session_state.auth_mode = "Login"
-                else:
-                    st.error("Username already exists. Try another.")
+        if st.button("Create an Account"):
+            st.session_state.auth_mode = "Register"
+            st.rerun()
 
-            if st.button("Back to Login", use_container_width=True):
+    else:
+        st.subheader("Create a New Account")
+        if st.button("REGISTER"):
+            if username.strip() == "" or password.strip() == "":
+                st.warning("Please fill all fields!")
+            elif register_user(username, password):
+                st.success("Account created successfully!")
                 st.session_state.auth_mode = "Login"
-                st.rerun()
+            else:
+                st.error("Username already exists. Try another.")
 
-        st.markdown('</div>', unsafe_allow_html=True)
+        if st.button("Back to Login"):
+            st.session_state.auth_mode = "Login"
+            st.rerun()
+
+    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
     st.stop()
 
