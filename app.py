@@ -12,11 +12,14 @@ from io import BytesIO
 import os
 import datetime
 import streamlit.components.v1 as components
-import sqlite3
-import hashlib
 import streamlit as st
 import sqlite3
 import hashlib
+
+# =====================================================
+# PAGE CONFIG (MUST BE FIRST STREAMLIT COMMAND)
+# =====================================================
+st.set_page_config(layout="wide")
 
 # -----------------------------
 # DATABASE SETUP
@@ -61,28 +64,32 @@ if "auth_mode" not in st.session_state:
     st.session_state.auth_mode = "Login"
 
 # -----------------------------
-# FULLY CENTERED PROFESSIONAL STYLE
+# CENTERING + PROFESSIONAL STYLE (FIXED)
 # -----------------------------
 st.markdown("""
 <style>
 
-/* Remove Streamlit padding & width constraints */
+/* Remove default Streamlit padding */
 .block-container {
     padding: 0 !important;
-    max-width: 100% !important;
 }
 
-/* Fullscreen center wrapper */
+/* Fullscreen background */
 html, body, [data-testid="stAppViewContainer"] {
     height: 100%;
 }
 
+/* Background */
 .stApp {
     background: radial-gradient(circle at 30% 30%, #1e293b, #0f172a 70%);
-    height: 100vh;
+}
+
+/* TRUE vertical + horizontal center */
+section.main {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
 /* Center card */
@@ -98,13 +105,13 @@ html, body, [data-testid="stAppViewContainer"] {
     border: 1px solid rgba(255, 255, 255, 0.15);
 
     box-shadow:
-        0 0 80px rgba(56, 189, 248, 0.35),  /* outer glow */
-        0 30px 80px rgba(0, 0, 0, 0.6);     /* depth */
+        0 0 80px rgba(56, 189, 248, 0.35),
+        0 30px 80px rgba(0, 0, 0, 0.6);
 
     text-align: center;
 }
 
-/* Title inside box */
+/* Title */
 .centered-card h2 {
     font-size: 34px;
     letter-spacing: 2px;
@@ -112,6 +119,7 @@ html, body, [data-testid="stAppViewContainer"] {
     color: #ffffff;
 }
 
+/* Subtitle */
 .centered-card p {
     color: #cbd5e1;
     margin-bottom: 30px;
@@ -147,11 +155,11 @@ div.stButton > button:hover {
 """, unsafe_allow_html=True)
 
 # -----------------------------
-# LOGIN/REGISTER CARD
+# LOGIN / REGISTER CARD
 # -----------------------------
 if not st.session_state.authenticated:
     st.markdown('<div class="centered-card">', unsafe_allow_html=True)
-    st.markdown("<h2>QuantNova</h2>", unsafe_allow_html=True)
+    st.markdown("<h2>QUANTNOVA</h2>", unsafe_allow_html=True)
     st.markdown("<p>AI-Powered Quantitative Intelligence</p>", unsafe_allow_html=True)
     
     username = st.text_input("Username", key="auth_username")
@@ -162,14 +170,14 @@ if not st.session_state.authenticated:
             if login_user(username, password):
                 st.session_state.authenticated = True
                 st.session_state.username = username
-                st.experimental_rerun()
+                st.rerun()
             else:
                 st.error("Invalid username or password")
         if st.button("Create an Account"):
             st.session_state.auth_mode = "Register"
-            st.experimental_rerun()
+            st.rerun()
     
-    else:  # Register mode
+    else:
         st.subheader("Create a New Account")
         if st.button("REGISTER"):
             if username.strip() == "" or password.strip() == "":
@@ -181,7 +189,7 @@ if not st.session_state.authenticated:
                 st.error("Username already exists. Try another.")
         if st.button("Back to Login"):
             st.session_state.auth_mode = "Login"
-            st.experimental_rerun()
+            st.rerun()
     
     st.markdown('</div>', unsafe_allow_html=True)
     st.stop()
@@ -195,7 +203,7 @@ st.write("Your main app content goes here...")
 # PAGE CONFIG
 # =====================================================
 
-st.set_page_config(page_title="QuantNova", layout="wide")
+st.set_page_config(layout="wide")
 
 # =====================================================
 # DARK SaaS STYLE
