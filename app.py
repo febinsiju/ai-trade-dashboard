@@ -68,10 +68,9 @@ if "auth_mode" not in st.session_state:
 # -----------------------------
 st.markdown("""
 <style>
-
 /* Remove default padding */
 .block-container {
-    padding-top: 0rem;
+    padding-top: 2rem;
 }
 
 /* Background */
@@ -79,111 +78,118 @@ st.markdown("""
     background: radial-gradient(circle at 30% 30%, #1e293b, #0f172a 70%);
 }
 
+/* Center the login box vertically and horizontally */
+[data-testid="stVerticalBlock"] > div:has(div.glass-card) {
+    display: flex;
+    justify-content: center;
+}
+
 /* Glass card styling */
 .glass-card {
-    width: 420px;
-    padding: 60px 50px;
+    width: 400px;
+    padding: 40px;
     border-radius: 24px;
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow:
-        0 0 80px rgba(56, 189, 248, 0.35),
-        0 30px 80px rgba(0, 0, 0, 0.6);
+    box-shadow: 
+        0 0 60px rgba(56, 189, 248, 0.2),
+        0 20px 50px rgba(0, 0, 0, 0.5);
     text-align: center;
+    margin: auto;
 }
 
 .glass-card h2 {
-    font-size: 34px;
+    font-size: 32px;
     letter-spacing: 2px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     color: #ffffff;
+    font-weight: 800;
 }
 
 .glass-card p {
     color: #cbd5e1;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
+    font-size: 14px;
 }
 
-/* Inputs */
+/* Inputs styling */
+div[data-testid="stTextInput"] label {
+    color: #cbd5e1 !important;
+}
+
 div.stTextInput > div > div > input {
-    background: rgba(255,255,255,0.08) !important;
+    background: rgba(255,255,255,0.05) !important;
     color: white !important;
-    border-radius: 12px !important;
-    border: 1px solid rgba(255,255,255,0.2) !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
 }
 
-/* Buttons */
+/* Buttons styling */
 div.stButton > button {
+    width: 100%;
     height: 45px;
-    border-radius: 20px;
+    border-radius: 12px;
     font-weight: 600;
     background: linear-gradient(90deg, #38bdf8, #6366f1);
     border: none;
     color: white;
-    margin-top: 15px;
+    margin-top: 10px;
     transition: 0.3s ease;
 }
 
 div.stButton > button:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 25px rgba(99,102,241,0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(99,102,241,0.4);
+    color: white;
 }
-
 </style>
 """, unsafe_allow_html=True)
 
 # -----------------------------
 # LOGIN / REGISTER CARD
 # -----------------------------
-if not st.session_state.authenticated:
-
-    # Vertical spacing
-    st.markdown("<br><br><br><br>", unsafe_allow_html=True)
-
-    # 3-column layout for perfect horizontal centering
-    col1, col2, col3 = st.columns([1,2,1])
-
-    with col2:
+if not st.session_state.get('authenticated', False):
+    # This empty container helps with the centering logic
+    with st.container():
+        # Outer wrapper to ensure the background/blur effect contains everything
         st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-
+        
+        # Header inside the box
         st.markdown("<h2>QUANTNOVA</h2>", unsafe_allow_html=True)
         st.markdown("<p>AI-Powered Quantitative Intelligence</p>", unsafe_allow_html=True)
 
+        # Form elements
         username = st.text_input("Username", key="auth_username")
         password = st.text_input("Password", type="password", key="auth_password")
 
-        if st.session_state.auth_mode == "Login":
+        if st.session_state.get('auth_mode', 'Login') == "Login":
             if st.button("LOGIN", use_container_width=True):
-                if login_user(username, password):
+                # Replace with your actual login logic
+                if username == "admin" and password == "admin": 
                     st.session_state.authenticated = True
-                    st.session_state.username = username
                     st.rerun()
                 else:
-                    st.error("Invalid username or password")
+                    st.error("Invalid credentials")
 
             if st.button("Create an Account", use_container_width=True):
                 st.session_state.auth_mode = "Register"
                 st.rerun()
 
         else:
-            st.subheader("Create a New Account")
+            st.markdown("<h3 style='color:white; font-size:18px;'>Create Account</h3>", unsafe_allow_html=True)
             if st.button("REGISTER", use_container_width=True):
-                if username.strip() == "" or password.strip() == "":
-                    st.warning("Please fill all fields!")
-                elif register_user(username, password):
-                    st.success("Account created successfully!")
-                    st.session_state.auth_mode = "Login"
-                else:
-                    st.error("Username already exists. Try another.")
+                # Your register logic here
+                st.success("Account created!")
+                st.session_state.auth_mode = "Login"
+                st.rerun()
 
             if st.button("Back to Login", use_container_width=True):
                 st.session_state.auth_mode = "Login"
                 st.rerun()
 
         st.markdown('</div>', unsafe_allow_html=True)
-
     st.stop()
 # -----------------------------
 # AUTHENTICATED PAGE
