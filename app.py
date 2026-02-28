@@ -133,39 +133,123 @@ elif st.session_state.page == "AI Intelligence Engine":
 
     st.title("AI Intelligence Engine")
 
-    symbol = st.text_input("Stock Symbol", "AAPL")
-    data = yf.download(symbol, period="2y")
+    import yfinance as yf
+    import numpy as np
+    import pandas as pd
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.svm import SVC
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import accuracy_score
+    import plotly.graph_objects as go
 
-    if data.empty:
-        st.error("Invalid Symbol")
-        st.stop()
+    st.subheader("Market Prediction Module")
 
-    data["SMA10"] = data["Close"].rolling(10).mean()
-    data["SMA50"] = data["Close"].rolling(50).mean()
-    data["Return"] = data["Close"].pct_change()
-    data["Target"] = np.where(data["Close"].shift(-1) > data["Close"], 1, 0)
-    data = data.dropna()
+    symbol = st.text_input("Enter Stock Symbol (Example: AAPL)", "AAPL")
+    model_choice = st.selectbox(
+        "Select AI Model",
+        ["Random Forest", "Logistic Regression", "Support Vector Machine"]
+    )
 
-    X = data[["SMA10", "SMA50", "Return"]]
-    y = data["Target"]
+    if st.button("Run AI Model"):
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, shuffle=False)
+        with st.spinner("Running QuantNova Intelligence Engine..."):
 
-    model = RandomForestClassifier(n_estimators=200)
-    model.fit(X_train, y_train)
+            data = yf.download(symbol, period="2y")
+            data["Return"] = data["Close"].pct_change()
+            data["Target"] = np.where(data["Return"] > 0, 1, 0)
 
-    accuracy = accuracy_score(y_test, model.predict(X_test))
-    prob = model.predict_proba(X_test.tail(1))[0]
+            data["MA10"] = data["Close"].rolling(10).mean()
+            data["MA50"] = data["Close"].rolling(50).mean()
+            data["Volatility"] = data["Return"].rolling(10).std()
 
-    prediction = "BUY" if prob[1] > prob[0] else "SELL"
-    confidence = round(max(prob) * 100, 2)
+            data = data.dropna()
 
-    col1, col2 = st.columns(2)
-    col1.metric("Model Accuracy", f"{round(accuracy*100,2)}%")
-    col2.metric("Signal", f"{prediction} ({confidence}% confidence)")
+            X = data[["MA10", "MA50", "Volatility"]]
+            y = data["Target"]
 
-    st.subheader("Confusion Matrix")
-    st.write(confusion_matrix(y_test, model.predict(X_test)))
+            X_train, X_test, y_train, y_test = train_test_split(
+                X, y, test_size=0.3, shuffle=False
+            )
+
+            # Model Selection
+            if model_choice == "Random Forest":
+                model = RandomForestClassifier()
+            elif model_choice == "Logistic Regression":
+                model = LogisticRegression()
+            else:
+                model = SVC(probability=True)
+
+            model.fit(X_train, y_train)
+
+            predictions = model.predict(X_test)
+            probabilities = model.predict_proba(X_test)[:, 1]
+
+            accuracy = accuracy_score(y_test, predictions)
+
+            st.success("AI Model Execution Complete")
+
+            # --- Metrics Panel ---
+            col1, col2, col3 = st.columns(3)
+            col1.metric("Model Accuracy", f"{accuracy*100:.2f}%")
+            col2.metric("Prediction Probability", f"{probabilities[-1]*100:.2f}%")
+            col3.metric("Signal",
+                        "BUY" if probabilities[-1] > 0.5 else "SELL")
+
+            # --- Feature Importance ---
+            if model_choice == "Random Forest":
+                st.subheader("Feature Importance Analysis")
+                importance = model.feature_importances_
+                importance_df = pd.DataFrame({
+                    "Feature": X.columns,
+                    "Importance": importance
+                }).sort_values("Importance", ascending=False)
+
+                st.bar_chart(importance_df.set_index("Feature"))
+
+            # --- Strategy Performance ---
+            st.subheader("Backtest Performance")
+
+            data_test = data.iloc[-len(predictions):].copy()
+            data_test["Prediction"] = predictions
+            data_test["Strategy"] = data_test["Return"] * data_test["Prediction"]
+
+            cumulative_market = (1 + data_test["Return"]).cumprod()
+            cumulative_strategy = (1 + data_test["Strategy"]).cumprod()
+
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(
+                y=cumulative_market,
+                mode="lines",
+                name="Market Performance"
+            ))
+            fig.add_trace(go.Scatter(
+                y=cumulative_strategy,
+                mode="lines",
+                name="AI Strategy Performance"
+            ))
+
+            fig.update_layout(title="Strategy vs Market Comparison")
+            st.plotly_chart(fig, use_container_width=True)
+
+            # --- Risk Metrics ---
+            sharpe = (
+                data_test["Strategy"].mean() /
+                data_test["Strategy"].std()
+            ) * np.sqrt(252)
+
+            volatility = data_test["Strategy"].std() * np.sqrt(252)
+
+            drawdown = (
+                cumulative_strategy /
+                cumulative_strategy.cummax() - 1
+            ).min()
+
+            st.subheader("Risk Metrics")
+            r1, r2, r3 = st.columns(3)
+            r1.metric("Sharpe Ratio", f"{sharpe:.2f}")
+            r2.metric("Annual Volatility", f"{volatility:.2f}")
+            r3.metric("Max Drawdown", f"{drawdown:.2%}")
 
 # =====================================================
 # STRATEGY LAB
