@@ -12,6 +12,83 @@ from io import BytesIO
 import os
 import datetime
 import streamlit.components.v1 as components
+import sqlite3
+import hashlib
+# -----------------------------
+# DATABASE SETUP
+# -----------------------------
+
+conn = sqlite3.connect("quantnova_users.db", check_same_thread=False)
+c = conn.cursor()
+
+c.execute("""
+CREATE TABLE IF NOT EXISTS users (
+    username TEXT UNIQUE,
+    password TEXT
+)
+""")
+
+conn.commit()
+
+
+# -----------------------------
+# PASSWORD HASHING
+# -----------------------------
+
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+
+def register_user(username, password):
+    try:
+        c.execute("INSERT INTO users (username, password) VALUES (?, ?)",
+                  (username, hash_password(password)))
+        conn.commit()
+        return True
+    except:
+        return False
+
+
+def login_user(username, password):
+    c.execute("SELECT * FROM users WHERE username=? AND password=?",
+              (username, hash_password(password)))
+    return c.fetchone()
+
+# -----------------------------
+# AUTHENTICATION SYSTEM
+# -----------------------------
+
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+
+if not st.session_state.authenticated:
+
+    st.title("QuantNova Secure Login")
+
+    menu = ["Login", "Register"]
+    choice = st.radio("Select Option", menu)
+
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+
+    if choice == "Register":
+        if st.button("Create Account"):
+            if register_user(username, password):
+                st.success("Account Created Successfully")
+            else:
+                st.error("Username already exists")
+
+    if choice == "Login":
+        if st.button("Login"):
+            if login_user(username, password):
+                st.session_state.authenticated = True
+                st.session_state.username = username
+                st.success("Login Successful")
+                st.rerun()
+            else:
+                st.error("Invalid Credentials")
+
+    st.stop()
 # =====================================================
 # PAGE CONFIG
 # =====================================================
@@ -93,6 +170,11 @@ selected = st.sidebar.radio("Navigate", pages, index=idx)
 # Only update if current page is a sidebar page
 if selected != st.session_state.page:
     st.session_state.page = selected
+    st.rerun()
+    st.sidebar.write(f"Logged in as: {st.session_state.username}")
+
+if st.sidebar.button("Logout"):
+    st.session_state.authenticated = False
     st.rerun()
 
 # =====================================================
