@@ -61,21 +61,22 @@ if "auth_mode" not in st.session_state:
     st.session_state.auth_mode = "Login"
 
 # -----------------------------
-# PROFESSIONAL CENTERED STYLE
+# FULLY CENTERED PROFESSIONAL STYLE
 # -----------------------------
 st.markdown("""
 <style>
-/* Full page center */
+/* Full page background */
 .stApp {
     background: linear-gradient(135deg, #1e293b, #0f172a);
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-/* Card style */
-.login-card {
+/* Center container using fixed + transform */
+.centered-card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background: #ffffff;
     padding: 60px 50px;
     border-radius: 20px;
@@ -87,15 +88,13 @@ st.markdown("""
     align-items: center;
 }
 
-/* Brand title */
-.login-card h2 {
+/* Brand */
+.centered-card h2 {
     font-size: 32px;
     margin-bottom: 5px;
     color: #0f172a;
 }
-
-/* Caption */
-.login-card p {
+.centered-card p {
     color: #475569;
     margin-bottom: 30px;
 }
@@ -128,7 +127,7 @@ div.stButton > button:hover {
 # LOGIN/REGISTER CARD
 # -----------------------------
 if not st.session_state.authenticated:
-    st.markdown('<div class="login-card">', unsafe_allow_html=True)
+    st.markdown('<div class="centered-card">', unsafe_allow_html=True)
     st.markdown("<h2>QuantNova</h2>", unsafe_allow_html=True)
     st.markdown("<p>AI-Powered Quantitative Intelligence</p>", unsafe_allow_html=True)
     
