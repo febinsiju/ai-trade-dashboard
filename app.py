@@ -55,7 +55,7 @@ def login_user(username, password):
     return c.fetchone()
 
 # -----------------------------
-# PREMIUM AUTHENTICATION SYSTEM
+# ULTRA PREMIUM AUTH SYSTEM
 # -----------------------------
 
 if "authenticated" not in st.session_state:
@@ -80,53 +80,71 @@ if not st.session_state.authenticated:
         100% {background-position: 0% 50%;}
     }
 
-    .login-card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(20px);
+    .login-wrapper {
         padding: 50px;
-        border-radius: 20px;
-        box-shadow: 0 0 60px rgba(0, 0, 0, 0.6);
+        border-radius: 25px;
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(20px);
+        box-shadow:
+            0 0 15px rgba(0, 119, 255, 0.6),
+            0 0 30px rgba(0, 119, 255, 0.4),
+            0 0 60px rgba(0, 119, 255, 0.2);
+        animation: glowPulse 3s infinite alternate;
+    }
+
+    @keyframes glowPulse {
+        from {
+            box-shadow:
+                0 0 10px rgba(0, 119, 255, 0.5),
+                0 0 20px rgba(0, 119, 255, 0.3);
+        }
+        to {
+            box-shadow:
+                0 0 25px rgba(0, 119, 255, 0.9),
+                0 0 60px rgba(0, 119, 255, 0.6);
+        }
     }
 
     .login-title {
         text-align: center;
-        font-size: 32px;
+        font-size: 34px;
         font-weight: 700;
-        margin-bottom: 30px;
+        margin-bottom: 10px;
         color: white;
         letter-spacing: 1px;
     }
 
+    .login-subtitle {
+        text-align: center;
+        font-size: 14px;
+        margin-bottom: 25px;
+        color: #94a3b8;
+    }
+
     div.stButton > button {
         width: 100%;
-        border-radius: 10px;
+        border-radius: 12px;
         height: 45px;
         font-weight: 600;
         transition: all 0.3s ease;
     }
 
     div.stButton > button:hover {
-        transform: scale(1.02);
-    }
-
-    .footer-text {
-        text-align: center;
-        font-size: 14px;
-        margin-top: 15px;
-        color: #cbd5e1;
+        transform: scale(1.03);
     }
     </style>
     """, unsafe_allow_html=True)
 
-    # Vertical spacing
-    st.markdown("<br><br><br><br>", unsafe_allow_html=True)
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
 
     left, center, right = st.columns([1, 1.5, 1])
 
     with center:
 
-        st.markdown('<div class="login-card">', unsafe_allow_html=True)
+        st.markdown('<div class="login-wrapper">', unsafe_allow_html=True)
+
         st.markdown('<div class="login-title">QuantNova</div>', unsafe_allow_html=True)
+        st.markdown('<div class="login-subtitle">AI-Powered Quantitative Intelligence</div>', unsafe_allow_html=True)
 
         username = st.text_input("Username", key="auth_username")
         password = st.text_input("Password", type="password", key="auth_password")
@@ -141,11 +159,11 @@ if not st.session_state.authenticated:
                 else:
                     st.error("Invalid Credentials")
 
-            st.markdown('<div class="footer-text">', unsafe_allow_html=True)
+            st.markdown("<br>", unsafe_allow_html=True)
+
             if st.button("Create an Account"):
                 st.session_state.auth_mode = "Register"
                 st.rerun()
-            st.markdown('</div>', unsafe_allow_html=True)
 
         else:
 
@@ -156,11 +174,11 @@ if not st.session_state.authenticated:
                 else:
                     st.error("Username already exists")
 
-            st.markdown('<div class="footer-text">', unsafe_allow_html=True)
+            st.markdown("<br>", unsafe_allow_html=True)
+
             if st.button("Back to Login"):
                 st.session_state.auth_mode = "Login"
                 st.rerun()
-            st.markdown('</div>', unsafe_allow_html=True)
 
         st.markdown('</div>', unsafe_allow_html=True)
 
