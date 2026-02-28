@@ -65,27 +65,30 @@ if "auth_mode" not in st.session_state:
 # -----------------------------
 st.markdown("""
 <style>
-/* Full page background */
+
+/* Remove Streamlit default padding */
+.block-container {
+    padding-top: 0rem;
+    padding-bottom: 0rem;
+}
+
+/* Full-page flex center */
 .stApp {
     background: linear-gradient(135deg, #1e293b, #0f172a);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
 }
 
-/* Center container using fixed + transform */
+/* Card */
 .centered-card {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     background: #ffffff;
     padding: 60px 50px;
     border-radius: 20px;
     box-shadow: 0 25px 60px rgba(0,0,0,0.6);
     width: 400px;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 /* Brand */
@@ -99,17 +102,14 @@ st.markdown("""
     margin-bottom: 30px;
 }
 
-/* Inputs */
-div.stTextInput > div {
+/* Inputs full width */
+div.stTextInput > div > div > input {
     width: 100% !important;
-    max-width: 300px;
-    margin: 10px 0;
 }
 
-/* Buttons */
+/* Buttons full width */
 div.stButton > button {
     width: 100% !important;
-    max-width: 300px;
     height: 45px;
     border-radius: 25px;
     font-weight: 600;
@@ -120,6 +120,7 @@ div.stButton > button {
 div.stButton > button:hover {
     background-color: #1e293b;
 }
+
 </style>
 """, unsafe_allow_html=True)
 
