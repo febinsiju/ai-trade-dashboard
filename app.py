@@ -342,12 +342,6 @@ Febin Siju architected QuantNova from its foundational system design to its adva
     st.markdown("""
 Ganga AR strengthens QuantNova’s research discipline through structured validation frameworks, reproducible experimentation processes, and rigorous analytical documentation. Her focus ensures the platform maintains academic integrity while evolving toward scalable AI intelligence infrastructure.
 """)
-
-    st.markdown("---")
-
-    if st.button("Back to Home"):
-        st.session_state.page = "Home"
-        st.rerun()
 # =====================================================
 # FOOTER
 # =====================================================
