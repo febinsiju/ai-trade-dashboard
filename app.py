@@ -69,20 +69,15 @@ if "auth_mode" not in st.session_state:
 st.markdown("""
 <style>
 
-/* Remove default padding */
-.block-container {
-    padding-top: 0rem;
-}
-
 /* Background */
 .stApp {
     background: radial-gradient(circle at 30% 30%, #1e293b, #0f172a 70%);
 }
 
-/* Glass card styling */
+/* Glass Card */
 .glass-card {
-    width: 420px;
-    padding: 60px 50px;
+    width: 380px;
+    padding: 50px 40px;
     border-radius: 24px;
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(25px);
@@ -94,35 +89,48 @@ st.markdown("""
     text-align: center;
 }
 
+/* Title inside card */
 .glass-card h2 {
-    font-size: 34px;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
+    font-size: 30px;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
     color: #ffffff;
 }
 
+/* Subtitle */
 .glass-card p {
     color: #cbd5e1;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
+    font-size: 14px;
 }
 
-/* Inputs */
+/* Make inputs smaller */
+div.stTextInput {
+    width: 280px !important;
+    margin: 0 auto 15px auto !important;
+}
+
 div.stTextInput > div > div > input {
     background: rgba(255,255,255,0.08) !important;
     color: white !important;
-    border-radius: 12px !important;
+    border-radius: 10px !important;
     border: 1px solid rgba(255,255,255,0.2) !important;
+    height: 38px;
 }
 
-/* Buttons */
+/* Smaller buttons */
+div.stButton {
+    width: 280px !important;
+    margin: 0 auto 12px auto !important;
+}
+
 div.stButton > button {
-    height: 45px;
-    border-radius: 20px;
+    height: 40px;
+    border-radius: 18px;
     font-weight: 600;
     background: linear-gradient(90deg, #38bdf8, #6366f1);
     border: none;
     color: white;
-    margin-top: 15px;
     transition: 0.3s ease;
 }
 
