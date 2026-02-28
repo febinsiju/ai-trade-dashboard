@@ -14,8 +14,6 @@ import datetime
 import streamlit.components.v1 as components
 import sqlite3
 import hashlib
-import streamlit as st
-st.write("Streamlit version:", st.__version__)
 # -----------------------------
 # DATABASE SETUP
 # -----------------------------
@@ -57,7 +55,7 @@ def login_user(username, password):
     return c.fetchone()
 
 # -----------------------------
-# ULTRA PREMIUM AUTH SYSTEM (FIXED)
+# FIXED LOGIN FOR STREAMLIT 1.54.0
 # -----------------------------
 
 if "authenticated" not in st.session_state:
@@ -82,22 +80,25 @@ if not st.session_state.authenticated:
         100% {background-position: 0% 50%;}
     }
 
-    /* Style ONLY the middle column */
+    /* Center entire page */
     section.main > div {
         display: flex;
         justify-content: center;
+        align-items: center;
+        min-height: 100vh;
     }
 
-    .login-container {
-        width: 420px;
-        padding: 50px;
-        border-radius: 25px;
+    /* Target the actual Streamlit block container */
+    div[data-testid="stVerticalBlock"] > div:has(div[data-testid="stTextInput"]) {
         background: rgba(255,255,255,0.05);
         backdrop-filter: blur(20px);
+        padding: 50px;
+        border-radius: 25px;
         box-shadow:
-            0 0 25px rgba(0, 119, 255, 0.7),
-            0 0 60px rgba(0, 119, 255, 0.4);
+            0 0 25px rgba(0,119,255,0.7),
+            0 0 60px rgba(0,119,255,0.4);
         animation: glowPulse 3s infinite alternate;
+        width: 420px;
     }
 
     @keyframes glowPulse {
@@ -142,51 +143,42 @@ if not st.session_state.authenticated:
     </style>
     """, unsafe_allow_html=True)
 
-    # Center using columns (reliable method)
-    left, center, right = st.columns([1, 1.5, 1])
+    st.markdown('<div class="login-title">QuantNova</div>', unsafe_allow_html=True)
+    st.markdown('<div class="login-subtitle">AI-Powered Quantitative Intelligence</div>', unsafe_allow_html=True)
 
-    with center:
+    username = st.text_input("Username", key="auth_username")
+    password = st.text_input("Password", type="password", key="auth_password")
 
-        st.markdown('<div class="login-container">', unsafe_allow_html=True)
+    if st.session_state.auth_mode == "Login":
 
-        st.markdown('<div class="login-title">QuantNova</div>', unsafe_allow_html=True)
-        st.markdown('<div class="login-subtitle">AI-Powered Quantitative Intelligence</div>', unsafe_allow_html=True)
-
-        username = st.text_input("Username", key="auth_username")
-        password = st.text_input("Password", type="password", key="auth_password")
-
-        if st.session_state.auth_mode == "Login":
-
-            if st.button("Login"):
-                if login_user(username, password):
-                    st.session_state.authenticated = True
-                    st.session_state.username = username
-                    st.rerun()
-                else:
-                    st.error("Invalid Credentials")
-
-            st.markdown("<br>", unsafe_allow_html=True)
-
-            if st.button("Create an Account"):
-                st.session_state.auth_mode = "Register"
+        if st.button("Login"):
+            if login_user(username, password):
+                st.session_state.authenticated = True
+                st.session_state.username = username
                 st.rerun()
+            else:
+                st.error("Invalid Credentials")
 
-        else:
+        st.markdown("<br>", unsafe_allow_html=True)
 
-            if st.button("Register"):
-                if register_user(username, password):
-                    st.success("Account Created Successfully")
-                    st.session_state.auth_mode = "Login"
-                else:
-                    st.error("Username already exists")
+        if st.button("Create an Account"):
+            st.session_state.auth_mode = "Register"
+            st.rerun()
 
-            st.markdown("<br>", unsafe_allow_html=True)
+    else:
 
-            if st.button("Back to Login"):
+        if st.button("Register"):
+            if register_user(username, password):
+                st.success("Account Created Successfully")
                 st.session_state.auth_mode = "Login"
-                st.rerun()
+            else:
+                st.error("Username already exists")
 
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        if st.button("Back to Login"):
+            st.session_state.auth_mode = "Login"
+            st.rerun()
 
     st.stop()
 # =====================================================
