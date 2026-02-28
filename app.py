@@ -257,91 +257,80 @@ elif st.session_state.page == "AI Intelligence Engine":
 
 elif st.session_state.page == "Strategy Lab":
 
-    st.title("Strategy Lab")
+    st.title("Strategy Lab — Multi Strategy Engine")
 
     import yfinance as yf
     import numpy as np
     import pandas as pd
     import plotly.graph_objects as go
 
-    st.subheader("Quant Strategy Experimentation")
+    symbol = st.text_input("Enter Stock Symbol", "AAPL", key="multi_strategy_symbol")
 
-    symbol = st.text_input("Enter Stock Symbol", "AAPL", key="strategy_symbol")
+    if st.button("Run Quant Strategy Engine"):
 
-    short_window = st.slider("Short Moving Average", 5, 50, 10)
-    long_window = st.slider("Long Moving Average", 20, 200, 50)
-
-    if st.button("Run Strategy Backtest"):
-
-        with st.spinner("Running Quant Strategy Simulation..."):
+        with st.spinner("Running Multi-Strategy Backtest..."):
 
             data = yf.download(symbol, period="2y")
-
-            data["MA_Short"] = data["Close"].rolling(short_window).mean()
-            data["MA_Long"] = data["Close"].rolling(long_window).mean()
-
-            data["Signal"] = np.where(
-                data["MA_Short"] > data["MA_Long"], 1, 0
-            )
-
             data["Return"] = data["Close"].pct_change()
-            data["Strategy_Return"] = data["Return"] * data["Signal"]
+
+            # -------------------
+            # Strategy 1: Moving Average
+            # -------------------
+            data["MA10"] = data["Close"].rolling(10).mean()
+            data["MA50"] = data["Close"].rolling(50).mean()
+            data["MA_Signal"] = np.where(data["MA10"] > data["MA50"], 1, 0)
+            data["MA_Strategy"] = data["Return"] * data["MA_Signal"]
+
+            # -------------------
+            # Strategy 2: RSI
+            # -------------------
+            delta = data["Close"].diff()
+            gain = (delta.where(delta > 0, 0)).rolling(14).mean()
+            loss = (-delta.where(delta < 0, 0)).rolling(14).mean()
+            rs = gain / loss
+            data["RSI"] = 100 - (100 / (1 + rs))
+            data["RSI_Signal"] = np.where(data["RSI"] < 30, 1, 0)
+            data["RSI_Strategy"] = data["Return"] * data["RSI_Signal"]
+
+            # -------------------
+            # Strategy 3: Buy & Hold
+            # -------------------
+            data["BuyHold"] = data["Return"]
 
             data = data.dropna()
 
-            cumulative_market = (1 + data["Return"]).cumprod()
-            cumulative_strategy = (1 + data["Strategy_Return"]).cumprod()
+            cumulative_market = (1 + data["BuyHold"]).cumprod()
+            cumulative_ma = (1 + data["MA_Strategy"]).cumprod()
+            cumulative_rsi = (1 + data["RSI_Strategy"]).cumprod()
 
             fig = go.Figure()
+            fig.add_trace(go.Scatter(y=cumulative_market, name="Market"))
+            fig.add_trace(go.Scatter(y=cumulative_ma, name="Moving Average"))
+            fig.add_trace(go.Scatter(y=cumulative_rsi, name="RSI"))
 
-            fig.add_trace(go.Scatter(
-                y=cumulative_market,
-                mode="lines",
-                name="Market"
-            ))
-
-            fig.add_trace(go.Scatter(
-                y=cumulative_strategy,
-                mode="lines",
-                name="Strategy"
-            ))
-
-            fig.update_layout(title="Strategy vs Market Performance")
-
+            fig.update_layout(title="Multi-Strategy Performance Comparison")
             st.plotly_chart(fig, use_container_width=True)
 
-            # Performance Metrics
-            sharpe = (
-                data["Strategy_Return"].mean() /
-                data["Strategy_Return"].std()
-            ) * np.sqrt(252)
+            # Performance Metrics Table
+            def metrics(series):
+                sharpe = (series.mean() / series.std()) * np.sqrt(252)
+                volatility = series.std() * np.sqrt(252)
+                total_return = (1 + series).cumprod().iloc[-1] - 1
+                return sharpe, volatility, total_return
 
-            volatility = data["Strategy_Return"].std() * np.sqrt(252)
+            ma_metrics = metrics(data["MA_Strategy"])
+            rsi_metrics = metrics(data["RSI_Strategy"])
+            bh_metrics = metrics(data["BuyHold"])
 
-            drawdown = (
-                cumulative_strategy /
-                cumulative_strategy.cummax() - 1
-            ).min()
+            performance_table = pd.DataFrame({
+                "Strategy": ["Moving Average", "RSI", "Buy & Hold"],
+                "Sharpe Ratio": [ma_metrics[0], rsi_metrics[0], bh_metrics[0]],
+                "Volatility": [ma_metrics[1], rsi_metrics[1], bh_metrics[1]],
+                "Total Return": [ma_metrics[2], rsi_metrics[2], bh_metrics[2]]
+            })
 
-            total_return = cumulative_strategy.iloc[-1] - 1
-
-            st.subheader("Strategy Performance Metrics")
-
-            col1, col2, col3, col4 = st.columns(4)
-
-            col1.metric("Total Return", f"{total_return:.2%}")
-            col2.metric("Sharpe Ratio", f"{sharpe:.2f}")
-            col3.metric("Volatility", f"{volatility:.2f}")
-            col4.metric("Max Drawdown", f"{drawdown:.2%}")
-
-            # Download CSV
-            csv = data.to_csv().encode()
-            st.download_button(
-                label="Download Strategy Data",
-                data=csv,
-                file_name="quantnova_strategy_results.csv",
-                mime="text/csv"
-            )
+            st.subheader("Strategy Performance Leaderboard")
+            st.dataframe(performance_table.sort_values("Sharpe Ratio", ascending=False))
 
 # =====================================================
 # MARKET DASHBOARD
