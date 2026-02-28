@@ -121,18 +121,63 @@ Built with a startup mindset and academic discipline, the system integrates ense
 
     st.markdown("---")
 
+    # =====================================================
+    # FULL PLATFORM OVERVIEW
+    # =====================================================
+
+    st.header("AI Intelligence Engine")
+
+    st.markdown("""
+The AI Intelligence Engine is the computational core of QuantNova. It is designed to process complex, multi-dimensional financial datasets and transform them into probability-driven insight frameworks.
+
+Rather than relying on static indicators or traditional technical analysis, the engine applies adaptive machine learning models, volatility clustering diagnostics, cross-asset correlation mapping, and structural break detection algorithms. 
+This allows the system to continuously recalibrate as new information enters the market environment.
+
+By integrating predictive modeling with real-time statistical validation, the engine reduces signal noise and enhances informational precision. 
+It identifies momentum transitions, liquidity imbalances, and regime shifts before they become widely recognized by the market.
+""")
+
+    st.markdown("---")
+
+    st.header("Strategy Lab")
+
+    st.markdown("""
+The Strategy Lab serves as the experimental research and validation layer of QuantNova. It is a controlled quantitative environment where trading hypotheses evolve into rigorously tested systematic frameworks.
+
+Inside the lab, strategies undergo parameter optimization, walk-forward testing, Monte Carlo simulations, and drawdown sensitivity analysis. 
+Each model is evaluated across multiple volatility regimes to ensure structural robustness rather than curve-fitted performance.
+
+This architecture enables disciplined experimentation while maintaining mathematical integrity — transforming theoretical ideas into deployable quantitative systems.
+""")
+
+    st.markdown("---")
+
+    st.header("Market Dashboard")
+
+    st.markdown("""
+The Market Dashboard provides structured situational awareness across macro and micro timeframes. 
+It consolidates volatility metrics, momentum shifts, sector rotation dynamics, and liquidity flow structures into a unified analytical interface.
+
+Designed for clarity rather than clutter, the dashboard surfaces only materially relevant signals — reducing cognitive overload while enhancing decision accuracy.
+
+Integrated risk diagnostics ensure that exposure levels are evaluated relative to prevailing market conditions, allowing users to maintain strategic alignment in dynamic environments.
+""")
+
+    st.markdown("---")
+
     if st.button("About Us"):
         st.session_state.page = "About"
         st.rerun()
 
     st.markdown("---")
+
     st.header("Contact Us")
     st.write("+91 8089411348")
     st.write("+91 7012958445")
 
     st.header("Follow Us On")
-    st.write("@f_eb_in_")
-    st.write("@_gan.ga__")
+    st.write("@ f_eb_in_")
+    st.write("@ _gan.ga__")
 
 # =====================================================
 # AI ENGINE
