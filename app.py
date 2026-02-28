@@ -210,12 +210,7 @@ if not st.session_state.authenticated:
 
             st.markdown('</div>', unsafe_allow_html=True)
 
-        # RIGHT WELCOME PANEL
-        with right:
-            st.markdown(
-                '<div class="right-panel">Welcome.</div>',
-                unsafe_allow_html=True
-            )
+        
 
         st.markdown('</div>', unsafe_allow_html=True)
 
