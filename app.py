@@ -66,59 +66,81 @@ if "auth_mode" not in st.session_state:
 st.markdown("""
 <style>
 
-/* Remove Streamlit default padding */
+/* Remove Streamlit padding & width constraints */
 .block-container {
-    padding-top: 0rem;
-    padding-bottom: 0rem;
+    padding: 0 !important;
+    max-width: 100% !important;
 }
 
-/* Full-page flex center */
+/* Fullscreen center wrapper */
+html, body, [data-testid="stAppViewContainer"] {
+    height: 100%;
+}
+
 .stApp {
-    background: linear-gradient(135deg, #1e293b, #0f172a);
+    background: radial-gradient(circle at 30% 30%, #1e293b, #0f172a 70%);
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
-/* Card */
+/* Center card */
 .centered-card {
-    background: #ffffff;
+    width: 420px;
     padding: 60px 50px;
-    border-radius: 20px;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.6);
-    width: 400px;
+    border-radius: 24px;
+
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    box-shadow:
+        0 0 80px rgba(56, 189, 248, 0.35),  /* outer glow */
+        0 30px 80px rgba(0, 0, 0, 0.6);     /* depth */
+
     text-align: center;
 }
 
-/* Brand */
+/* Title inside box */
 .centered-card h2 {
-    font-size: 32px;
-    margin-bottom: 5px;
-    color: #0f172a;
+    font-size: 34px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    color: #ffffff;
 }
+
 .centered-card p {
-    color: #475569;
+    color: #cbd5e1;
     margin-bottom: 30px;
 }
 
-/* Inputs full width */
+/* Inputs */
 div.stTextInput > div > div > input {
-    width: 100% !important;
+    background: rgba(255,255,255,0.08) !important;
+    color: white !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
 }
 
-/* Buttons full width */
+/* Buttons */
 div.stButton > button {
     width: 100% !important;
     height: 45px;
-    border-radius: 25px;
+    border-radius: 20px;
     font-weight: 600;
-    background-color: #0f172a;
+    background: linear-gradient(90deg, #38bdf8, #6366f1);
+    border: none;
     color: white;
-    margin-top: 10px;
+    margin-top: 15px;
+    transition: 0.3s ease;
 }
+
 div.stButton > button:hover {
-    background-color: #1e293b;
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(99,102,241,0.6);
 }
 
 </style>
