@@ -11,6 +11,104 @@ import base64
 from io import BytesIO
 import os
 import datetime
+import streamlit.components.v1 as components
+components.html("""
+<style>
+body {
+    cursor: none !important;
+}
+
+/* Outer Ring */
+.cursor-ring {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #00A3FF;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s ease, height 0.2s ease, border 0.2s ease;
+    z-index: 9999;
+    box-shadow: 0 0 20px #00A3FF, 0 0 40px #007BFF;
+}
+
+/* Inner Dot */
+.cursor-dot {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: #00A3FF;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+}
+
+/* Hover Effect */
+.cursor-hover {
+    width: 60px !important;
+    height: 60px !important;
+    border: 3px solid #33BBFF !important;
+}
+
+/* Click Effect */
+.cursor-click {
+    width: 25px !important;
+    height: 25px !important;
+}
+</style>
+
+<div class="cursor-ring" id="cursor-ring"></div>
+<div class="cursor-dot" id="cursor-dot"></div>
+
+<script>
+const ring = document.getElementById("cursor-ring");
+const dot = document.getElementById("cursor-dot");
+
+let mouseX = 0;
+let mouseY = 0;
+let ringX = 0;
+let ringY = 0;
+
+// Smooth follow animation
+function animate() {
+    ringX += (mouseX - ringX) * 0.15;
+    ringY += (mouseY - ringY) * 0.15;
+
+    ring.style.left = ringX + "px";
+    ring.style.top = ringY + "px";
+
+    dot.style.left = mouseX + "px";
+    dot.style.top = mouseY + "px";
+
+    requestAnimationFrame(animate);
+}
+animate();
+
+document.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
+
+// Hover interaction for buttons and links
+document.querySelectorAll("button, a").forEach(el => {
+    el.addEventListener("mouseenter", () => {
+        ring.classList.add("cursor-hover");
+    });
+    el.addEventListener("mouseleave", () => {
+        ring.classList.remove("cursor-hover");
+    });
+});
+
+// Click animation
+document.addEventListener("mousedown", () => {
+    ring.classList.add("cursor-click");
+});
+document.addEventListener("mouseup", () => {
+    ring.classList.remove("cursor-click");
+});
+</script>
+""", height=0)
 
 st.markdown("""
 <style>
