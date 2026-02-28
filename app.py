@@ -55,7 +55,7 @@ def login_user(username, password):
     return c.fetchone()
 
 # -----------------------------
-# AUTHENTICATION SYSTEM (FIXED CENTERED VERSION)
+# PREMIUM AUTHENTICATION SYSTEM
 # -----------------------------
 
 if "authenticated" not in st.session_state:
@@ -66,31 +66,74 @@ if "auth_mode" not in st.session_state:
 
 if not st.session_state.authenticated:
 
-    # Add vertical spacing
-    st.markdown("<br><br><br>", unsafe_allow_html=True)
+    st.markdown("""
+    <style>
+    .stApp {
+        background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #111827);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+    }
 
-    # Center using columns
-    left, center, right = st.columns([1, 2, 1])
+    @keyframes gradientBG {
+        0% {background-position: 0% 50%;}
+        50% {background-position: 100% 50%;}
+        100% {background-position: 0% 50%;}
+    }
+
+    .login-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        padding: 50px;
+        border-radius: 20px;
+        box-shadow: 0 0 60px rgba(0, 0, 0, 0.6);
+    }
+
+    .login-title {
+        text-align: center;
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 30px;
+        color: white;
+        letter-spacing: 1px;
+    }
+
+    div.stButton > button {
+        width: 100%;
+        border-radius: 10px;
+        height: 45px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    div.stButton > button:hover {
+        transform: scale(1.02);
+    }
+
+    .footer-text {
+        text-align: center;
+        font-size: 14px;
+        margin-top: 15px;
+        color: #cbd5e1;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # Vertical spacing
+    st.markdown("<br><br><br><br>", unsafe_allow_html=True)
+
+    left, center, right = st.columns([1, 1.5, 1])
 
     with center:
 
-        st.markdown("""
-            <div style="
-                background-color:#111827;
-                padding:40px;
-                border-radius:15px;
-                box-shadow:0px 0px 40px rgba(0,0,0,0.6);
-            ">
-            <h2 style="text-align:center; color:white;">QuantNova</h2>
-            </div>
-        """, unsafe_allow_html=True)
+        st.markdown('<div class="login-card">', unsafe_allow_html=True)
+        st.markdown('<div class="login-title">QuantNova</div>', unsafe_allow_html=True)
 
         username = st.text_input("Username", key="auth_username")
         password = st.text_input("Password", type="password", key="auth_password")
 
         if st.session_state.auth_mode == "Login":
 
-            if st.button("Login", use_container_width=True):
+            if st.button("Login"):
                 if login_user(username, password):
                     st.session_state.authenticated = True
                     st.session_state.username = username
@@ -98,26 +141,28 @@ if not st.session_state.authenticated:
                 else:
                     st.error("Invalid Credentials")
 
-            st.markdown("<br>", unsafe_allow_html=True)
-
-            if st.button("Create an Account", use_container_width=True):
+            st.markdown('<div class="footer-text">', unsafe_allow_html=True)
+            if st.button("Create an Account"):
                 st.session_state.auth_mode = "Register"
                 st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
 
         else:
 
-            if st.button("Register", use_container_width=True):
+            if st.button("Register"):
                 if register_user(username, password):
                     st.success("Account Created Successfully")
                     st.session_state.auth_mode = "Login"
                 else:
                     st.error("Username already exists")
 
-            st.markdown("<br>", unsafe_allow_html=True)
-
-            if st.button("Back to Login", use_container_width=True):
+            st.markdown('<div class="footer-text">', unsafe_allow_html=True)
+            if st.button("Back to Login"):
                 st.session_state.auth_mode = "Login"
                 st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
+
+        st.markdown('</div>', unsafe_allow_html=True)
 
     st.stop()
 # =====================================================
