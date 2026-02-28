@@ -14,6 +14,8 @@ import datetime
 import streamlit.components.v1 as components
 import sqlite3
 import hashlib
+import streamlit as st
+st.write("Streamlit version:", st.__version__)
 # -----------------------------
 # DATABASE SETUP
 # -----------------------------
