@@ -106,7 +106,7 @@ if "auth_mode" not in st.session_state:
 
 
 # -----------------------------
-# SPLIT SCREEN LOGIN PAGE
+# CLEAN SPLIT LOGIN (STABLE)
 # -----------------------------
 
 if not st.session_state.authenticated:
@@ -114,69 +114,42 @@ if not st.session_state.authenticated:
     st.markdown("""
     <style>
 
-    /* Full background */
     .stApp {
         background: #2e3c75;
     }
 
-    /* Center container */
-    section.main > div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-
-    /* Main Card */
+    /* Big centered card */
     .main-card {
-        width: 1000px;
-        height: 550px;
-        display: flex;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
         background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        padding: 0;
+        overflow: hidden;
     }
 
-    /* Left Panel (Login) */
     .left-panel {
-        width: 40%;
-        padding: 50px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background: #ffffff;
+        padding: 60px 40px;
     }
 
-    /* Right Panel (Welcome) */
     .right-panel {
-        width: 60%;
         background: linear-gradient(135deg, #4f73ff, #7cc6ff, #f5d7b2);
+        height: 500px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
         font-size: 48px;
         font-weight: 700;
+        color: white;
     }
 
-    .login-title {
-        font-size: 22px;
-        font-weight: 600;
-        margin-bottom: 30px;
-        color: #2e3c75;
-    }
-
-    /* Input styling */
     div.stTextInput > div {
-        width: 250px;
+        width: 260px;
     }
 
     div.stButton > button {
-        width: 250px;
+        width: 260px;
         border-radius: 25px;
-        height: 40px;
+        height: 42px;
         font-weight: 600;
         background-color: #2e3c75;
         color: white;
@@ -190,49 +163,61 @@ if not st.session_state.authenticated:
     </style>
     """, unsafe_allow_html=True)
 
-    # Create layout wrapper
-    st.markdown('<div class="main-card">', unsafe_allow_html=True)
+    # Center everything
+    spacer1, main_col, spacer2 = st.columns([1, 3, 1])
 
-    # LEFT PANEL
-    st.markdown('<div class="left-panel">', unsafe_allow_html=True)
-    st.markdown('<div class="login-title">Template Design</div>', unsafe_allow_html=True)
+    with main_col:
 
-    username = st.text_input("Username", key="auth_username")
-    password = st.text_input("Password", type="password", key="auth_password")
+        st.markdown('<div class="main-card">', unsafe_allow_html=True)
 
-    if st.session_state.auth_mode == "Login":
+        left, right = st.columns([1, 1.4])
 
-        if st.button("LOGIN"):
-            if login_user(username, password):
-                st.session_state.authenticated = True
-                st.session_state.username = username
-                st.rerun()
+        # LEFT LOGIN PANEL
+        with left:
+            st.markdown('<div class="left-panel">', unsafe_allow_html=True)
+            st.markdown("### QuantNova")
+            st.caption("AI-Powered Quantitative Intelligence")
+
+            username = st.text_input("Username", key="auth_username")
+            password = st.text_input("Password", type="password", key="auth_password")
+
+            if st.session_state.auth_mode == "Login":
+
+                if st.button("LOGIN"):
+                    if login_user(username, password):
+                        st.session_state.authenticated = True
+                        st.session_state.username = username
+                        st.rerun()
+                    else:
+                        st.error("Invalid Credentials")
+
+                if st.button("Create an Account"):
+                    st.session_state.auth_mode = "Register"
+                    st.rerun()
+
             else:
-                st.error("Invalid Credentials")
 
-        if st.button("Create an Account"):
-            st.session_state.auth_mode = "Register"
-            st.rerun()
+                if st.button("REGISTER"):
+                    if register_user(username, password):
+                        st.success("Account Created Successfully")
+                        st.session_state.auth_mode = "Login"
+                    else:
+                        st.error("Username already exists")
 
-    else:
+                if st.button("Back to Login"):
+                    st.session_state.auth_mode = "Login"
+                    st.rerun()
 
-        if st.button("REGISTER"):
-            if register_user(username, password):
-                st.success("Account Created Successfully")
-                st.session_state.auth_mode = "Login"
-            else:
-                st.error("Username already exists")
+            st.markdown('</div>', unsafe_allow_html=True)
 
-        if st.button("Back to Login"):
-            st.session_state.auth_mode = "Login"
-            st.rerun()
+        # RIGHT WELCOME PANEL
+        with right:
+            st.markdown(
+                '<div class="right-panel">Welcome.</div>',
+                unsafe_allow_html=True
+            )
 
-    st.markdown('</div>', unsafe_allow_html=True)
-
-    # RIGHT PANEL
-    st.markdown('<div class="right-panel">Welcome.</div>', unsafe_allow_html=True)
-
-    st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
     st.stop()
 # =====================================================
