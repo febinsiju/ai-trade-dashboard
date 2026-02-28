@@ -104,10 +104,6 @@ if selected != st.session_state.page:
     st.rerun()
     st.sidebar.write(f"Logged in as: {st.session_state.username}")
 
-if st.sidebar.button("Logout"):
-    st.session_state.authenticated = False
-    st.rerun()
-
 # =====================================================
 # HOME
 # =====================================================
