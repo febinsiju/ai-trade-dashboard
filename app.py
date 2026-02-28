@@ -259,24 +259,89 @@ elif st.session_state.page == "Strategy Lab":
 
     st.title("Strategy Lab")
 
-    symbol = st.text_input("Stock Symbol", "AAPL")
-    data = yf.download(symbol, period="2y")
+    import yfinance as yf
+    import numpy as np
+    import pandas as pd
+    import plotly.graph_objects as go
 
-    short = st.slider("Short SMA", 5, 30, 10)
-    long = st.slider("Long SMA", 20, 100, 50)
+    st.subheader("Quant Strategy Experimentation")
 
-    data["Short"] = data["Close"].rolling(short).mean()
-    data["Long"] = data["Close"].rolling(long).mean()
-    data["Signal"] = np.where(data["Short"] > data["Long"], 1, 0)
-    data["Returns"] = data["Close"].pct_change()
-    data["Strategy"] = data["Signal"].shift(1) * data["Returns"]
+    symbol = st.text_input("Enter Stock Symbol", "AAPL", key="strategy_symbol")
 
-    cumulative = (1 + data["Strategy"]).cumprod()
+    short_window = st.slider("Short Moving Average", 5, 50, 10)
+    long_window = st.slider("Long Moving Average", 20, 200, 50)
 
-    st.line_chart(cumulative)
+    if st.button("Run Strategy Backtest"):
 
-    total_return = round((cumulative.iloc[-1] - 1) * 100, 2)
-    st.metric("Total Strategy Return", f"{total_return}%")
+        with st.spinner("Running Quant Strategy Simulation..."):
+
+            data = yf.download(symbol, period="2y")
+
+            data["MA_Short"] = data["Close"].rolling(short_window).mean()
+            data["MA_Long"] = data["Close"].rolling(long_window).mean()
+
+            data["Signal"] = np.where(
+                data["MA_Short"] > data["MA_Long"], 1, 0
+            )
+
+            data["Return"] = data["Close"].pct_change()
+            data["Strategy_Return"] = data["Return"] * data["Signal"]
+
+            data = data.dropna()
+
+            cumulative_market = (1 + data["Return"]).cumprod()
+            cumulative_strategy = (1 + data["Strategy_Return"]).cumprod()
+
+            fig = go.Figure()
+
+            fig.add_trace(go.Scatter(
+                y=cumulative_market,
+                mode="lines",
+                name="Market"
+            ))
+
+            fig.add_trace(go.Scatter(
+                y=cumulative_strategy,
+                mode="lines",
+                name="Strategy"
+            ))
+
+            fig.update_layout(title="Strategy vs Market Performance")
+
+            st.plotly_chart(fig, use_container_width=True)
+
+            # Performance Metrics
+            sharpe = (
+                data["Strategy_Return"].mean() /
+                data["Strategy_Return"].std()
+            ) * np.sqrt(252)
+
+            volatility = data["Strategy_Return"].std() * np.sqrt(252)
+
+            drawdown = (
+                cumulative_strategy /
+                cumulative_strategy.cummax() - 1
+            ).min()
+
+            total_return = cumulative_strategy.iloc[-1] - 1
+
+            st.subheader("Strategy Performance Metrics")
+
+            col1, col2, col3, col4 = st.columns(4)
+
+            col1.metric("Total Return", f"{total_return:.2%}")
+            col2.metric("Sharpe Ratio", f"{sharpe:.2f}")
+            col3.metric("Volatility", f"{volatility:.2f}")
+            col4.metric("Max Drawdown", f"{drawdown:.2%}")
+
+            # Download CSV
+            csv = data.to_csv().encode()
+            st.download_button(
+                label="Download Strategy Data",
+                data=csv,
+                file_name="quantnova_strategy_results.csv",
+                mime="text/csv"
+            )
 
 # =====================================================
 # MARKET DASHBOARD
