@@ -15,6 +15,9 @@ import streamlit.components.v1 as components
 import sqlite3
 import hashlib
 import streamlit as st
+import sqlite3
+import hashlib
+
 # -----------------------------
 # DATABASE SETUP
 # -----------------------------
@@ -58,31 +61,68 @@ if "auth_mode" not in st.session_state:
     st.session_state.auth_mode = "Login"
 
 # -----------------------------
-# STYLING
+# STYLING FOR PROFESSIONAL CENTERED LOGIN
 # -----------------------------
 st.markdown("""
 <style>
-.stApp { background-color: #0f172a; }
-.block-container { padding-top: 0rem; padding-bottom: 0rem; }
-section.main > div { display: flex; justify-content: center; align-items: center; height: 100vh; }
+/* Full page center */
+.stApp {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    height: 100vh;
+}
+section.main > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Card style */
 .login-card {
-    background: white;
+    background: #ffffff;
     padding: 60px 50px;
     border-radius: 20px;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.6);
     width: 400px;
     text-align: center;
 }
-div.stTextInput > div { width: 260px; margin: auto; }
+
+/* Brand title */
+.login-card h2 {
+    font-family: 'Arial', sans-serif;
+    font-size: 32px;
+    margin-bottom: 5px;
+    color: #0f172a;
+}
+
+/* Caption */
+.login-card p {
+    color: #475569;
+    margin-bottom: 30px;
+}
+
+/* Input styling */
+div.stTextInput > div {
+    width: 100% !important;
+    max-width: 300px;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+/* Button styling */
 div.stButton > button {
-    width: 260px;
+    width: 100% !important;
+    max-width: 300px;
+    height: 45px;
     border-radius: 25px;
-    height: 42px;
     font-weight: 600;
     background-color: #0f172a;
     color: white;
+    margin-top: 10px;
 }
-div.stButton > button:hover { background-color: #1e293b; color: white; }
+div.stButton > button:hover {
+    background-color: #1e293b;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -91,8 +131,8 @@ div.stButton > button:hover { background-color: #1e293b; color: white; }
 # -----------------------------
 if not st.session_state.authenticated:
     st.markdown('<div class="login-card">', unsafe_allow_html=True)
-    st.markdown("<h2 style='margin-bottom: 5px;'>QuantNova</h2>", unsafe_allow_html=True)
-    st.caption("AI-Powered Quantitative Intelligence")
+    st.markdown("<h2>QuantNova</h2>", unsafe_allow_html=True)
+    st.markdown("<p>AI-Powered Quantitative Intelligence</p>", unsafe_allow_html=True)
     
     username = st.text_input("Username", key="auth_username")
     password = st.text_input("Password", type="password", key="auth_password")
@@ -102,7 +142,6 @@ if not st.session_state.authenticated:
             if login_user(username, password):
                 st.session_state.authenticated = True
                 st.session_state.username = username
-                st.success(f"Welcome, {username}!")
                 st.experimental_rerun()
             else:
                 st.error("Invalid username or password")
@@ -110,7 +149,7 @@ if not st.session_state.authenticated:
             st.session_state.auth_mode = "Register"
             st.experimental_rerun()
     
-    else:  # Register mode
+    else:  # Register
         st.subheader("Create a New Account")
         if st.button("REGISTER"):
             if username.strip() == "" or password.strip() == "":
@@ -128,10 +167,10 @@ if not st.session_state.authenticated:
     st.stop()
 
 # -----------------------------
-# AUTHENTICATED USER PAGE
+# AUTHENTICATED PAGE
 # -----------------------------
 st.success(f"Welcome {st.session_state.username}! You are logged in.")
-st.write("Here goes your main app content...")
+st.write("Your main app content goes here...")
 # =====================================================
 # PAGE CONFIG
 # =====================================================
