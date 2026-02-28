@@ -55,7 +55,47 @@ def login_user(username, password):
     return c.fetchone()
 
 # -----------------------------
-# FIXED LOGIN FOR STREAMLIT 1.54.0
+# LOGIN SYSTEM (FIXED VERSION)
+# -----------------------------
+
+import streamlit as st
+import sqlite3
+import hashlib
+
+# -----------------------------
+# DATABASE SETUP
+# -----------------------------
+
+conn = sqlite3.connect("users.db", check_same_thread=False)
+c = conn.cursor()
+
+c.execute("""
+CREATE TABLE IF NOT EXISTS users (
+    username TEXT PRIMARY KEY,
+    password TEXT
+)
+""")
+conn.commit()
+
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+def register_user(username, password):
+    try:
+        c.execute("INSERT INTO users VALUES (?, ?)", (username, hash_password(password)))
+        conn.commit()
+        return True
+    except:
+        return False
+
+def login_user(username, password):
+    c.execute("SELECT * FROM users WHERE username=? AND password=?", 
+              (username, hash_password(password)))
+    return c.fetchone() is not None
+
+
+# -----------------------------
+# SESSION STATE
 # -----------------------------
 
 if "authenticated" not in st.session_state:
@@ -64,84 +104,128 @@ if "authenticated" not in st.session_state:
 if "auth_mode" not in st.session_state:
     st.session_state.auth_mode = "Login"
 
+
+# -----------------------------
+# LOGIN PAGE UI
+# -----------------------------
+
 if not st.session_state.authenticated:
 
     st.markdown("""
-<style>
+    <style>
 
-/* Background */
-.stApp {
-    background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #111827);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-}
-
-@keyframes gradientBG {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-}
-
-/* Center everything */
-section.main > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-}
-
-/* Glowing Brand Box */
-.brand-box {
-    width: 420px;
-    padding: 40px;
-    border-radius: 30px;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(20px);
-    text-align: center;
-    margin-bottom: 40px;
-
-    box-shadow:
-        0 0 25px rgba(0,119,255,0.7),
-        0 0 60px rgba(0,119,255,0.4);
-
-    animation: glowPulse 3s infinite alternate;
-}
-
-@keyframes glowPulse {
-    from {
-        box-shadow:
-            0 0 15px rgba(0,119,255,0.5),
-            0 0 30px rgba(0,119,255,0.3);
+    .stApp {
+        background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #111827);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
     }
-    to {
-        box-shadow:
-            0 0 35px rgba(0,119,255,0.9),
-            0 0 70px rgba(0,119,255,0.6);
+
+    @keyframes gradientBG {
+        0% {background-position: 0% 50%;}
+        50% {background-position: 100% 50%;}
+        100% {background-position: 0% 50%;}
     }
-}
 
-.brand-title {
-    font-size: 38px;
-    font-weight: 700;
-    color: white;
-}
+    section.main > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
 
-.brand-subtitle {
-    color: #94a3b8;
-    margin-top: 10px;
-}
+    .brand-box {
+        width: 420px;
+        padding: 45px;
+        border-radius: 30px;
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(20px);
+        text-align: center;
+        margin-bottom: 40px;
 
-/* Buttons */
-div.stButton > button {
-    width: 420px;
-    border-radius: 12px;
-    height: 45px;
-    font-weight: 600;
-}
+        box-shadow:
+            0 0 25px rgba(0,119,255,0.7),
+            0 0 60px rgba(0,119,255,0.4);
 
-</style>
-""", unsafe_allow_html=True)
+        animation: glowPulse 3s infinite alternate;
+    }
+
+    @keyframes glowPulse {
+        from {
+            box-shadow:
+                0 0 15px rgba(0,119,255,0.5),
+                0 0 30px rgba(0,119,255,0.3);
+        }
+        to {
+            box-shadow:
+                0 0 35px rgba(0,119,255,0.9),
+                0 0 70px rgba(0,119,255,0.6);
+        }
+    }
+
+    .brand-title {
+        font-size: 38px;
+        font-weight: 700;
+        color: white;
+    }
+
+    .brand-subtitle {
+        color: #94a3b8;
+        margin-top: 10px;
+    }
+
+    div.stTextInput > div > div > input {
+        width: 420px;
+    }
+
+    div.stButton > button {
+        width: 420px;
+        border-radius: 12px;
+        height: 45px;
+        font-weight: 600;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
+
+    # GLOWING BRAND BOX (ONLY BRAND INSIDE)
+    st.markdown("""
+    <div class="brand-box">
+        <div class="brand-title">QuantNova</div>
+        <div class="brand-subtitle">AI-Powered Quantitative Intelligence</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # LOGIN FORM BELOW THE BOX
+    username = st.text_input("Username", key="auth_username")
+    password = st.text_input("Password", type="password", key="auth_password")
+
+    if st.session_state.auth_mode == "Login":
+
+        if st.button("Login"):
+            if login_user(username, password):
+                st.session_state.authenticated = True
+                st.session_state.username = username
+                st.rerun()
+            else:
+                st.error("Invalid Credentials")
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        if st.button("Create an Account"):
+            st.session_state.auth_mode = "Register"
+            st.rerun()
+
+    else:
+
+        if st.button("Register"):
+            if register_user(username, password):
+                st.success("Account Created Successfully")
+                st.session_state.auth_mode = "Login"
+            else:
+                st.error("Username already exists")
+
+        st.markdown("<br>", unsafe_allow_html=True)
 
         if st.button("Back to Login"):
             st.session_state.auth_mode = "Login"
