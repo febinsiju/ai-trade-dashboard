@@ -216,7 +216,7 @@ elif st.session_state.page == "Market Dashboard":
     st.plotly_chart(fig, use_container_width=True)
 
 # =====================================================
-# ABOUT PAGE (UNCHANGED STRUCTURE)
+# ABOUT PAGE (EXPANDED VERSION)
 # =====================================================
 
 elif st.session_state.page == "About":
@@ -224,9 +224,17 @@ elif st.session_state.page == "About":
     st.title("About QuantNova")
 
     st.markdown("""
-QuantNova was conceived as an academic research initiative by students of Computer Science and Engineering (CSE B S2) at TocH Institute Of Science And Technology (TIST), Ernakulam, Kerala.
+QuantNova was conceived as a long-horizon academic research initiative by the members of **Group 7**, students of Computer Science and Engineering (CSE B S2) at TocH Institute Of Science And Technology (TIST), Ernakulam, Kerala. 
 
-The initiative merges statistical rigor, algorithmic experimentation, and responsible AI modeling into a unified research platform.
+What began as a structured academic exploration into financial data modeling gradually evolved into a disciplined research mission focused on bridging the gap between theoretical artificial intelligence frameworks and their real-world deployment in financial intelligence systems. As members of Group 7, our objective was never limited to building a classroom project. Instead, we sought to architect a foundational system that demonstrates how statistical reasoning, computational rigor, and algorithmic experimentation can converge into a scalable intelligence platform.
+
+Our collective aim is to design systems that do not merely react to market movements but interpret structural patterns within them. We believe financial markets represent one of the most complex real-time data ecosystems in existence — continuously evolving, probabilistic in nature, and heavily influenced by behavioral, economic, and technological forces. QuantNova is our attempt to engineer clarity within that complexity.
+
+As a research-driven team, our mission extends beyond feature implementation. We focus on validation methodology, reproducibility of experiments, measurable uncertainty modeling, and structured system design. Group 7 operates with a philosophy rooted in long-term intellectual discipline rather than short-term experimentation. Our goal is to cultivate a platform that demonstrates how academic precision can coexist with startup-level ambition.
+
+QuantNova represents our commitment to building systems that prioritize integrity over hype, structure over speculation, and measurable performance over assumption. It is a living research framework — one that we intend to continuously expand, refine, and elevate into a platform capable of evolving alongside advancements in machine learning and financial modeling.
+
+We are not simply students completing a requirement. We are engineers building infrastructure. We are researchers designing frameworks. And we are founders shaping a vision that extends far beyond a single semester or deployment cycle.
 """)
 
     st.markdown("---")
@@ -236,7 +244,17 @@ The initiative merges statistical rigor, algorithmic experimentation, and respon
     st.markdown("<p style='text-align:center; font-weight:600;'>Founder & Lead Architect</p>", unsafe_allow_html=True)
 
     st.markdown("""
-Febin Siju conceptualized and architected QuantNova from its foundational framework to its advanced modeling components. His responsibilities encompassed system architecture design, feature engineering logic, model experimentation, and validation strategy development.
+Febin Siju is the founding architect of QuantNova and the principal systems thinker behind its structural design. From conceptualization to execution, he engineered the foundational framework that defines the platform’s analytical depth and operational coherence.
+
+His approach to system design is rooted in long-term architectural thinking. Rather than assembling isolated machine learning components, Febin structured QuantNova as a layered intelligence ecosystem. He focused on modular design principles, enabling experimentation without compromising structural stability. The predictive modeling pipelines, feature engineering frameworks, and validation strategies were conceptualized with scalability in mind — ensuring that each component could evolve independently while remaining integrated within a cohesive architecture.
+
+Febin’s technical focus spans ensemble learning systems, probabilistic outcome modeling, statistical validation mechanics, and deployment-oriented system thinking. He emphasizes the importance of measurable intelligence — where every signal must be reproducible, every experiment must be documented, and every prediction must be statistically defensible. His philosophy rejects black-box assumptions and instead promotes transparent, testable modeling processes.
+
+Beyond technical implementation, Febin established the long-term strategic vision of QuantNova. He positioned the platform not merely as an academic submission but as a scalable research infrastructure capable of future expansion into cross-asset intelligence modeling, institutional-grade strategy validation systems, and enterprise-ready AI analytics layers.
+
+His leadership philosophy integrates academic discipline with startup momentum. He believes that innovation is not achieved through rapid feature accumulation, but through carefully engineered structural foundations that can withstand complexity over time. QuantNova reflects this mindset — deliberate, research-oriented, and architecturally intentional.
+
+Through disciplined experimentation and structured iteration, Febin continues to guide QuantNova’s evolution toward becoming a sophisticated AI-driven quantitative intelligence framework capable of adapting to increasingly complex financial ecosystems.
 """)
 
     st.markdown("---")
@@ -246,7 +264,17 @@ Febin Siju conceptualized and architected QuantNova from its foundational framew
     st.markdown("<p style='text-align:center; font-weight:600;'>Co-Founder & Research Strategist</p>", unsafe_allow_html=True)
 
     st.markdown("""
-Ganga AR played a crucial role in refining the analytical integrity of QuantNova, focusing on validation methodology and structured documentation.
+Ganga AR serves as the Co-Founder and Research Strategist of QuantNova, playing a pivotal role in strengthening the analytical integrity and validation discipline of the platform. While system architecture forms the structural backbone of QuantNova, research rigor forms its intellectual core — and Ganga’s contributions are central to that foundation.
+
+Her work focuses extensively on validation methodology, structured documentation practices, and analytical refinement. She ensures that experimental results are not merely generated but critically evaluated. By emphasizing reproducibility and systematic testing, she reinforces the platform’s commitment to academic robustness.
+
+Ganga approaches quantitative modeling from a structured research perspective. She examines assumptions, challenges model biases, and contributes to refining the interpretability of predictive outcomes. Her involvement ensures that QuantNova does not drift toward overfitting or speculative modeling practices, but instead remains anchored in disciplined statistical reasoning.
+
+Beyond validation, Ganga contributes to the long-term research roadmap of the platform. She actively participates in defining experimentation cycles, refining hypothesis testing frameworks, and strengthening the documentation standards that support continuous platform evolution. Her focus on clarity, structure, and analytical transparency enhances the intellectual credibility of QuantNova.
+
+As a co-founder, she embodies the balance between ambition and responsibility. Her perspective reinforces the principle that scalable AI systems must be built with accountability, structured evaluation, and measurable performance at their core.
+
+Through her research-centered contributions, QuantNova evolves not only as a technical system but as a disciplined academic intelligence platform designed to withstand scrutiny, complexity, and future expansion.
 """)
 
     st.markdown("---")
