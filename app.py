@@ -76,74 +76,59 @@ st.markdown("""
 
 /* Background */
 .stApp {
-    background: radial-gradient(circle at center, #1e293b, #0f172a 70%);
+    background: radial-gradient(circle at 30% 30%, #1e293b, #0f172a 70%);
 }
 
-/* Center container */
-.center-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 85vh;
-}
-
-/* Glass card */
+/* Glass card styling */
 .glass-card {
-    width: 360px;
-    padding: 45px 35px;
-    border-radius: 22px;
+    width: 420px;
+    padding: 60px 50px;
+    border-radius: 24px;
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow:
-        0 0 70px rgba(56, 189, 248, 0.35),
-        0 25px 60px rgba(0, 0, 0, 0.6);
+        0 0 80px rgba(56, 189, 248, 0.35),
+        0 30px 80px rgba(0, 0, 0, 0.6);
     text-align: center;
 }
 
-/* Title */
 .glass-card h2 {
-    margin: 0 0 5px 0;
-    font-size: 28px;
-    letter-spacing: 3px;
+    font-size: 34px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
     color: #ffffff;
 }
 
-/* Subtitle */
 .glass-card p {
     color: #cbd5e1;
-    margin-bottom: 25px;
-    font-size: 13px;
+    margin-bottom: 30px;
 }
 
-/* Inputs smaller */
-div.stTextInput {
-    width: 240px !important;
-    margin: 0 auto 12px auto !important;
-}
-
-div.stTextInput input {
+/* Inputs */
+div.stTextInput > div > div > input {
     background: rgba(255,255,255,0.08) !important;
     color: white !important;
-    border-radius: 8px !important;
+    border-radius: 12px !important;
     border: 1px solid rgba(255,255,255,0.2) !important;
-    height: 36px;
 }
 
-/* Buttons smaller */
-div.stButton {
-    width: 240px !important;
-    margin: 0 auto 10px auto !important;
-}
-
-div.stButton button {
-    height: 36px;
-    border-radius: 16px;
+/* Buttons */
+div.stButton > button {
+    height: 45px;
+    border-radius: 20px;
     font-weight: 600;
     background: linear-gradient(90deg, #38bdf8, #6366f1);
     border: none;
     color: white;
+    margin-top: 15px;
+    transition: 0.3s ease;
+}
+
+div.stButton > button:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(99,102,241,0.6);
 }
 
 </style>
