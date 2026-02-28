@@ -12,6 +12,38 @@ from io import BytesIO
 import os
 import datetime
 
+st.markdown("""
+<style>
+/* Hide default cursor */
+body {
+    cursor: none;
+}
+
+/* Custom glowing cursor */
+.custom-cursor {
+    position: fixed;
+    width: 25px;
+    height: 25px;
+    border: 2px solid #00A3FF;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: transform 0.05s linear;
+    z-index: 9999;
+    box-shadow: 0 0 15px #00A3FF, 0 0 30px #007BFF;
+}
+</style>
+
+<div class="custom-cursor" id="cursor"></div>
+
+<script>
+document.addEventListener("mousemove", function(e) {
+    const cursor = document.getElementById("cursor");
+    cursor.style.left = e.clientX + "px";
+    cursor.style.top = e.clientY + "px";
+});
+</script>
+""", unsafe_allow_html=True)
 # =====================================================
 # PAGE CONFIG
 # =====================================================
