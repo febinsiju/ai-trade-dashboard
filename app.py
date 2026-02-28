@@ -55,7 +55,7 @@ def login_user(username, password):
     return c.fetchone()
 
 # -----------------------------
-# AUTHENTICATION SYSTEM (PRO VERSION)
+# AUTHENTICATION SYSTEM (FIXED CENTERED VERSION)
 # -----------------------------
 
 if "authenticated" not in st.session_state:
@@ -66,78 +66,58 @@ if "auth_mode" not in st.session_state:
 
 if not st.session_state.authenticated:
 
-    st.markdown("""
-        <style>
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 90vh;
-        }
-        .login-box {
-            background-color: #111827;
-            padding: 40px;
-            border-radius: 15px;
-            width: 380px;
-            box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.6);
-        }
-        .login-title {
-            text-align: center;
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: white;
-        }
-        .login-footer {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 14px;
-        }
-        </style>
-    """, unsafe_allow_html=True)
+    # Add vertical spacing
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
 
-    st.markdown('<div class="login-container">', unsafe_allow_html=True)
-    st.markdown('<div class="login-box">', unsafe_allow_html=True)
+    # Center using columns
+    left, center, right = st.columns([1, 2, 1])
 
-    st.markdown('<div class="login-title">QuantNova</div>', unsafe_allow_html=True)
+    with center:
 
-    username = st.text_input("Username", key="auth_username")
-    password = st.text_input("Password", type="password", key="auth_password")
+        st.markdown("""
+            <div style="
+                background-color:#111827;
+                padding:40px;
+                border-radius:15px;
+                box-shadow:0px 0px 40px rgba(0,0,0,0.6);
+            ">
+            <h2 style="text-align:center; color:white;">QuantNova</h2>
+            </div>
+        """, unsafe_allow_html=True)
 
-    if st.session_state.auth_mode == "Login":
+        username = st.text_input("Username", key="auth_username")
+        password = st.text_input("Password", type="password", key="auth_password")
 
-        if st.button("Login", use_container_width=True):
-            if login_user(username, password):
-                st.session_state.authenticated = True
-                st.session_state.username = username
-                st.success("Login Successful")
+        if st.session_state.auth_mode == "Login":
+
+            if st.button("Login", use_container_width=True):
+                if login_user(username, password):
+                    st.session_state.authenticated = True
+                    st.session_state.username = username
+                    st.rerun()
+                else:
+                    st.error("Invalid Credentials")
+
+            st.markdown("<br>", unsafe_allow_html=True)
+
+            if st.button("Create an Account", use_container_width=True):
+                st.session_state.auth_mode = "Register"
                 st.rerun()
-            else:
-                st.error("Invalid Credentials")
 
-        st.markdown('<div class="login-footer">', unsafe_allow_html=True)
-        if st.button("Create an Account"):
-            st.session_state.auth_mode = "Register"
-            st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
+        else:
 
-    else:  # Register Mode
+            if st.button("Register", use_container_width=True):
+                if register_user(username, password):
+                    st.success("Account Created Successfully")
+                    st.session_state.auth_mode = "Login"
+                else:
+                    st.error("Username already exists")
 
-        if st.button("Register", use_container_width=True):
-            if register_user(username, password):
-                st.success("Account Created Successfully")
+            st.markdown("<br>", unsafe_allow_html=True)
+
+            if st.button("Back to Login", use_container_width=True):
                 st.session_state.auth_mode = "Login"
-            else:
-                st.error("Username already exists")
-
-        st.markdown('<div class="login-footer">', unsafe_allow_html=True)
-        if st.button("Back to Login"):
-            st.session_state.auth_mode = "Login"
-            st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+                st.rerun()
 
     st.stop()
 # =====================================================
