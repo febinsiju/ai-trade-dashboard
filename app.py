@@ -67,114 +67,81 @@ if "auth_mode" not in st.session_state:
 if not st.session_state.authenticated:
 
     st.markdown("""
-    <style>
-    .stApp {
-        background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #111827);
-        background-size: 400% 400%;
-        animation: gradientBG 15s ease infinite;
-    }
+<style>
 
-    @keyframes gradientBG {
-        0% {background-position: 0% 50%;}
-        50% {background-position: 100% 50%;}
-        100% {background-position: 0% 50%;}
-    }
+/* Background */
+.stApp {
+    background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #111827);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
 
-    /* Center entire page */
-    section.main > div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-    }
+@keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
 
-    /* Target the actual Streamlit block container */
-    div[data-testid="stVerticalBlock"] > div:has(div[data-testid="stTextInput"]) {
-        background: rgba(255,255,255,0.05);
-        backdrop-filter: blur(20px);
-        padding: 50px;
-        border-radius: 25px;
+/* Center everything */
+section.main > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Glowing Brand Box */
+.brand-box {
+    width: 420px;
+    padding: 40px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    text-align: center;
+    margin-bottom: 40px;
+
+    box-shadow:
+        0 0 25px rgba(0,119,255,0.7),
+        0 0 60px rgba(0,119,255,0.4);
+
+    animation: glowPulse 3s infinite alternate;
+}
+
+@keyframes glowPulse {
+    from {
         box-shadow:
-            0 0 25px rgba(0,119,255,0.7),
-            0 0 60px rgba(0,119,255,0.4);
-        animation: glowPulse 3s infinite alternate;
-        width: 420px;
+            0 0 15px rgba(0,119,255,0.5),
+            0 0 30px rgba(0,119,255,0.3);
     }
-
-    @keyframes glowPulse {
-        from {
-            box-shadow:
-                0 0 15px rgba(0,119,255,0.5),
-                0 0 30px rgba(0,119,255,0.3);
-        }
-        to {
-            box-shadow:
-                0 0 35px rgba(0,119,255,0.9),
-                0 0 70px rgba(0,119,255,0.6);
-        }
+    to {
+        box-shadow:
+            0 0 35px rgba(0,119,255,0.9),
+            0 0 70px rgba(0,119,255,0.6);
     }
+}
 
-    .login-title {
-        text-align: center;
-        font-size: 34px;
-        font-weight: 700;
-        color: white;
-        margin-bottom: 10px;
-    }
+.brand-title {
+    font-size: 38px;
+    font-weight: 700;
+    color: white;
+}
 
-    .login-subtitle {
-        text-align: center;
-        color: #94a3b8;
-        margin-bottom: 25px;
-    }
+.brand-subtitle {
+    color: #94a3b8;
+    margin-top: 10px;
+}
 
-    div.stButton > button {
-        width: 100%;
-        border-radius: 12px;
-        height: 45px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
+/* Buttons */
+div.stButton > button {
+    width: 420px;
+    border-radius: 12px;
+    height: 45px;
+    font-weight: 600;
+}
 
-    div.stButton > button:hover {
-        transform: scale(1.03);
-    }
-
-    </style>
-    """, unsafe_allow_html=True)
-
-    st.markdown('<div class="login-title">QuantNova</div>', unsafe_allow_html=True)
-    st.markdown('<div class="login-subtitle">AI-Powered Quantitative Intelligence</div>', unsafe_allow_html=True)
-
-    username = st.text_input("Username", key="auth_username")
-    password = st.text_input("Password", type="password", key="auth_password")
-
-    if st.session_state.auth_mode == "Login":
-
-        if st.button("Login"):
-            if login_user(username, password):
-                st.session_state.authenticated = True
-                st.session_state.username = username
-                st.rerun()
-            else:
-                st.error("Invalid Credentials")
-
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        if st.button("Create an Account"):
-            st.session_state.auth_mode = "Register"
-            st.rerun()
-
-    else:
-
-        if st.button("Register"):
-            if register_user(username, password):
-                st.success("Account Created Successfully")
-                st.session_state.auth_mode = "Login"
-            else:
-                st.error("Username already exists")
-
-        st.markdown("<br>", unsafe_allow_html=True)
+</style>
+""", unsafe_allow_html=True)
 
         if st.button("Back to Login"):
             st.session_state.auth_mode = "Login"
