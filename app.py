@@ -239,49 +239,52 @@ QuantNova represents our commitment to engineering infrastructure — not just f
     # HOVER STYLE (ONLY ONCE)
     # =============================
     st.markdown("""
-    <style>
-    .profile-container {
-        position: relative;
-        width: 220px;
-        margin: 30px auto;
-    }
+<style>
+.profile-container {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 30px auto;
+}
 
-    .profile-image {
-        width: 220px;
-        height: 220px;
-        border-radius: 50%;
-        object-fit: cover;
-        transition: 0.4s ease;
-    }
+.profile-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;      /* 🔥 prevents stretching */
+    object-position: center;/* 🔥 centers the face */
+    display: block;
+    transition: 0.4s ease;
+}
 
-    .profile-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 220px;
-        height: 220px;
-        border-radius: 50%;
-        background: rgba(0, 0, 0, 0.85);
-        color: white;
-        opacity: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 15px;
-        font-size: 14px;
-        transition: 0.4s ease;
-    }
+.profile-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
+    transition: 0.4s ease;
+}
 
-    .profile-container:hover .profile-overlay {
-        opacity: 1;
-    }
+.profile-container:hover .profile-overlay {
+    opacity: 1;
+}
 
-    .profile-container:hover .profile-image {
-        transform: scale(1.05);
-    }
-    </style>
-    """, unsafe_allow_html=True)
+.profile-container:hover .profile-image {
+    transform: scale(1.05);
+}
+</style>
+""", unsafe_allow_html=True)
 
     # =============================
     # IMAGE ENCODING FUNCTION
