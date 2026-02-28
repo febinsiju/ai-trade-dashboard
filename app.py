@@ -55,31 +55,58 @@ def login_user(username, password):
     return c.fetchone()
 
 # -----------------------------
-# AUTHENTICATION SYSTEM
+# AUTHENTICATION SYSTEM (PRO VERSION)
 # -----------------------------
 
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
+if "auth_mode" not in st.session_state:
+    st.session_state.auth_mode = "Login"
+
 if not st.session_state.authenticated:
 
-    st.title("QuantNova Secure Login")
+    st.markdown("""
+        <style>
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+        }
+        .login-box {
+            background-color: #111827;
+            padding: 40px;
+            border-radius: 15px;
+            width: 380px;
+            box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.6);
+        }
+        .login-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .login-footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        </style>
+    """, unsafe_allow_html=True)
 
-    menu = ["Login", "Register"]
-    choice = st.radio("Select Option", menu)
+    st.markdown('<div class="login-container">', unsafe_allow_html=True)
+    st.markdown('<div class="login-box">', unsafe_allow_html=True)
 
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
+    st.markdown('<div class="login-title">QuantNova</div>', unsafe_allow_html=True)
 
-    if choice == "Register":
-        if st.button("Create Account"):
-            if register_user(username, password):
-                st.success("Account Created Successfully")
-            else:
-                st.error("Username already exists")
+    username = st.text_input("Username", key="auth_username")
+    password = st.text_input("Password", type="password", key="auth_password")
 
-    if choice == "Login":
-        if st.button("Login"):
+    if st.session_state.auth_mode == "Login":
+
+        if st.button("Login", use_container_width=True):
             if login_user(username, password):
                 st.session_state.authenticated = True
                 st.session_state.username = username
@@ -87,6 +114,30 @@ if not st.session_state.authenticated:
                 st.rerun()
             else:
                 st.error("Invalid Credentials")
+
+        st.markdown('<div class="login-footer">', unsafe_allow_html=True)
+        if st.button("Create an Account"):
+            st.session_state.auth_mode = "Register"
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    else:  # Register Mode
+
+        if st.button("Register", use_container_width=True):
+            if register_user(username, password):
+                st.success("Account Created Successfully")
+                st.session_state.auth_mode = "Login"
+            else:
+                st.error("Username already exists")
+
+        st.markdown('<div class="login-footer">', unsafe_allow_html=True)
+        if st.button("Back to Login"):
+            st.session_state.auth_mode = "Login"
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
     st.stop()
 # =====================================================
