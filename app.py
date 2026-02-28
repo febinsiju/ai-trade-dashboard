@@ -63,134 +63,96 @@ if "authenticated" not in st.session_state:
 if "auth_mode" not in st.session_state:
     st.session_state.auth_mode = "Login"
 
-# -----------------------------
-# CENTERING + PROFESSIONAL STYLE (FIXED)
-# -----------------------------
+# 1. Custom CSS for centering and limiting box width
 st.markdown("""
 <style>
-/* Remove default padding */
-.block-container {
-    padding-top: 2rem;
-}
+    /* Main container styling */
+    .block-container {
+        padding-top: 5rem;
+    }
 
-/* Background */
-.stApp {
-    background: radial-gradient(circle at 30% 30%, #1e293b, #0f172a 70%);
-}
+    /* Background */
+    .stApp {
+        background: radial-gradient(circle at 30% 30%, #1e293b, #0f172a 70%);
+    }
 
-/* Center the login box vertically and horizontally */
-[data-testid="stVerticalBlock"] > div:has(div.glass-card) {
-    display: flex;
-    justify-content: center;
-}
+    /* The Login Card wrapper */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 40px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        text-align: center;
+    }
 
-/* Glass card styling */
-.glass-card {
-    width: 400px;
-    padding: 40px;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 
-        0 0 60px rgba(56, 189, 248, 0.2),
-        0 20px 50px rgba(0, 0, 0, 0.5);
-    text-align: center;
-    margin: auto;
-}
+    /* Typography inside the box */
+    .glass-card h2 {
+        color: white;
+        font-weight: 800;
+        margin-bottom: 5px;
+        letter-spacing: 1px;
+    }
+    .glass-card p {
+        color: #cbd5e1;
+        margin-bottom: 30px;
+        font-size: 14px;
+    }
 
-.glass-card h2 {
-    font-size: 32px;
-    letter-spacing: 2px;
-    margin-bottom: 5px;
-    color: #ffffff;
-    font-weight: 800;
-}
+    /* Target Streamlit inputs to make them shorter and centered */
+    div[data-testid="stTextInput"] {
+        width: 100% !important;
+        margin: 0 auto;
+    }
 
-.glass-card p {
-    color: #cbd5e1;
-    margin-bottom: 25px;
-    font-size: 14px;
-}
+    div.stTextInput > div > div > input {
+        background: rgba(255,255,255,0.05) !important;
+        color: white !important;
+        border-radius: 10px !important;
+    }
 
-/* Inputs styling */
-div[data-testid="stTextInput"] label {
-    color: #cbd5e1 !important;
-}
-
-div.stTextInput > div > div > input {
-    background: rgba(255,255,255,0.05) !important;
-    color: white !important;
-    border-radius: 10px !important;
-    border: 1px solid rgba(255,255,255,0.1) !important;
-}
-
-/* Buttons styling */
-div.stButton > button {
-    width: 100%;
-    height: 45px;
-    border-radius: 12px;
-    font-weight: 600;
-    background: linear-gradient(90deg, #38bdf8, #6366f1);
-    border: none;
-    color: white;
-    margin-top: 10px;
-    transition: 0.3s ease;
-}
-
-div.stButton > button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(99,102,241,0.4);
-    color: white;
-}
+    /* Button styling */
+    div.stButton > button {
+        width: 100%;
+        background: linear-gradient(90deg, #38bdf8, #6366f1);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        height: 45px;
+        font-weight: 600;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# -----------------------------
-# LOGIN / REGISTER CARD
-# -----------------------------
-if not st.session_state.get('authenticated', False):
-    # This empty container helps with the centering logic
-    with st.container():
-        # Outer wrapper to ensure the background/blur effect contains everything
-        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+# 2. Layout: Using columns to restrict the width of the box
+# [1, 1.5, 1] ratio makes the middle column narrow and centered
+col1, col2, col3 = st.columns([1, 1.5, 1])
+
+with col2:
+    # Wrap everything in a single HTML container
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    
+    # Text inside the box
+    st.markdown("<h2>QUANTNOVA</h2>", unsafe_allow_html=True)
+    st.markdown("<p>AI-Powered Quantitative Intelligence</p>", unsafe_allow_html=True)
+
+    # Widgets (Streamlit places these inside the 'glass-card' div if typed like this)
+    username = st.text_input("Username", label_visibility="collapsed", placeholder="Username")
+    password = st.text_input("Password", type="password", label_visibility="collapsed", placeholder="Password")
+    
+    st.write("") # Spacer
+    
+    if st.button("LOGIN"):
+        # Add login logic here
+        pass
         
-        # Header inside the box
-        st.markdown("<h2>QUANTNOVA</h2>", unsafe_allow_html=True)
-        st.markdown("<p>AI-Powered Quantitative Intelligence</p>", unsafe_allow_html=True)
+    if st.button("Create an Account"):
+        # Add redirect logic here
+        pass
 
-        # Form elements
-        username = st.text_input("Username", key="auth_username")
-        password = st.text_input("Password", type="password", key="auth_password")
-
-        if st.session_state.get('auth_mode', 'Login') == "Login":
-            if st.button("LOGIN", use_container_width=True):
-                # Replace with your actual login logic
-                if username == "admin" and password == "admin": 
-                    st.session_state.authenticated = True
-                    st.rerun()
-                else:
-                    st.error("Invalid credentials")
-
-            if st.button("Create an Account", use_container_width=True):
-                st.session_state.auth_mode = "Register"
-                st.rerun()
-
-        else:
-            st.markdown("<h3 style='color:white; font-size:18px;'>Create Account</h3>", unsafe_allow_html=True)
-            if st.button("REGISTER", use_container_width=True):
-                # Your register logic here
-                st.success("Account created!")
-                st.session_state.auth_mode = "Login"
-                st.rerun()
-
-            if st.button("Back to Login", use_container_width=True):
-                st.session_state.auth_mode = "Login"
-                st.rerun()
-
-        st.markdown('</div>', unsafe_allow_html=True)
-    st.stop()
+    st.markdown('</div>', unsafe_allow_html=True)
 # -----------------------------
 # AUTHENTICATED PAGE
 # -----------------------------
