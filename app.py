@@ -239,9 +239,73 @@ We are not simply students completing a requirement. We are engineers building i
 
     st.markdown("---")
 
-    circular_image("founder_image.jpg", 180)
-    st.markdown("<h3 style='text-align:center;'>Febin Siju</h3>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align:center; font-weight:600;'>Founder & Lead Architect</p>", unsafe_allow_html=True)
+    st.markdown("""
+<style>
+.profile-container {
+    position: relative;
+    width: 220px;
+    margin: auto;
+}
+
+.profile-image {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: 0.4s ease;
+}
+
+.profile-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
+    transition: 0.4s ease;
+}
+
+.profile-container:hover .profile-overlay {
+    opacity: 1;
+}
+
+.profile-container:hover .profile-image {
+    transform: scale(1.05);
+}
+</style>
+""", unsafe_allow_html=True)
+
+# Convert founder image to base64
+def get_base64_image(path):
+    if not os.path.exists(path):
+        return ""
+    with open(path, "rb") as img:
+        return base64.b64encode(img.read()).decode()
+
+founder_img = get_base64_image("founder_image.jpg")
+
+st.markdown(f"""
+<div class="profile-container">
+    <img src="data:image/png;base64,{founder_img}" class="profile-image">
+    <div class="profile-overlay">
+        Founder & Lead Architect of QuantNova.<br>
+        Architected the AI intelligence framework, predictive modeling systems, 
+        validation engines, and long-term infrastructure roadmap.
+    </div>
+</div>
+
+<h3 style="text-align:center;">Febin Siju</h3>
+<p style="text-align:center; font-weight:600;">Founder & Lead Architect</p>
+""", unsafe_allow_html=True)
 
     st.markdown("""
 Febin Siju is the founding architect of QuantNova and the principal systems thinker behind its structural design. From conceptualization to execution, he engineered the foundational framework that defines the platform’s analytical depth and operational coherence.
