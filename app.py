@@ -7,14 +7,21 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.calibration import CalibratedClassifierCV
-import ta
 import datetime
+import ta
 
 # =====================================================
 # PAGE CONFIG
 # =====================================================
 
 st.set_page_config(page_title="QuantNova", layout="wide")
+
+# =====================================================
+# SESSION STATE
+# =====================================================
+
+if "page" not in st.session_state:
+    st.session_state.page = "Home"
 
 # =====================================================
 # SIDEBAR
@@ -31,13 +38,15 @@ pages = [
     "About"
 ]
 
-page = st.sidebar.radio("Navigate", pages)
+selected = st.sidebar.radio("Navigate", pages)
+
+st.session_state.page = selected
 
 # =====================================================
-# HOME (UNCHANGED INTRO)
+# HOME (UNCHANGED)
 # =====================================================
 
-if page == "Home":
+if st.session_state.page == "Home":
 
     st.title("QuantNova")
     st.subheader("AI-Powered Quantitative Intelligence Platform")
@@ -97,21 +106,25 @@ QuantNova is not a startup experimenting with finance.
 It is a research-driven AI systems company entering financial intelligence as its first domain of deployment.""")
 
 # =====================================================
-# AI INTELLIGENCE ENGINE
+# AI INTELLIGENCE ENGINE (UPGRADED)
 # =====================================================
 
-elif page == "AI Intelligence Engine":
+elif st.session_state.page == "AI Intelligence Engine":
 
     st.title("AI Intelligence Engine")
 
     symbol = st.text_input("Stock Symbol", "AAPL")
+
     data = yf.download(symbol, period="2y", interval="1d")
 
     if data.empty:
         st.error("Invalid symbol")
         st.stop()
 
+    # =====================
     # Feature Engineering
+    # =====================
+
     data["SMA20"] = data["Close"].rolling(20).mean()
     data["SMA50"] = data["Close"].rolling(50).mean()
     data["RSI"] = ta.momentum.RSIIndicator(data["Close"]).rsi()
@@ -122,6 +135,7 @@ elif page == "AI Intelligence Engine":
     data["Volatility"] = data["Close"].pct_change().rolling(10).std()
 
     data["Target"] = np.where(data["Close"].shift(-1) > data["Close"], 1, 0)
+
     data.dropna(inplace=True)
 
     features = ["SMA20", "SMA50", "RSI", "ATR", "MACD", "Volatility"]
@@ -133,8 +147,12 @@ elif page == "AI Intelligence Engine":
         X, y, shuffle=False, test_size=0.2
     )
 
-    model = RandomForestClassifier(n_estimators=300)
-    calibrated_model = CalibratedClassifierCV(model, method="isotonic", cv=3)
+    # =====================
+    # Model Training
+    # =====================
+
+    base_model = RandomForestClassifier(n_estimators=300)
+    calibrated_model = CalibratedClassifierCV(base_model, method="isotonic", cv=3)
 
     calibrated_model.fit(X_train, y_train)
 
@@ -145,7 +163,10 @@ elif page == "AI Intelligence Engine":
     prediction = "BUY" if last_prob[1] > last_prob[0] else "SELL"
     confidence = round(max(last_prob) * 100, 2)
 
+    # =====================
     # Risk Metrics
+    # =====================
+
     returns = data["Close"].pct_change()
     sharpe = (returns.mean() / returns.std()) * np.sqrt(252)
 
@@ -156,7 +177,7 @@ elif page == "AI Intelligence Engine":
 
     col1, col2, col3 = st.columns(3)
     col1.metric("Model Accuracy", f"{round(accuracy*100,2)}%")
-    col2.metric("Signal", prediction)
+    col2.metric("Signal", f"{prediction}")
     col3.metric("Confidence", f"{confidence}%")
 
     col4, col5, col6 = st.columns(3)
@@ -168,11 +189,16 @@ elif page == "AI Intelligence Engine":
 # REAL-TIME SIGNAL ENGINE
 # =====================================================
 
-elif page == "Real-Time Signal Engine":
+elif st.session_state.page == "Real-Time Signal Engine":
 
     st.title("Real-Time Signal Engine")
 
     symbol = st.text_input("Stock Symbol", "AAPL")
+
+    refresh = st.checkbox("Auto Refresh (Every 60s)")
+
+    if refresh:
+        st.experimental_rerun()
 
     data = yf.download(symbol, period="5d", interval="5m")
 
@@ -193,19 +219,21 @@ elif page == "Real-Time Signal Engine":
     st.plotly_chart(fig, use_container_width=True)
 
     momentum = data["Close"].pct_change().rolling(5).mean().iloc[-1]
+
     signal = "BUY" if momentum > 0 else "SELL"
 
-    st.metric("Live Momentum Signal", signal)
+    st.metric("Momentum Signal", signal)
 
 # =====================================================
 # STRATEGY LAB
 # =====================================================
 
-elif page == "Strategy Lab":
+elif st.session_state.page == "Strategy Lab":
 
     st.title("Strategy Lab")
 
     symbol = st.text_input("Stock Symbol", "AAPL")
+
     data = yf.download(symbol, period="2y")
 
     short = st.slider("Short SMA", 5, 30, 10)
@@ -223,17 +251,19 @@ elif page == "Strategy Lab":
     st.line_chart(cumulative)
 
     total_return = round((cumulative.iloc[-1] - 1) * 100, 2)
+
     st.metric("Total Strategy Return", f"{total_return}%")
 
 # =====================================================
 # MARKET DASHBOARD
 # =====================================================
 
-elif page == "Market Dashboard":
+elif st.session_state.page == "Market Dashboard":
 
     st.title("Market Dashboard")
 
     symbol = st.text_input("Stock Symbol", "AAPL")
+
     data = yf.download(symbol, period="6mo")
 
     fig = go.Figure(data=[go.Candlestick(
@@ -252,7 +282,7 @@ elif page == "Market Dashboard":
 # ABOUT (UNCHANGED)
 # =====================================================
 
-elif page == "About":
+elif st.session_state.page == "About":
 
     st.title("About QuantNova")
 
