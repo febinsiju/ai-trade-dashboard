@@ -12,38 +12,6 @@ from io import BytesIO
 import os
 import datetime
 import streamlit.components.v1 as components
-st.markdown("""
-<style>
-
-/* Hide default cursor */
-html, body, [class*="css"]  {
-    cursor: none !important;
-}
-
-/* Create glowing cursor using pseudo element */
-body::after {
-    content: "";
-    position: fixed;
-    width: 25px;
-    height: 25px;
-    border: 2px solid #00A3FF;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    box-shadow: 0 0 15px #00A3FF, 0 0 30px #007BFF;
-    transform: translate(-50%, -50%);
-}
-
-</style>
-
-<script>
-document.addEventListener("mousemove", function(e) {
-    const cursor = document.body;
-    cursor.style.setProperty('--x', e.clientX + 'px');
-    cursor.style.setProperty('--y', e.clientY + 'px');
-});
-</script>
-""", unsafe_allow_html=True)
 # =====================================================
 # PAGE CONFIG
 # =====================================================
