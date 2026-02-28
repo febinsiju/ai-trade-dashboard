@@ -112,89 +112,95 @@ if "auth_mode" not in st.session_state:
 if not st.session_state.authenticated:
 
     st.markdown("""
-    <style>
+<style>
 
-    .stApp {
-        background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #111827);
-        background-size: 400% 400%;
-        animation: gradientBG 15s ease infinite;
-    }
+.stApp {
+    background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #111827);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
 
-    @keyframes gradientBG {
-        0% {background-position: 0% 50%;}
-        50% {background-position: 100% 50%;}
-        100% {background-position: 0% 50%;}
-    }
+@keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
 
-    section.main > div {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-    }
+/* Center whole page perfectly */
+section.main > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
 
-    .brand-box {
-        width: 420px;
-        padding: 45px;
-        border-radius: 30px;
-        background: rgba(255,255,255,0.05);
-        backdrop-filter: blur(20px);
-        text-align: center;
-        margin-bottom: 40px;
+/* Glowing brand box */
+.brand-box {
+    width: 380px;
+    padding: 40px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    text-align: center;
+    margin-bottom: 35px;
 
+    box-shadow:
+        0 0 25px rgba(0,119,255,0.7),
+        0 0 60px rgba(0,119,255,0.4);
+
+    animation: glowPulse 3s infinite alternate;
+}
+
+@keyframes glowPulse {
+    from {
         box-shadow:
-            0 0 25px rgba(0,119,255,0.7),
-            0 0 60px rgba(0,119,255,0.4);
-
-        animation: glowPulse 3s infinite alternate;
+            0 0 15px rgba(0,119,255,0.5),
+            0 0 30px rgba(0,119,255,0.3);
     }
-
-    @keyframes glowPulse {
-        from {
-            box-shadow:
-                0 0 15px rgba(0,119,255,0.5),
-                0 0 30px rgba(0,119,255,0.3);
-        }
-        to {
-            box-shadow:
-                0 0 35px rgba(0,119,255,0.9),
-                0 0 70px rgba(0,119,255,0.6);
-        }
+    to {
+        box-shadow:
+            0 0 35px rgba(0,119,255,0.9),
+            0 0 70px rgba(0,119,255,0.6);
     }
+}
 
-    .brand-title {
-        font-size: 38px;
-        font-weight: 700;
-        color: white;
-    }
+.brand-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: white;
+}
 
-    .brand-subtitle {
-        color: #94a3b8;
-        margin-top: 10px;
-    }
+.brand-subtitle {
+    color: #94a3b8;
+    margin-top: 8px;
+}
 
-    div.stTextInput > div > div > input {
-        width: 420px;
-    }
+/* Center inputs */
+div.stTextInput {
+    display: flex;
+    justify-content: center;
+}
 
-    div.stButton > button {
-        width: 420px;
-        border-radius: 12px;
-        height: 45px;
-        font-weight: 600;
-    }
+div.stTextInput > div {
+    width: 280px;
+}
 
-    </style>
-    """, unsafe_allow_html=True)
+/* Center buttons */
+div.stButton {
+    display: flex;
+    justify-content: center;
+}
 
-    # GLOWING BRAND BOX (ONLY BRAND INSIDE)
-    st.markdown("""
-    <div class="brand-box">
-        <div class="brand-title">QuantNova</div>
-        <div class="brand-subtitle">AI-Powered Quantitative Intelligence</div>
-    </div>
-    """, unsafe_allow_html=True)
+div.stButton > button {
+    width: 280px;
+    border-radius: 12px;
+    height: 42px;
+    font-weight: 600;
+}
+
+</style>
+""", unsafe_allow_html=True)
 
     # LOGIN FORM BELOW THE BOX
     username = st.text_input("Username", key="auth_username")
