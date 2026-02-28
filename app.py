@@ -15,9 +15,6 @@ import streamlit.components.v1 as components
 import sqlite3
 import hashlib
 import streamlit as st
-import sqlite3
-import hashlib
-
 # -----------------------------
 # DATABASE SETUP
 # -----------------------------
