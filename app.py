@@ -82,8 +82,7 @@ def circular_image(image_path, size=180):
 
 st.sidebar.title("QuantNova Platform")
 
-pages = ["Home", "AI Intelligence Engine", "Strategy Lab", "Market Dashboard"]
-
+pages = ["Home", "AI Intelligence Engine", "Strategy Lab", "Market Dashboard", "About"]
 if st.session_state.page in pages:
     idx = pages.index(st.session_state.page)
 else:
@@ -92,8 +91,9 @@ else:
 selected = st.sidebar.radio("Navigate", pages, index=idx)
 
 # Only update if current page is a sidebar page
-if selected != st.session_state.page and st.session_state.page in pages:
+if selected != st.session_state.page:
     st.session_state.page = selected
+    st.rerun()
 
 # =====================================================
 # HOME
