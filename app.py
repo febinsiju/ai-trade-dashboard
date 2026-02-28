@@ -69,14 +69,9 @@ if "auth_mode" not in st.session_state:
 st.markdown("""
 <style>
 
-/* Remove default Streamlit padding */
+/* Remove default padding */
 .block-container {
-    padding: 0 !important;
-}
-
-/* Fullscreen background */
-html, body, [data-testid="stAppViewContainer"] {
-    height: 100%;
+    padding-top: 0rem;
 }
 
 /* Background */
@@ -84,43 +79,29 @@ html, body, [data-testid="stAppViewContainer"] {
     background: radial-gradient(circle at 30% 30%, #1e293b, #0f172a 70%);
 }
 
-/* TRUE vertical + horizontal center */
-section.main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-/* Center card */
-.centered-card {
+/* Glass card styling */
+.glass-card {
     width: 420px;
     padding: 60px 50px;
     border-radius: 24px;
-
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
-
     border: 1px solid rgba(255, 255, 255, 0.15);
-
     box-shadow:
         0 0 80px rgba(56, 189, 248, 0.35),
         0 30px 80px rgba(0, 0, 0, 0.6);
-
     text-align: center;
 }
 
-/* Title */
-.centered-card h2 {
+.glass-card h2 {
     font-size: 34px;
     letter-spacing: 2px;
     margin-bottom: 10px;
     color: #ffffff;
 }
 
-/* Subtitle */
-.centered-card p {
+.glass-card p {
     color: #cbd5e1;
     margin-bottom: 30px;
 }
@@ -135,7 +116,6 @@ div.stTextInput > div > div > input {
 
 /* Buttons */
 div.stButton > button {
-    width: 100% !important;
     height: 45px;
     border-radius: 20px;
     font-weight: 600;
@@ -158,40 +138,52 @@ div.stButton > button:hover {
 # LOGIN / REGISTER CARD
 # -----------------------------
 if not st.session_state.authenticated:
-    st.markdown('<div class="centered-card">', unsafe_allow_html=True)
-    st.markdown("<h2>QUANTNOVA</h2>", unsafe_allow_html=True)
-    st.markdown("<p>AI-Powered Quantitative Intelligence</p>", unsafe_allow_html=True)
-    
-    username = st.text_input("Username", key="auth_username")
-    password = st.text_input("Password", type="password", key="auth_password")
-    
-    if st.session_state.auth_mode == "Login":
-        if st.button("LOGIN"):
-            if login_user(username, password):
-                st.session_state.authenticated = True
-                st.session_state.username = username
+
+    # Vertical spacing
+    st.markdown("<br><br><br><br>", unsafe_allow_html=True)
+
+    # 3-column layout for perfect horizontal centering
+    col1, col2, col3 = st.columns([1,2,1])
+
+    with col2:
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+
+        st.markdown("<h2>QUANTNOVA</h2>", unsafe_allow_html=True)
+        st.markdown("<p>AI-Powered Quantitative Intelligence</p>", unsafe_allow_html=True)
+
+        username = st.text_input("Username", key="auth_username")
+        password = st.text_input("Password", type="password", key="auth_password")
+
+        if st.session_state.auth_mode == "Login":
+            if st.button("LOGIN", use_container_width=True):
+                if login_user(username, password):
+                    st.session_state.authenticated = True
+                    st.session_state.username = username
+                    st.rerun()
+                else:
+                    st.error("Invalid username or password")
+
+            if st.button("Create an Account", use_container_width=True):
+                st.session_state.auth_mode = "Register"
                 st.rerun()
-            else:
-                st.error("Invalid username or password")
-        if st.button("Create an Account"):
-            st.session_state.auth_mode = "Register"
-            st.rerun()
-    
-    else:
-        st.subheader("Create a New Account")
-        if st.button("REGISTER"):
-            if username.strip() == "" or password.strip() == "":
-                st.warning("Please fill all fields!")
-            elif register_user(username, password):
-                st.success("Account created successfully!")
+
+        else:
+            st.subheader("Create a New Account")
+            if st.button("REGISTER", use_container_width=True):
+                if username.strip() == "" or password.strip() == "":
+                    st.warning("Please fill all fields!")
+                elif register_user(username, password):
+                    st.success("Account created successfully!")
+                    st.session_state.auth_mode = "Login"
+                else:
+                    st.error("Username already exists. Try another.")
+
+            if st.button("Back to Login", use_container_width=True):
                 st.session_state.auth_mode = "Login"
-            else:
-                st.error("Username already exists. Try another.")
-        if st.button("Back to Login"):
-            st.session_state.auth_mode = "Login"
-            st.rerun()
-    
-    st.markdown('</div>', unsafe_allow_html=True)
+                st.rerun()
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
     st.stop()
 
 # -----------------------------
