@@ -14,50 +14,6 @@ import datetime
 import streamlit.components.v1 as components
 import sqlite3
 import hashlib
-# -----------------------------
-# DATABASE SETUP
-# -----------------------------
-
-conn = sqlite3.connect("quantnova_users.db", check_same_thread=False)
-c = conn.cursor()
-
-c.execute("""
-CREATE TABLE IF NOT EXISTS users (
-    username TEXT UNIQUE,
-    password TEXT
-)
-""")
-
-conn.commit()
-
-
-# -----------------------------
-# PASSWORD HASHING
-# -----------------------------
-
-def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
-
-
-def register_user(username, password):
-    try:
-        c.execute("INSERT INTO users (username, password) VALUES (?, ?)",
-                  (username, hash_password(password)))
-        conn.commit()
-        return True
-    except:
-        return False
-
-
-def login_user(username, password):
-    c.execute("SELECT * FROM users WHERE username=? AND password=?",
-              (username, hash_password(password)))
-    return c.fetchone()
-
-# -----------------------------
-# LOGIN SYSTEM (FIXED VERSION)
-# -----------------------------
-
 import streamlit as st
 import sqlite3
 import hashlib
@@ -65,8 +21,7 @@ import hashlib
 # -----------------------------
 # DATABASE SETUP
 # -----------------------------
-
-conn = sqlite3.connect("users.db", check_same_thread=False)
+conn = sqlite3.connect("quantnova_users.db", check_same_thread=False)
 c = conn.cursor()
 
 c.execute("""
@@ -77,15 +32,19 @@ CREATE TABLE IF NOT EXISTS users (
 """)
 conn.commit()
 
+# -----------------------------
+# PASSWORD HASHING
+# -----------------------------
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 def register_user(username, password):
     try:
-        c.execute("INSERT INTO users VALUES (?, ?)", (username, hash_password(password)))
+        c.execute("INSERT INTO users (username, password) VALUES (?, ?)", 
+                  (username, hash_password(password)))
         conn.commit()
         return True
-    except:
+    except sqlite3.IntegrityError:
         return False
 
 def login_user(username, password):
@@ -93,118 +52,89 @@ def login_user(username, password):
               (username, hash_password(password)))
     return c.fetchone() is not None
 
-
 # -----------------------------
 # SESSION STATE
 # -----------------------------
-
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
-
 if "auth_mode" not in st.session_state:
     st.session_state.auth_mode = "Login"
 
+# -----------------------------
+# STYLING
+# -----------------------------
+st.markdown("""
+<style>
+.stApp { background-color: #0f172a; }
+.block-container { padding-top: 0rem; padding-bottom: 0rem; }
+section.main > div { display: flex; justify-content: center; align-items: center; height: 100vh; }
+.login-card {
+    background: white;
+    padding: 60px 50px;
+    border-radius: 20px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    width: 400px;
+    text-align: center;
+}
+div.stTextInput > div { width: 260px; margin: auto; }
+div.stButton > button {
+    width: 260px;
+    border-radius: 25px;
+    height: 42px;
+    font-weight: 600;
+    background-color: #0f172a;
+    color: white;
+}
+div.stButton > button:hover { background-color: #1e293b; color: white; }
+</style>
+""", unsafe_allow_html=True)
 
 # -----------------------------
-# CLEAN CENTERED LOGIN
+# LOGIN/REGISTER CARD
 # -----------------------------
-
 if not st.session_state.authenticated:
-
-    st.markdown("""
-    <style>
-
-    /* Homepage background */
-    .stApp {
-        background-color: #0f172a;  /* change if your homepage uses another */
-    }
-
-    /* Remove top padding */
-    .block-container {
-        padding-top: 0rem;
-        padding-bottom: 0rem;
-    }
-
-    /* Center entire page */
-    section.main > div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-
-    /* Login Card */
-    .login-card {
-        background: white;
-        padding: 60px 50px;
-        border-radius: 20px;
-        box-shadow: 0 25px 60px rgba(0,0,0,0.5);
-        width: 400px;
-        text-align: center;
-    }
-
-    /* Input styling */
-    div.stTextInput > div {
-        width: 260px;
-        margin: auto;
-    }
-
-    /* Button styling */
-    div.stButton > button {
-        width: 260px;
-        border-radius: 25px;
-        height: 42px;
-        font-weight: 600;
-        background-color: #0f172a;
-        color: white;
-    }
-
-    div.stButton > button:hover {
-        background-color: #1e293b;
-        color: white;
-    }
-
-    </style>
-    """, unsafe_allow_html=True)
-
     st.markdown('<div class="login-card">', unsafe_allow_html=True)
-
-    st.markdown("### QuantNova")
+    st.markdown("<h2 style='margin-bottom: 5px;'>QuantNova</h2>", unsafe_allow_html=True)
     st.caption("AI-Powered Quantitative Intelligence")
-
+    
     username = st.text_input("Username", key="auth_username")
     password = st.text_input("Password", type="password", key="auth_password")
-
+    
     if st.session_state.auth_mode == "Login":
-
         if st.button("LOGIN"):
             if login_user(username, password):
                 st.session_state.authenticated = True
                 st.session_state.username = username
-                st.rerun()
+                st.success(f"Welcome, {username}!")
+                st.experimental_rerun()
             else:
-                st.error("Invalid Credentials")
-
+                st.error("Invalid username or password")
         if st.button("Create an Account"):
             st.session_state.auth_mode = "Register"
-            st.rerun()
-
-    else:
-
+            st.experimental_rerun()
+    
+    else:  # Register mode
+        st.subheader("Create a New Account")
         if st.button("REGISTER"):
-            if register_user(username, password):
-                st.success("Account Created Successfully")
+            if username.strip() == "" or password.strip() == "":
+                st.warning("Please fill all fields!")
+            elif register_user(username, password):
+                st.success("Account created successfully!")
                 st.session_state.auth_mode = "Login"
             else:
-                st.error("Username already exists")
-
+                st.error("Username already exists. Try another.")
         if st.button("Back to Login"):
             st.session_state.auth_mode = "Login"
-            st.rerun()
-
+            st.experimental_rerun()
+    
     st.markdown('</div>', unsafe_allow_html=True)
-
     st.stop()
+
+# -----------------------------
+# AUTHENTICATED USER PAGE
+# -----------------------------
+st.success(f"Welcome {st.session_state.username}! You are logged in.")
+st.write("Here goes your main app content...")
 # =====================================================
 # PAGE CONFIG
 # =====================================================
