@@ -131,7 +131,7 @@ Built with a startup mindset and academic discipline, the system integrates ense
 
 elif st.session_state.page == "AI Intelligence Engine":
 
-    st.title("AI Intelligence Engine")
+    st.title("AI Intelligence Engine — Model Leaderboard")
 
     import yfinance as yf
     import numpy as np
@@ -143,19 +143,14 @@ elif st.session_state.page == "AI Intelligence Engine":
     from sklearn.metrics import accuracy_score
     import plotly.graph_objects as go
 
-    st.subheader("Market Prediction Module")
+    symbol = st.text_input("Enter Stock Symbol", "AAPL")
 
-    symbol = st.text_input("Enter Stock Symbol (Example: AAPL)", "AAPL")
-    model_choice = st.selectbox(
-        "Select AI Model",
-        ["Random Forest", "Logistic Regression", "Support Vector Machine"]
-    )
+    if st.button("Run QuantNova AI Engine"):
 
-    if st.button("Run AI Model"):
-
-        with st.spinner("Running QuantNova Intelligence Engine..."):
+        with st.spinner("Training Multiple AI Models..."):
 
             data = yf.download(symbol, period="2y")
+
             data["Return"] = data["Close"].pct_change()
             data["Target"] = np.where(data["Return"] > 0, 1, 0)
 
@@ -172,83 +167,89 @@ elif st.session_state.page == "AI Intelligence Engine":
                 X, y, test_size=0.3, shuffle=False
             )
 
-            # Model Selection
-            if model_choice == "Random Forest":
-                model = RandomForestClassifier()
-            elif model_choice == "Logistic Regression":
-                model = LogisticRegression()
-            else:
-                model = SVC(probability=True)
+            models = {
+                "Random Forest": RandomForestClassifier(),
+                "Logistic Regression": LogisticRegression(),
+                "Support Vector Machine": SVC(probability=True)
+            }
 
-            model.fit(X_train, y_train)
+            leaderboard = []
 
-            predictions = model.predict(X_test)
-            probabilities = model.predict_proba(X_test)[:, 1]
+            best_model = None
+            best_score = 0
 
-            accuracy = accuracy_score(y_test, predictions)
+            for name, model in models.items():
 
-            st.success("AI Model Execution Complete")
+                model.fit(X_train, y_train)
+                predictions = model.predict(X_test)
+                accuracy = accuracy_score(y_test, predictions)
 
-            # --- Metrics Panel ---
+                leaderboard.append((name, accuracy))
+
+                if accuracy > best_score:
+                    best_score = accuracy
+                    best_model = model
+                    best_name = name
+
+            leaderboard_df = pd.DataFrame(
+                leaderboard,
+                columns=["Model", "Accuracy"]
+            ).sort_values("Accuracy", ascending=False)
+
+            st.subheader("AI Model Leaderboard")
+            st.dataframe(leaderboard_df)
+
+            st.success(f"Best Performing Model: {best_name}")
+
+            # --- Best Model Predictions ---
+            probabilities = best_model.predict_proba(X_test)[:, 1]
+
+            st.subheader("Latest AI Signal")
+
             col1, col2, col3 = st.columns(3)
-            col1.metric("Model Accuracy", f"{accuracy*100:.2f}%")
-            col2.metric("Prediction Probability", f"{probabilities[-1]*100:.2f}%")
+            col1.metric("Best Model", best_name)
+            col2.metric("Accuracy", f"{best_score*100:.2f}%")
             col3.metric("Signal",
                         "BUY" if probabilities[-1] > 0.5 else "SELL")
 
-            # --- Feature Importance ---
-            if model_choice == "Random Forest":
-                st.subheader("Feature Importance Analysis")
-                importance = model.feature_importances_
-                importance_df = pd.DataFrame({
-                    "Feature": X.columns,
-                    "Importance": importance
-                }).sort_values("Importance", ascending=False)
-
-                st.bar_chart(importance_df.set_index("Feature"))
-
-            # --- Strategy Performance ---
-            st.subheader("Backtest Performance")
-
-            data_test = data.iloc[-len(predictions):].copy()
-            data_test["Prediction"] = predictions
-            data_test["Strategy"] = data_test["Return"] * data_test["Prediction"]
+            # --- Strategy Backtest ---
+            data_test = data.iloc[-len(probabilities):].copy()
+            data_test["AI_Strategy"] = data_test["Return"] * (probabilities > 0.5)
 
             cumulative_market = (1 + data_test["Return"]).cumprod()
-            cumulative_strategy = (1 + data_test["Strategy"]).cumprod()
+            cumulative_ai = (1 + data_test["AI_Strategy"]).cumprod()
 
             fig = go.Figure()
             fig.add_trace(go.Scatter(
                 y=cumulative_market,
-                mode="lines",
-                name="Market Performance"
+                name="Market"
             ))
             fig.add_trace(go.Scatter(
-                y=cumulative_strategy,
-                mode="lines",
-                name="AI Strategy Performance"
+                y=cumulative_ai,
+                name="AI Strategy"
             ))
 
-            fig.update_layout(title="Strategy vs Market Comparison")
+            fig.update_layout(title="Best Model Strategy vs Market")
             st.plotly_chart(fig, use_container_width=True)
 
             # --- Risk Metrics ---
             sharpe = (
-                data_test["Strategy"].mean() /
-                data_test["Strategy"].std()
+                data_test["AI_Strategy"].mean() /
+                data_test["AI_Strategy"].std()
             ) * np.sqrt(252)
 
-            volatility = data_test["Strategy"].std() * np.sqrt(252)
+            volatility = data_test["AI_Strategy"].std() * np.sqrt(252)
 
             drawdown = (
-                cumulative_strategy /
-                cumulative_strategy.cummax() - 1
+                cumulative_ai /
+                cumulative_ai.cummax() - 1
             ).min()
 
             st.subheader("Risk Metrics")
+
             r1, r2, r3 = st.columns(3)
             r1.metric("Sharpe Ratio", f"{sharpe:.2f}")
-            r2.metric("Annual Volatility", f"{volatility:.2f}")
+            r2.metric("Volatility", f"{volatility:.2f}")
             r3.metric("Max Drawdown", f"{drawdown:.2%}")
 
 # =====================================================
