@@ -106,7 +106,7 @@ if "auth_mode" not in st.session_state:
 
 
 # -----------------------------
-# CLEAN SPLIT LOGIN (STABLE)
+# POLISHED SPLIT LOGIN
 # -----------------------------
 
 if not st.session_state.authenticated:
@@ -114,67 +114,86 @@ if not st.session_state.authenticated:
     st.markdown("""
     <style>
 
+    /* Background same as homepage */
     .stApp {
-        background: #2e3c75;
+        background-color: #0f172a;  /* change if your homepage uses different */
     }
 
-    /* Big centered card */
+    /* Remove default top padding */
+    .block-container {
+        padding-top: 0rem;
+        padding-bottom: 0rem;
+    }
+
+    /* Full page centering */
+    section.main > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    /* Main Card */
     .main-card {
         background: white;
         border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-        padding: 0;
+        box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+        width: 950px;
         overflow: hidden;
     }
 
+    /* Left Panel */
     .left-panel {
-        padding: 60px 40px;
+        padding: 60px 50px;
     }
 
+    /* Right Panel */
     .right-panel {
-        background: linear-gradient(135deg, #4f73ff, #7cc6ff, #f5d7b2);
-        height: 500px;
+        background: linear-gradient(135deg, #4f73ff, #7cc6ff);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 48px;
-        font-weight: 700;
         color: white;
-    }
-
-    div.stTextInput > div {
-        width: 260px;
-    }
-
-    div.stButton > button {
-        width: 260px;
-        border-radius: 25px;
-        height: 42px;
+        font-size: 32px;  /* smaller welcome */
         font-weight: 600;
-        background-color: #2e3c75;
+    }
+
+    /* Input width */
+    div.stTextInput > div {
+        width: 240px;
+    }
+
+    /* Button styling */
+    div.stButton > button {
+        width: 240px;
+        border-radius: 25px;
+        height: 40px;
+        font-weight: 600;
+        background-color: #0f172a;
         color: white;
     }
 
     div.stButton > button:hover {
-        background-color: #1f2b55;
+        background-color: #1e293b;
         color: white;
     }
 
     </style>
     """, unsafe_allow_html=True)
 
-    # Center everything
-    spacer1, main_col, spacer2 = st.columns([1, 3, 1])
+    # Outer centering columns
+    spacer1, main_col, spacer2 = st.columns([1, 4, 1])
 
     with main_col:
 
         st.markdown('<div class="main-card">', unsafe_allow_html=True)
 
-        left, right = st.columns([1, 1.4])
+        left, right = st.columns([1, 1.2])
 
-        # LEFT LOGIN PANEL
+        # LEFT SIDE (LOGIN)
         with left:
             st.markdown('<div class="left-panel">', unsafe_allow_html=True)
+
             st.markdown("### QuantNova")
             st.caption("AI-Powered Quantitative Intelligence")
 
@@ -210,7 +229,12 @@ if not st.session_state.authenticated:
 
             st.markdown('</div>', unsafe_allow_html=True)
 
-        
+        # RIGHT SIDE (WELCOME)
+        with right:
+            st.markdown(
+                '<div class="right-panel">Welcome.</div>',
+                unsafe_allow_html=True
+            )
 
         st.markdown('</div>', unsafe_allow_html=True)
 
