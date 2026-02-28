@@ -55,7 +55,7 @@ def login_user(username, password):
     return c.fetchone()
 
 # -----------------------------
-# ULTRA PREMIUM AUTH SYSTEM
+# ULTRA PREMIUM AUTH SYSTEM (FIXED)
 # -----------------------------
 
 if "authenticated" not in st.session_state:
@@ -80,28 +80,34 @@ if not st.session_state.authenticated:
         100% {background-position: 0% 50%;}
     }
 
-    .login-wrapper {
+    /* Style ONLY the middle column */
+    section.main > div {
+        display: flex;
+        justify-content: center;
+    }
+
+    .login-container {
+        width: 420px;
         padding: 50px;
         border-radius: 25px;
         background: rgba(255,255,255,0.05);
         backdrop-filter: blur(20px);
         box-shadow:
-            0 0 15px rgba(0, 119, 255, 0.6),
-            0 0 30px rgba(0, 119, 255, 0.4),
-            0 0 60px rgba(0, 119, 255, 0.2);
+            0 0 25px rgba(0, 119, 255, 0.7),
+            0 0 60px rgba(0, 119, 255, 0.4);
         animation: glowPulse 3s infinite alternate;
     }
 
     @keyframes glowPulse {
         from {
             box-shadow:
-                0 0 10px rgba(0, 119, 255, 0.5),
-                0 0 20px rgba(0, 119, 255, 0.3);
+                0 0 15px rgba(0,119,255,0.5),
+                0 0 30px rgba(0,119,255,0.3);
         }
         to {
             box-shadow:
-                0 0 25px rgba(0, 119, 255, 0.9),
-                0 0 60px rgba(0, 119, 255, 0.6);
+                0 0 35px rgba(0,119,255,0.9),
+                0 0 70px rgba(0,119,255,0.6);
         }
     }
 
@@ -109,16 +115,14 @@ if not st.session_state.authenticated:
         text-align: center;
         font-size: 34px;
         font-weight: 700;
-        margin-bottom: 10px;
         color: white;
-        letter-spacing: 1px;
+        margin-bottom: 10px;
     }
 
     .login-subtitle {
         text-align: center;
-        font-size: 14px;
-        margin-bottom: 25px;
         color: #94a3b8;
+        margin-bottom: 25px;
     }
 
     div.stButton > button {
@@ -132,16 +136,16 @@ if not st.session_state.authenticated:
     div.stButton > button:hover {
         transform: scale(1.03);
     }
+
     </style>
     """, unsafe_allow_html=True)
 
-    st.markdown("<br><br><br>", unsafe_allow_html=True)
-
+    # Center using columns (reliable method)
     left, center, right = st.columns([1, 1.5, 1])
 
     with center:
 
-        st.markdown('<div class="login-wrapper">', unsafe_allow_html=True)
+        st.markdown('<div class="login-container">', unsafe_allow_html=True)
 
         st.markdown('<div class="login-title">QuantNova</div>', unsafe_allow_html=True)
         st.markdown('<div class="login-subtitle">AI-Powered Quantitative Intelligence</div>', unsafe_allow_html=True)
