@@ -55,6 +55,27 @@ st.markdown("""
 st.markdown("""
 <style>
 
+.glow-text {
+    font-size: 42px;
+    font-weight: 700;
+    text-align: center;
+    background: linear-gradient(90deg, #00C8FF, #00FFA3, #8A2BE2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glowShift 6s linear infinite;
+}
+
+@keyframes glowShift {
+    0% { background-position: 0%; }
+    100% { background-position: 200%; }
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<style>
+
 .glass-card {
     background: rgba(255,255,255,0.05);
     backdrop-filter: blur(20px);
