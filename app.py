@@ -239,9 +239,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-#Scroll Reveal
-st.markdown("""
-<style>
 
 /* ============================= */
 /* SCROLL REVEAL EFFECT          */
@@ -445,14 +442,12 @@ if st.session_state.page == "Home":
     st.subheader("AI-Powered Quantitative Intelligence Platform")
 
     st.markdown("""
-<div class="reveal">
 QuantNova is a next-generation research-driven AI platform designed to transform financial market data into structured predictive intelligence.
 
 Built with a startup mindset and academic discipline, the system integrates ensemble learning, statistical validation, and modular experimentation frameworks to deliver analytical clarity — not speculation.
 """)
 
-    </div>
-""", unsafe_allow_html=True)
+
     # =====================================================
     # FULL PLATFORM OVERVIEW
     # =====================================================
