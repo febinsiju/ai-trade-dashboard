@@ -58,7 +58,8 @@ st.set_page_config(layout="wide")
 # QUANTNOVA PREMIUM AURORA UI STYLE
 # =====================================================
 
-
+st.markdown("""
+<style>
 /* ============================= */
 /* AURORA ANIMATED BACKGROUND    */
 /* ============================= */
