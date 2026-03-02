@@ -64,6 +64,9 @@ st.set_page_config(layout="wide")
 import streamlit as st
 import streamlit.components.v1 as components
 
+import streamlit as st
+import streamlit.components.v1 as components
+
 # =====================================================
 # QUANTNOVA PREMIUM DYNAMIC AURORA UI STYLE
 # =====================================================
@@ -150,8 +153,6 @@ div[style*="position: fixed"] {
     }
 }
 
-</style>
-""", unsafe_allow_html=True)
 /* ============================ */
 /* Sidebar Styling              */
 /* ============================ */
@@ -276,30 +277,6 @@ h1, h2, h3 {
 
 </style>
 """, unsafe_allow_html=True)
-
-# ==============================
-# Scroll Reveal JS
-# ==============================
-st.markdown("""
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    function revealOnScroll() {
-        var reveals = document.querySelectorAll(".reveal");
-        for (var i = 0; i < reveals.length; i++) {
-            var windowHeight = window.innerHeight;
-            var elementTop = reveals[i].getBoundingClientRect().top;
-            var elementVisible = 100;
-            if (elementTop < windowHeight - elementVisible) {
-                reveals[i].classList.add("active");
-            }
-        }
-    }
-    window.addEventListener("scroll", revealOnScroll);
-    revealOnScroll();
-});
-</script>
-""", unsafe_allow_html=True)
-
 # ==============================
 # ScrollReveal library for glass cards
 # ==============================
