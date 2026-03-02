@@ -20,7 +20,7 @@ import hashlib
 # =====================================================
 st.set_page_config(layout="wide")
 # ==============================
-# LOGO DISPLAY (WORKING VERSION)
+# CLEAN BIG LOGO DISPLAY
 # ==============================
 
 import base64
@@ -28,9 +28,8 @@ import os
 
 def get_logo_base64(path):
     if not os.path.exists(path):
-        st.warning(f"Logo not found at: {path}")
+        st.warning(f"Logo not found: {path}")
         return None
-    
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
@@ -39,9 +38,9 @@ logo_base64 = get_logo_base64("quantnova_logo.png")
 if logo_base64:
     st.markdown(
         f"""
-        <div style="display:flex; align-items:center; gap:15px;">
-            <img src="data:image/png;base64,{logo_base64}" width="70">
-            <h1 style="margin:0; font-size:28px;">QuantNova</h1>
+        <div style="text-align:center; margin-top: 10px; margin-bottom: 25px;">
+            <img src="data:image/png;base64,{logo_base64}"
+                 style="width:170px; height:auto;">
         </div>
         """,
         unsafe_allow_html=True
