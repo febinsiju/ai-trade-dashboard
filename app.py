@@ -204,6 +204,72 @@ ScrollReveal().reveal('.glass-card', {
 </script>
 """, height=0)
 
+#Particle Background
+import streamlit.components.v1 as components
+
+components.html("""
+<div id="particles-js"></div>
+
+<style>
+#particles-js {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  top: 0;
+  left: 0;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+particlesJS("particles-js", {
+  "particles": {
+    "number": { "value": 60 },
+    "size": { "value": 2 },
+    "color": { "value": "#00C8FF" },
+    "line_linked": {
+      "enable": true,
+      "distance": 150,
+      "color": "#00FFA3",
+      "opacity": 0.2,
+      "width": 1
+    },
+    "move": {
+      "enable": true,
+      "speed": 1
+    }
+  }
+});
+</script>
+""", height=0)
+
+#Glowing Cursor
+components.html("""
+<style>
+.cursor-glow {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0,200,255,0.15) 0%, transparent 70%);
+    pointer-events: none;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
+</style>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<script>
+const glow = document.getElementById("cursorGlow");
+document.addEventListener("mousemove", e => {
+    glow.style.left = e.clientX + "px";
+    glow.style.top = e.clientY + "px";
+});
+</script>
+""", height=0)
+
 # =====================================================
 # SESSION STATE
 # =====================================================
