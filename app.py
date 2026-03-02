@@ -221,6 +221,9 @@ elif st.session_state.page == "AI Intelligence Engine":
             data["Volatility"] = data["Return"].rolling(10).std()
 
             data = data.dropna()
+        if len(data) < 50:
+            st.error("Insufficient data after preprocessing. Try another stock.")
+            st.stop()
 
             X = data[["MA10", "MA50", "Volatility"]]
             y = data["Target"]
