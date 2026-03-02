@@ -22,26 +22,7 @@ import hashlib
 # PAGE CONFIG (MUST BE FIRST STREAMLIT COMMAND)
 # =====================================================
 st.set_page_config(layout="wide")
-st.markdown("""
-<style>
 
-/* Hide any stray code/debug labels */
-code {
-    display: none !important;
-}
-
-/* Hide Streamlit dev emotion class debug */
-[class^="st-emotion-cache"] {
-    pointer-events: none !important;
-}
-
-/* Hide menu + header */
-#MainMenu {visibility: hidden;}
-header {visibility: hidden;}
-footer {visibility: hidden;}
-
-</style>
-""", unsafe_allow_html=True)
 # ==============================
 # CLEAN BIG LOGO DISPLAY
 # ==============================
@@ -73,6 +54,26 @@ if logo_base64:
 # =====================================================
 
 st.set_page_config(layout="wide")
+st.markdown("""
+<style>
+
+/* Hide any stray code/debug labels */
+code {
+    display: none !important;
+}
+
+/* Hide Streamlit dev emotion class debug */
+[class^="st-emotion-cache"] {
+    pointer-events: none !important;
+}
+
+/* Hide menu + header */
+#MainMenu {visibility: hidden;}
+header {visibility: hidden;}
+footer {visibility: hidden;}
+
+</style>
+""", unsafe_allow_html=True)
 
 # =====================================================
 # QUANTNOVA PREMIUM AURORA UI STYLE
