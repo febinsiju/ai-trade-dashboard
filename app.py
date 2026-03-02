@@ -535,6 +535,63 @@ Febin Siju architected QuantNova from its foundational system design to its adva
     st.markdown("""
 Ganga AR strengthens QuantNova’s research discipline through structured validation frameworks, reproducible experimentation processes, and rigorous analytical documentation. Her focus ensures the platform maintains academic integrity while evolving toward scalable AI intelligence infrastructure.
 """)
+    st.markdown("---")
+
+    # =============================
+    # CHIEF TECHNOLOGY ENGINEER
+    # =============================
+    fiza_img = get_base64_image("fiza_image.jpg")
+
+    st.markdown(f"""
+    <div class="profile-container">
+        <img src="data:image/png;base64,{fiza_img}" class="profile-image">
+        <div class="profile-overlay">
+            Chief Technology Engineer.<br>
+            Leads system optimization, backend architecture, 
+            and infrastructure scalability.
+        </div>
+    </div>
+
+    <h3 style="text-align:center;">Fiza</h3>
+    <p style="text-align:center; font-weight:600;">Chief Technology Engineer</p>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+Fiza plays a critical role in transforming QuantNova’s conceptual AI frameworks into stable, production-ready systems. As Chief Technology Engineer, she is responsible for backend system optimization, database architecture structuring, and performance-level engineering decisions that ensure computational efficiency.
+
+Her contributions extend into building modular pipelines that allow scalable model experimentation without compromising system stability. She focuses on reducing latency in model execution, improving data ingestion workflows, and maintaining secure authentication mechanisms within the platform.
+
+By combining strong engineering discipline with analytical awareness, she ensures QuantNova operates not just as a research prototype, but as a scalable SaaS intelligence infrastructure capable of handling increasing computational complexity and expanding feature layers.
+""")
+
+    st.markdown("---")
+
+    # =============================
+    # HEAD OF DATA SCIENCE
+    # =============================
+    gania_img = get_base64_image("gania_jpeg")
+
+    st.markdown(f"""
+    <div class="profile-container">
+        <img src="data:image/png;base64,{gania_img}" class="profile-image">
+        <div class="profile-overlay">
+            Head of Data Science.<br>
+            Oversees model validation, feature engineering, 
+            and statistical research frameworks.
+        </div>
+    </div>
+
+    <h3 style="text-align:center;">Gania</h3>
+    <p style="text-align:center; font-weight:600;">Head of Data Science</p>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+Gania leads QuantNova’s data science initiatives with a focus on predictive accuracy, statistical robustness, and reproducible experimentation. As Head of Data Science, she oversees feature engineering strategies, volatility modeling techniques, and classification framework validation.
+
+Her expertise lies in transforming raw market data into structured analytical features that enhance model performance while minimizing overfitting risks. She ensures that every predictive structure undergoes rigorous validation processes, including cross-validation testing, sensitivity analysis, and regime-specific performance evaluation.
+
+By integrating disciplined research methodology with applied machine learning, she strengthens the probabilistic foundations of QuantNova. Her role ensures that the platform’s AI outputs are grounded in measurable statistical evidence rather than speculative interpretation.
+""")
 # =====================================================
 # FOOTER
 # =====================================================
