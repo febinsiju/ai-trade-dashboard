@@ -73,6 +73,20 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+import streamlit.components.v1 as components
+
+components.html("""
+<script src="https://unpkg.com/scrollreveal"></script>
+<script>
+ScrollReveal().reveal('.glass-card', {
+    delay: 200,
+    distance: '40px',
+    origin: 'bottom',
+    duration: 1000
+});
+</script>
+""", height=0)
+
 st.markdown("""
 <style>
 
