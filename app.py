@@ -32,9 +32,21 @@ st.set_page_config(layout="wide")
 
 st.markdown("""
 <style>
-body {background-color: #0E1117; color: white;}
-.block-container {padding-top: 2rem;}
-h1, h2, h3 {color: #FFFFFF;}
+
+/* Animated Gradient Background */
+.stApp {
+    background: linear-gradient(-45deg, #0e1117, #141e30, #0f2027, #1f1c2c);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+/* Keyframes */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 </style>
 """, unsafe_allow_html=True)
 
