@@ -55,6 +55,21 @@ st.markdown("""
 st.markdown("""
 <style>
 
+.block-container {
+    animation: fadePage 0.8s ease-in-out;
+}
+
+@keyframes fadePage {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<style>
+
 /* ============================= */
 /* GLOW BUTTON STYLE             */
 /* ============================= */
