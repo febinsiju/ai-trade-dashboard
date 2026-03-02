@@ -202,42 +202,32 @@ elif st.session_state.page == "AI Intelligence Engine":
 
     if st.button("Run QuantNova AI Engine"):
 
-    with st.spinner("Training Multiple AI Models..."):
+        with st.spinner("Training Multiple AI Models..."):
 
-        try:
-            data = yf.download(symbol, period="5y", auto_adjust=True)
-        except Exception:
-            st.error("Error fetching market data.")
-            st.stop()
+            # -----------------------------
+            # Download Data (Cloud Safe)
+            # -----------------------------
+            try:
+                data = yf.download(symbol, period="5y", auto_adjust=True)
+            except Exception:
+                st.error("Error fetching market data.")
+                st.stop()
 
-        if data.empty:
-            st.error("No data found.")
-            st.stop()
+            if data.empty:
+                st.error("No data found. Please enter a valid stock symbol.")
+                st.stop()
 
-            data = data.reset_index()
+            # Fix possible multi-index columns (Streamlit Cloud issue)
+            if isinstance(data.columns, pd.MultiIndex):
+                data.columns = data.columns.get_level_values(0)
 
-    if isinstance(data.columns, pd.MultiIndex):
-        data.columns = data.columns.get_level_values(0)
+            if "Close" not in data.columns:
+                st.error("Close price not found in dataset.")
+                st.stop()
 
-    if "Close" not in data.columns:
-        st.error("Close price not found in dataset.")
-        st.stop()
-
-# Feature Engineering
-data["Return"] = data["Close"].pct_change()
-data["Target"] = np.where(data["Return"] > 0, 1, 0)
-
-data["MA10"] = data["Close"].rolling(10).mean()
-data["MA50"] = data["Close"].rolling(50).mean()
-data["Volatility"] = data["Return"].rolling(10).std()
-
-data = data.dropna()
-
-if len(data) < 30:
-    st.error(f"Usable rows after preprocessing: {len(data)}")
-    st.stop()
-
+            # -----------------------------
             # Feature Engineering
+            # -----------------------------
             data["Return"] = data["Close"].pct_change()
             data["Target"] = np.where(data["Return"] > 0, 1, 0)
 
@@ -246,25 +236,14 @@ if len(data) < 30:
             data["Volatility"] = data["Return"].rolling(10).std()
 
             data = data.dropna()
-    
-            if len(data) < 50:
+
+            if len(data) < 30:
                 st.error("Insufficient data after preprocessing.")
                 st.stop()
-    
-        # FEATURE ENGINEERING
-        data["Return"] = data["Close"].pct_change()
-        data["Target"] = np.where(data["Return"] > 0, 1, 0)
 
-        data["MA10"] = data["Close"].rolling(10).mean()
-        data["MA50"] = data["Close"].rolling(50).mean()
-        data["Volatility"] = data["Return"].rolling(10).std()
-
-        data = data.dropna()
-
-        if len(data) < 50:
-            st.error("Insufficient data after preprocessing.")
-            st.stop()
-
+            # -----------------------------
+            # Train/Test Split
+            # -----------------------------
             X = data[["MA10", "MA50", "Volatility"]]
             y = data["Target"]
 
@@ -272,17 +251,23 @@ if len(data) < 30:
                 X, y, test_size=0.3, shuffle=False
             )
 
+            # -----------------------------
+            # Model Definitions
+            # -----------------------------
             models = {
                 "Random Forest": RandomForestClassifier(),
-                "Logistic Regression": LogisticRegression(),
+                "Logistic Regression": LogisticRegression(max_iter=1000),
                 "Support Vector Machine": SVC(probability=True)
             }
 
             leaderboard = []
-
             best_model = None
             best_score = 0
+            best_name = ""
 
+            # -----------------------------
+            # Train & Evaluate
+            # -----------------------------
             for name, model in models.items():
 
                 model.fit(X_train, y_train)
@@ -306,7 +291,9 @@ if len(data) < 30:
 
             st.success(f"Best Performing Model: {best_name}")
 
-            # --- Best Model Predictions ---
+            # -----------------------------
+            # Latest AI Signal
+            # -----------------------------
             probabilities = best_model.predict_proba(X_test)[:, 1]
 
             st.subheader("Latest AI Signal")
@@ -314,12 +301,18 @@ if len(data) < 30:
             col1, col2, col3 = st.columns(3)
             col1.metric("Best Model", best_name)
             col2.metric("Accuracy", f"{best_score*100:.2f}%")
-            col3.metric("Signal",
-                        "BUY" if probabilities[-1] > 0.5 else "SELL")
+            col3.metric(
+                "Signal",
+                "BUY" if probabilities[-1] > 0.5 else "SELL"
+            )
 
-            # --- Strategy Backtest ---
+            # -----------------------------
+            # Strategy Backtest
+            # -----------------------------
             data_test = data.iloc[-len(probabilities):].copy()
-            data_test["AI_Strategy"] = data_test["Return"] * (probabilities > 0.5)
+            data_test["AI_Strategy"] = (
+                data_test["Return"] * (probabilities > 0.5)
+            )
 
             cumulative_market = (1 + data_test["Return"]).cumprod()
             cumulative_ai = (1 + data_test["AI_Strategy"]).cumprod()
@@ -337,13 +330,17 @@ if len(data) < 30:
             fig.update_layout(title="Best Model Strategy vs Market")
             st.plotly_chart(fig, use_container_width=True)
 
-            # --- Risk Metrics ---
+            # -----------------------------
+            # Risk Metrics
+            # -----------------------------
             sharpe = (
                 data_test["AI_Strategy"].mean() /
                 data_test["AI_Strategy"].std()
             ) * np.sqrt(252)
 
-            volatility = data_test["AI_Strategy"].std() * np.sqrt(252)
+            volatility = (
+                data_test["AI_Strategy"].std() * np.sqrt(252)
+            )
 
             drawdown = (
                 cumulative_ai /
