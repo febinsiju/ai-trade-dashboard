@@ -34,37 +34,15 @@ st.markdown("""
 <style>
 
 .stApp {
-    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #000000);
+    background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #000000);
     background-size: 400% 400%;
-    animation: gradientBG 20s ease infinite;
-}
-
-.stApp::before {
-    content: "";
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at center, rgba(0,200,255,0.08), transparent 60%);
-    animation: rotateGlow 30s linear infinite;
-    z-index: 0;
+    animation: gradientBG 18s ease infinite;
 }
 
 @keyframes gradientBG {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
-}
-
-@keyframes rotateGlow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-.block-container {
-    position: relative;
-    z-index: 1;
 }
 
 </style>
