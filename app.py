@@ -206,22 +206,36 @@ elif st.session_state.page == "AI Intelligence Engine":
 
             try:
                 data = yf.download(symbol, period="5y", auto_adjust=True)
-                data = data.reset_index()
+    except Exception:
+        st.error("Error fetching market data.")
+        st.stop()
 
-# If columns are multi-index (Cloud issue), flatten them
-            if isinstance(data.columns, pd.MultiIndex):
-                data.columns = data.columns.get_level_values(0)
-            except Exception:
-                st.error("Error fetching market data.")
-                st.stop()
+    if data.empty:
+        st.error("No data found. Check symbol.")
+        st.stop()
 
-            if data.empty:
-                st.error("No data found. Please enter a valid stock symbol.")
-                st.stop()
+        data = data.reset_index()
 
-            if len(data) < 60:
-                st.error("Not enough historical data.")
-                st.stop()
+    if isinstance(data.columns, pd.MultiIndex):
+        data.columns = data.columns.get_level_values(0)
+
+    if "Close" not in data.columns:
+        st.error("Close price not found in dataset.")
+        st.stop()
+
+# Feature Engineering
+data["Return"] = data["Close"].pct_change()
+data["Target"] = np.where(data["Return"] > 0, 1, 0)
+
+data["MA10"] = data["Close"].rolling(10).mean()
+data["MA50"] = data["Close"].rolling(50).mean()
+data["Volatility"] = data["Return"].rolling(10).std()
+
+data = data.dropna()
+
+if len(data) < 30:
+    st.error(f"Usable rows after preprocessing: {len(data)}")
+    st.stop()
 
             # Feature Engineering
             data["Return"] = data["Close"].pct_change()
