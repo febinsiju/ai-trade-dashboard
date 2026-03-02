@@ -681,19 +681,22 @@ st.markdown("---")
 fiza_img = get_base64_image("fiza_image.jpg")
 
 st.markdown(f"""
+<div class="team-card fade-in">
+
 <div class="profile-container">
     <img src="data:image/png;base64,{fiza_img}" class="profile-image">
     <div class="profile-overlay">
-        Chief Technology Engineer.<br>
-        Leads system optimization, backend architecture, 
-        and infrastructure scalability.
+        Chief Technology Engineer.<br><br>
+        Leads system optimization,backend architecture,
+        and infrastructure scalability
     </div>
 </div>
 
-<h3 style="text-align:center;">Fiza</h3>
-<p style="text-align:center; font-weight:600;">Chief Technology Engineer</p>
-""", unsafe_allow_html=True)
+<h3>Fiza KF</h3>
+<p class="role-title">Chief Technology Engineer</p>
 
+</div>
+""", unsafe_allow_html=True)
 st.markdown("""
 Fiza plays a critical role in transforming QuantNova’s conceptual AI frameworks into stable, production-ready systems. As Chief Technology Engineer, she is responsible for backend system optimization, database architecture structuring, and performance-level engineering decisions that ensure computational efficiency.
 
