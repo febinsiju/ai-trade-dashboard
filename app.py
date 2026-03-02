@@ -205,7 +205,12 @@ elif st.session_state.page == "AI Intelligence Engine":
         with st.spinner("Training Multiple AI Models..."):
 
             try:
-                data = yf.download(symbol, period="2y")
+                data = yf.download(symbol, period="5y", auto_adjust=True)
+                data = data.reset_index()
+
+# If columns are multi-index (Cloud issue), flatten them
+if isinstance(data.columns, pd.MultiIndex):
+    data.columns = data.columns.get_level_values(0)
             except Exception:
                 st.error("Error fetching market data.")
                 st.stop()
