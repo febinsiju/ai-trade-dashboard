@@ -33,16 +33,68 @@ st.set_page_config(layout="wide")
 st.markdown("""
 <style>
 
+/* ===== FULL PAGE ANIMATED GRADIENT ===== */
 .stApp {
-    background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #000000);
+    background: linear-gradient(-45deg, 
+        #020617, 
+        #0f172a, 
+        #001f3f, 
+        #001a33,
+        #003366);
     background-size: 400% 400%;
-    animation: gradientBG 18s ease infinite;
+    animation: gradientFlow 15s ease infinite;
 }
 
-@keyframes gradientBG {
+/* Moving Glow Layers */
+.stApp::before,
+.stApp::after {
+    content: "";
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: 0;
+    animation: floatGlow 18s infinite alternate ease-in-out;
+}
+
+/* Blue Glow */
+.stApp::before {
+    background: radial-gradient(circle, rgba(0,200,255,0.4) 0%, transparent 70%);
+    top: -200px;
+    left: -200px;
+}
+
+/* Green/Blue Glow */
+.stApp::after {
+    background: radial-gradient(circle, rgba(0,255,150,0.3) 0%, transparent 70%);
+    bottom: -200px;
+    right: -200px;
+}
+
+/* Gradient Movement */
+@keyframes gradientFlow {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
+}
+
+/* Floating Glow Animation */
+@keyframes floatGlow {
+    0% { transform: translateY(0px) translateX(0px); }
+    50% { transform: translateY(40px) translateX(40px); }
+    100% { transform: translateY(-40px) translateX(-40px); }
+}
+
+/* Make content appear above background layers */
+.block-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Optional: remove white blocks */
+section[data-testid="stSidebar"] {
+    background: rgba(0, 0, 0, 0.6) !important;
 }
 
 </style>
