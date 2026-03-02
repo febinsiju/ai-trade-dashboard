@@ -68,40 +68,51 @@ st.set_page_config(layout="wide")
 st.markdown("""
 <style>
 
-/* Remove any element that contains the text Ellipsis */
-div:has(> span:contains("Ellipsis")) {
-    display: none !important;
-}
-
-/* Also hide generic floating debug badges */
+/* Hide debug/floating elements */
 div[style*="position: fixed"] {
     display: none !important;
 }
 
+/* Main app base color */
+.stApp {
+    background: #050510;
+    overflow: hidden;
+}
+
+/* Animated Aurora Layer */
+.stApp::before {
+    content: "";
+    position: fixed;
+    inset: -50%;
+    z-index: -1;
+
+    background:
+        radial-gradient(circle at 20% 30%, rgba(0,255,163,0.35), transparent 60%),
+        radial-gradient(circle at 80% 70%, rgba(0,200,255,0.35), transparent 60%),
+        radial-gradient(circle at 50% 50%, rgba(140,0,255,0.30), transparent 70%),
+        linear-gradient(135deg, #050510, #0a0f1c, #0e1117);
+
+    background-size: 200% 200%;
+    animation: auroraMove 25s ease-in-out infinite alternate;
+    filter: blur(60px);
+    opacity: 0.9;
+}
+
+/* Smooth Floating Motion */
+@keyframes auroraMove {
+    0% {
+        transform: translate(-5%, -5%) scale(1);
+    }
+    50% {
+        transform: translate(5%, 5%) scale(1.1);
+    }
+    100% {
+        transform: translate(-5%, 5%) scale(1);
+    }
+}
+
 </style>
 """, unsafe_allow_html=True)
-
-st.markdown("""
-<style>
-/* ============================= */
-/* AURORA ANIMATED BACKGROUND    */
-/* ============================= */
-
-.stApp {
-    background:
-        radial-gradient(circle at 20% 30%, rgba(0,255,163,0.18), transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(0,200,255,0.18), transparent 40%),
-        radial-gradient(circle at 50% 50%, rgba(140,0,255,0.15), transparent 50%),
-        linear-gradient(135deg, #050510, #0a0f1c, #0e1117);
-    background-size: 200% 200%;
-    animation: auroraMove 18s ease infinite;
-}
-
-@keyframes auroraMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
 
 /* ============================= */
 /* PAGE FADE IN                  */
