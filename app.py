@@ -710,20 +710,24 @@ st.markdown("---")
 # =============================
 # HEAD OF DATA SCIENCE
 # =============================
-gania_img = get_base64_image("gania_image.jpeg")
+gania_img = get_base64_image("gaina_image.jpeg")
 
 st.markdown(f"""
+<div class="team-card fade-in">
+
 <div class="profile-container">
     <img src="data:image/png;base64,{gania_img}" class="profile-image">
     <div class="profile-overlay">
-        Head of Data Science.<br>
-        Oversees model validation, feature engineering, 
-        and statistical research frameworks.
+        Head of Data Science.<br><br>
+        Oversees model validation,feature engineering,
+        and statistical research frameworks
     </div>
 </div>
 
-<h3 style="text-align:center;">Gania</h3>
-<p style="text-align:center; font-weight:600;">Head of Data Science</p>
+<h3>Gania Gibu</h3>
+<p class="role-title">Head of Data Science</p>
+
+</div>
 """, unsafe_allow_html=True)
 
 st.markdown("""
