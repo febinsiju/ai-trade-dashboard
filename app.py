@@ -462,9 +462,9 @@ elif st.session_state.page == "Market Dashboard":
 
 elif st.session_state.page == "About":
 
-    st.title("About QuantNova")
+st.title("About QuantNova")
 
-    st.markdown("""
+st.markdown("""
 QuantNova was conceived as a long-horizon academic research initiative by the members of Group 7, students of Computer Science and Engineering (CSE B S2) at TocH Institute Of Science And Technology (TIST), Ernakulam, Kerala.
 
 As Group 7, our aim extends far beyond academic submission. We are focused on building structured, research-oriented artificial intelligence systems that combine statistical rigor, engineering discipline, and scalable system architecture. Our mission is to transform theoretical knowledge into practical, measurable intelligence frameworks capable of operating in complex financial ecosystems.
@@ -474,152 +474,152 @@ We believe markets are probabilistic systems, not deterministic machines. Throug
 QuantNova represents our commitment to engineering infrastructure — not just features — and to approaching AI development with both academic integrity and startup ambition.
 """)
 
-    st.markdown("---")
+st.markdown("---")
 
-    st.markdown("""
+st.markdown("""
 <style>
 
 /* ============================= */
 /* Animated Background Gradient  */
 /* ============================= */
 body {
-    background: linear-gradient(-45deg, #0E1117, #111827, #0A0F1C, #0E1117);
-    background-size: 400% 400%;
-    animation: gradientMove 15s ease infinite;
+background: linear-gradient(-45deg, #0E1117, #111827, #0A0F1C, #0E1117);
+background-size: 400% 400%;
+animation: gradientMove 15s ease infinite;
 }
 
 @keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
 }
 
 /* ============================= */
 /* Fade In Animation             */
 /* ============================= */
 .fade-in {
-    animation: fadeIn 1.2s ease-in-out;
+animation: fadeIn 1.2s ease-in-out;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(25px); }
-    to { opacity: 1; transform: translateY(0); }
+from { opacity: 0; transform: translateY(25px); }
+to { opacity: 1; transform: translateY(0); }
 }
 
 /* ============================= */
 /* Glass Card Container          */
 /* ============================= */
 .team-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(18px);
-    border-radius: 25px;
-    padding: 40px 30px;
-    margin: 60px auto;
-    max-width: 850px;
-    transition: all 0.4s ease;
+background: rgba(255, 255, 255, 0.05);
+backdrop-filter: blur(18px);
+border-radius: 25px;
+padding: 40px 30px;
+margin: 60px auto;
+max-width: 850px;
+transition: all 0.4s ease;
 }
 
 .team-card:hover {
-    background: rgba(255, 255, 255, 0.08);
-    transform: translateY(-10px);
-    box-shadow: 0 0 40px rgba(0, 200, 255, 0.25);
+background: rgba(255, 255, 255, 0.08);
+transform: translateY(-10px);
+box-shadow: 0 0 40px rgba(0, 200, 255, 0.25);
 }
 
 /* ============================= */
 /* Profile Circle Container      */
 /* ============================= */
 .profile-container {
-    position: relative;
-    width: 220px;
-    height: 220px;
-    margin: 0 auto 30px auto;
-    transition: all 0.4s ease;
+position: relative;
+width: 220px;
+height: 220px;
+margin: 0 auto 30px auto;
+transition: all 0.4s ease;
 }
 
 /* Keep images perfectly circular */
 .profile-image {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    transition: all 0.4s ease;
-    border: 3px solid rgba(0, 200, 255, 0.3);
+width: 100%;
+height: 100%;
+border-radius: 50%;
+object-fit: cover;
+object-position: center;
+display: block;
+transition: all 0.4s ease;
+border: 3px solid rgba(0, 200, 255, 0.3);
 }
 
 /* Hover overlay */
 .profile-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.85);
-    color: white;
-    opacity: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-    font-size: 14px;
-    transition: all 0.4s ease;
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+border-radius: 50%;
+background: rgba(0, 0, 0, 0.85);
+color: white;
+opacity: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
+padding: 20px;
+font-size: 14px;
+transition: all 0.4s ease;
 }
 
 /* Hover Effects */
 .profile-container:hover .profile-overlay {
-    opacity: 1;
+opacity: 1;
 }
 
 .profile-container:hover .profile-image {
-    transform: scale(1.07);
+transform: scale(1.07);
 }
 
 /* ============================= */
 /* Floating Subtle Animation     */
 /* ============================= */
 @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-6px); }
-    100% { transform: translateY(0px); }
+0% { transform: translateY(0px); }
+50% { transform: translateY(-6px); }
+100% { transform: translateY(0px); }
 }
 
 .profile-container {
-    animation: float 6s ease-in-out infinite;
+animation: float 6s ease-in-out infinite;
 }
 
 /* ============================= */
 /* Headings Styling              */
 /* ============================= */
 h3 {
-    text-align: center;
-    font-size: 22px;
-    margin-bottom: 5px;
+text-align: center;
+font-size: 22px;
+margin-bottom: 5px;
 }
 
 p.role-title {
-    text-align: center;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: #00C8FF;
-    margin-bottom: 25px;
+text-align: center;
+font-weight: 600;
+letter-spacing: 1px;
+color: #00C8FF;
+margin-bottom: 25px;
 }
 
 </style>
 """, unsafe_allow_html=True)
 
-    # =============================
-    # IMAGE ENCODING FUNCTION
-    # =============================
-    def get_base64_image(path):
-        if not os.path.exists(path):
-            return ""
-        with open(path, "rb") as img:
-            return base64.b64encode(img.read()).decode()
+# =============================
+# IMAGE ENCODING FUNCTION
+# =============================
+def get_base64_image(path):
+    if not os.path.exists(path):
+        return ""
+    with open(path, "rb") as img:
+        return base64.b64encode(img.read()).decode()
 
-    # =============================
+# =============================
 # FOUNDER
 # =============================
 founder_img = get_base64_image("founder_image.jpg")
@@ -627,70 +627,70 @@ founder_img = get_base64_image("founder_image.jpg")
 st.markdown(f"""
 <div class="team-card fade-in">
 
-    <div class="profile-container">
-        <img src="data:image/png;base64,{founder_img}" class="profile-image">
-        <div class="profile-overlay">
-            Founder & Lead Architect of QuantNova.<br><br>
-            Designed AI architecture, predictive systems,
-            and long-term intelligence infrastructure roadmap.
-        </div>
+<div class="profile-container">
+    <img src="data:image/png;base64,{founder_img}" class="profile-image">
+    <div class="profile-overlay">
+        Founder & Lead Architect of QuantNova.<br><br>
+        Designed AI architecture, predictive systems,
+        and long-term intelligence infrastructure roadmap.
     </div>
+</div>
 
-    <h3>Febin Siju</h3>
-    <p class="role-title">Founder & Lead Architect</p>
+<h3>Febin Siju</h3>
+<p class="role-title">Founder & Lead Architect</p>
 
 </div>
 """, unsafe_allow_html=True)
-    st.markdown("""
+st.markdown("""
 Febin Siju architected QuantNova from its foundational system design to its advanced modeling logic. His work integrates ensemble learning systems, statistical validation processes, and modular intelligence frameworks into a unified predictive architecture. His focus is long-term scalability, structural clarity, and measurable AI performance.
 """)
 
-    st.markdown("---")
+st.markdown("---")
 
-    # =============================
-    # CO-FOUNDER
-    # =============================
-    cofounder_img = get_base64_image("ganga_image.jpg")
+# =============================
+# CO-FOUNDER
+# =============================
+cofounder_img = get_base64_image("ganga_image.jpg")
 
-    st.markdown(f"""
-    <div class="profile-container">
-        <img src="data:image/png;base64,{cofounder_img}" class="profile-image">
-        <div class="profile-overlay">
-            Co-Founder & Research Strategist.<br>
-            Leads validation methodology, structured experimentation, 
-            and analytical integrity.
-        </div>
+st.markdown(f"""
+<div class="profile-container">
+    <img src="data:image/png;base64,{cofounder_img}" class="profile-image">
+    <div class="profile-overlay">
+        Co-Founder & Research Strategist.<br>
+        Leads validation methodology, structured experimentation, 
+        and analytical integrity.
     </div>
+</div>
 
-    <h3 style="text-align:center;">Ganga AR</h3>
-    <p style="text-align:center; font-weight:600;">Co-Founder & Research Strategist</p>
-    """, unsafe_allow_html=True)
+<h3 style="text-align:center;">Ganga AR</h3>
+<p style="text-align:center; font-weight:600;">Co-Founder & Research Strategist</p>
+""", unsafe_allow_html=True)
 
-    st.markdown("""
+st.markdown("""
 Ganga AR strengthens QuantNova’s research discipline through structured validation frameworks, reproducible experimentation processes, and rigorous analytical documentation. Her focus ensures the platform maintains academic integrity while evolving toward scalable AI intelligence infrastructure.
 """)
-    st.markdown("---")
+st.markdown("---")
 
-    # =============================
-    # CHIEF TECHNOLOGY ENGINEER
-    # =============================
-    fiza_img = get_base64_image("fiza_image.jpg")
+# =============================
+# CHIEF TECHNOLOGY ENGINEER
+# =============================
+fiza_img = get_base64_image("fiza_image.jpg")
 
-    st.markdown(f"""
-    <div class="profile-container">
-        <img src="data:image/png;base64,{fiza_img}" class="profile-image">
-        <div class="profile-overlay">
-            Chief Technology Engineer.<br>
-            Leads system optimization, backend architecture, 
-            and infrastructure scalability.
-        </div>
+st.markdown(f"""
+<div class="profile-container">
+    <img src="data:image/png;base64,{fiza_img}" class="profile-image">
+    <div class="profile-overlay">
+        Chief Technology Engineer.<br>
+        Leads system optimization, backend architecture, 
+        and infrastructure scalability.
     </div>
+</div>
 
-    <h3 style="text-align:center;">Fiza</h3>
-    <p style="text-align:center; font-weight:600;">Chief Technology Engineer</p>
-    """, unsafe_allow_html=True)
+<h3 style="text-align:center;">Fiza</h3>
+<p style="text-align:center; font-weight:600;">Chief Technology Engineer</p>
+""", unsafe_allow_html=True)
 
-    st.markdown("""
+st.markdown("""
 Fiza plays a critical role in transforming QuantNova’s conceptual AI frameworks into stable, production-ready systems. As Chief Technology Engineer, she is responsible for backend system optimization, database architecture structuring, and performance-level engineering decisions that ensure computational efficiency.
 
 Her contributions extend into building modular pipelines that allow scalable model experimentation without compromising system stability. She focuses on reducing latency in model execution, improving data ingestion workflows, and maintaining secure authentication mechanisms within the platform.
@@ -698,28 +698,28 @@ Her contributions extend into building modular pipelines that allow scalable mod
 By combining strong engineering discipline with analytical awareness, she ensures QuantNova operates not just as a research prototype, but as a scalable SaaS intelligence infrastructure capable of handling increasing computational complexity and expanding feature layers.
 """)
 
-    st.markdown("---")
+st.markdown("---")
 
-    # =============================
-    # HEAD OF DATA SCIENCE
-    # =============================
-    gania_img = get_base64_image("gania_image.jpeg")
+# =============================
+# HEAD OF DATA SCIENCE
+# =============================
+gania_img = get_base64_image("gania_image.jpeg")
 
-    st.markdown(f"""
-    <div class="profile-container">
-        <img src="data:image/png;base64,{gania_img}" class="profile-image">
-        <div class="profile-overlay">
-            Head of Data Science.<br>
-            Oversees model validation, feature engineering, 
-            and statistical research frameworks.
-        </div>
+st.markdown(f"""
+<div class="profile-container">
+    <img src="data:image/png;base64,{gania_img}" class="profile-image">
+    <div class="profile-overlay">
+        Head of Data Science.<br>
+        Oversees model validation, feature engineering, 
+        and statistical research frameworks.
     </div>
+</div>
 
-    <h3 style="text-align:center;">Gania</h3>
-    <p style="text-align:center; font-weight:600;">Head of Data Science</p>
-    """, unsafe_allow_html=True)
+<h3 style="text-align:center;">Gania</h3>
+<p style="text-align:center; font-weight:600;">Head of Data Science</p>
+""", unsafe_allow_html=True)
 
-    st.markdown("""
+st.markdown("""
 Gania leads QuantNova’s data science initiatives with a focus on predictive accuracy, statistical robustness, and reproducible experimentation. As Head of Data Science, she oversees feature engineering strategies, volatility modeling techniques, and classification framework validation.
 
 Her expertise lies in transforming raw market data into structured analytical features that enhance model performance while minimizing overfitting risks. She ensures that every predictive structure undergoes rigorous validation processes, including cross-validation testing, sensitivity analysis, and regime-specific performance evaluation.
