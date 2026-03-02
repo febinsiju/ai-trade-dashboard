@@ -55,13 +55,18 @@ st.markdown("""
 st.markdown("""
 <style>
 
-.block-container {
-    animation: fadePage 0.8s ease-in-out;
+.glass-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(0,200,255,0.1);
+    transition: 0.4s ease;
 }
 
-@keyframes fadePage {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+.glass-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 40px rgba(0,200,255,0.3);
 }
 
 </style>
