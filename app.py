@@ -240,10 +240,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-/* ============================= */
-/* SCROLL REVEAL EFFECT          */
-/* ============================= */
+st.markdown("""
+<style>
 
+/* SCROLL REVEAL */
 .reveal {
     opacity: 0;
     transform: translateY(40px);
@@ -264,7 +264,6 @@ document.addEventListener("DOMContentLoaded", function() {
         var reveals = document.querySelectorAll(".reveal");
 
         for (var i = 0; i < reveals.length; i++) {
-
             var windowHeight = window.innerHeight;
             var elementTop = reveals[i].getBoundingClientRect().top;
             var elementVisible = 100;
@@ -281,7 +280,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 """, unsafe_allow_html=True)
-
 # ==============================
 # OPTIONAL SCROLL REVEAL EFFECT
 # ==============================
