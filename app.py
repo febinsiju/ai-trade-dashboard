@@ -202,19 +202,19 @@ elif st.session_state.page == "AI Intelligence Engine":
 
     if st.button("Run QuantNova AI Engine"):
 
-        with st.spinner("Training Multiple AI Models..."):
+    with st.spinner("Training Multiple AI Models..."):
 
-            try:
-                data = yf.download(symbol, period="5y", auto_adjust=True)
-    except Exception:
-        st.error("Error fetching market data.")
-        st.stop()
+        try:
+            data = yf.download(symbol, period="5y", auto_adjust=True)
+        except Exception:
+            st.error("Error fetching market data.")
+            st.stop()
 
-    if data.empty:
-        st.error("No data found. Check symbol.")
-        st.stop()
+        if data.empty:
+            st.error("No data found.")
+            st.stop()
 
-        data = data.reset_index()
+            data = data.reset_index()
 
     if isinstance(data.columns, pd.MultiIndex):
         data.columns = data.columns.get_level_values(0)
