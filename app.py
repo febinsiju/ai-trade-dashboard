@@ -433,8 +433,13 @@ elif st.session_state.page == "AI Intelligence Engine":
     symbol = st.text_input("Enter Stock Symbol", "AAPL")
 
     if st.button("Run QuantNova AI Engine"):
+        st.markdown("""
+<div style="text-align:center; font-size:22px; letter-spacing:1px;">
+⚡ Activating Multi-Model Intelligence Framework...
+</div>
+""", unsafe_allow_html=True)
 
-        with st.spinner("Training Multiple AI Models..."):
+        with st.spinner("Initializing QuantNova Neural Core..."):
 
             # -----------------------------
             # Download Data (Cloud Safe)
