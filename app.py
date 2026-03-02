@@ -76,6 +76,17 @@ st.markdown("""
 st.markdown("""
 <style>
 
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #0a0f1c, #111827);
+    box-shadow: 5px 0 30px rgba(0,200,255,0.2);
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<style>
+
 .glass-card {
     background: rgba(255,255,255,0.05);
     backdrop-filter: blur(20px);
