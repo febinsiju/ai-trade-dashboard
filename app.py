@@ -60,6 +60,22 @@ st.set_page_config(layout="wide")
 
 st.markdown("""
 <style>
+
+/* Remove any element that contains the text Ellipsis */
+div:has(> span:contains("Ellipsis")) {
+    display: none !important;
+}
+
+/* Also hide generic floating debug badges */
+div[style*="position: fixed"] {
+    display: none !important;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<style>
 /* ============================= */
 /* AURORA ANIMATED BACKGROUND    */
 /* ============================= */
