@@ -15,6 +15,9 @@ import streamlit.components.v1 as components
 import streamlit as st
 import sqlite3
 import hashlib
+import os
+st.write("Current directory:", os.getcwd())
+st.write("Files in directory:", os.listdir())
 
 # =====================================================
 # PAGE CONFIG (MUST BE FIRST STREAMLIT COMMAND)
