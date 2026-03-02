@@ -710,7 +710,7 @@ st.markdown("---")
 # =============================
 # HEAD OF DATA SCIENCE
 # =============================
-gania_img = get_base64_image("gaina_image.jpeg")
+gania_img = get_base64_image("gania_image.jpeg")
 
 st.markdown(f"""
 <div class="team-card fade-in">
