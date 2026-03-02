@@ -653,17 +653,20 @@ st.markdown("---")
 cofounder_img = get_base64_image("ganga_image.jpg")
 
 st.markdown(f"""
+<div class="team-card fade-in">
+
 <div class="profile-container">
-    <img src="data:image/png;base64,{cofounder_img}" class="profile-image">
+    <img src="data:image/png;base64,{ganga_img}" class="profile-image">
     <div class="profile-overlay">
-        Co-Founder & Research Strategist.<br>
-        Leads validation methodology, structured experimentation, 
-        and analytical integrity.
+       Co-Founder & Research Strategist.
+Leads validation methodology, structured experimentation, and analytical integrity.
     </div>
 </div>
 
-<h3 style="text-align:center;">Ganga AR</h3>
-<p style="text-align:center; font-weight:600;">Co-Founder & Research Strategist</p>
+<h3>Ganga AR</h3>
+<p class="role-title">Founder & Lead Architect</p>
+
+</div>
 """, unsafe_allow_html=True)
 
 st.markdown("""
