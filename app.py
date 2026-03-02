@@ -172,8 +172,7 @@ Integrated risk diagnostics ensure that exposure levels are evaluated relative t
     st.markdown("---")
 
     st.header("Contact Us")
-    st.write("+91 8089411348")
-    st.write("+91 7012958445")
+    st.write("quantnova.ai.com")
 
     st.header("Follow Us On")
     st.write("@f_eb_in_")
