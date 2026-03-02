@@ -36,9 +36,8 @@ code.st-emotion-cache-znj1k1 {
 import base64
 import os
 
-def get_logo_base64(path):
+def load_logo(path):
     if not os.path.exists(path):
-        st.warning(f"Logo not found: {path}")
         return None
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
