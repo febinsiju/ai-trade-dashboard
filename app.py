@@ -100,6 +100,53 @@ section[data-testid="stSidebar"] {
 </style>
 """, unsafe_allow_html=True)
 
+st.markdown("""
+<style>
+
+/* ============================= */
+/* GLOW BUTTON STYLE             */
+/* ============================= */
+
+div.stButton > button {
+    background: linear-gradient(90deg, #00C8FF, #00FFA3);
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    padding: 0.6em 1.4em;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 200, 255, 0.4);
+}
+
+/* Hover Glow Effect */
+div.stButton > button:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 0 15px rgba(0, 200, 255, 0.8),
+        0 0 30px rgba(0, 255, 163, 0.6),
+        0 0 45px rgba(0, 200, 255, 0.4);
+}
+
+/* Click Effect */
+div.stButton > button:active {
+    transform: scale(0.96);
+    box-shadow: 0 0 20px rgba(0, 200, 255, 1);
+}
+
+/* Optional: smooth glow pulse */
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 10px rgba(0, 200, 255, 0.4); }
+    50% { box-shadow: 0 0 25px rgba(0, 200, 255, 0.8); }
+    100% { box-shadow: 0 0 10px rgba(0, 200, 255, 0.4); }
+}
+
+div.stButton > button {
+    animation: pulseGlow 3s infinite;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 # =====================================================
 # SESSION STATE
 # =====================================================
