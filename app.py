@@ -43,18 +43,19 @@ def get_logo_base64(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-logo_base64 = get_logo_base64("quantnova_logo.png")
+logo_base64 = load_logo("quantnova_logo.png")
 
-if logo_base64:
-    st.markdown(
-        f"""
-        <div style="text-align:center; margin-top: 10px; margin-bottom: 25px;">
-            <img src="data:image/png;base64,{logo_base64}"
-                 style="width:170px; height:auto;">
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+st.markdown(f"""
+<div style="text-align:center; margin-top:20px; margin-bottom:40px;">
+    <img src="data:image/png;base64,{logo_base64}"
+         style="
+            width:220px;
+            max-width:80%;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 0 25px rgba(0,200,255,0.4));
+         ">
+</div>
+""", unsafe_allow_html=True)
 # =====================================================
 # PAGE CONFIG
 # =====================================================
