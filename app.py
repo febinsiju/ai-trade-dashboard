@@ -650,25 +650,7 @@ st.markdown("---")
 # =============================
 # CO-FOUNDER
 # =============================
-ganga_img = get_base64_image("ganga_image.jpg")
-
-st.markdown(f"""
-<div class="team-card fade-in">
-
-    <div class="profile-container">
-        <img src="data:image/jpeg;base64,{ganga_img}" class="profile-image" />
-        <div class="profile-overlay">
-            Co-Founder & Research Strategist of QuantNova.<br><br>
-            Leads validation methodology, structured experimentation,
-            and analytical integrity across predictive systems.
-        </div>
-    </div>
-
-    <h3>Ganga AR</h3>
-    <p class="role-title">Co-Founder & Research Strategist</p>
-
-</div>
-""", unsafe_allow_html=True)
+st.image("ganga_image.jpg", width=220)
 
 st.markdown("""
 Ganga AR strengthens QuantNova’s research discipline through structured validation frameworks, reproducible experimentation processes, and rigorous analytical documentation. Her focus ensures the platform maintains academic integrity while evolving toward scalable AI intelligence infrastructure.
