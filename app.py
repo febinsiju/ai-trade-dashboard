@@ -22,7 +22,13 @@ import hashlib
 # PAGE CONFIG (MUST BE FIRST STREAMLIT COMMAND)
 # =====================================================
 st.set_page_config(layout="wide")
-
+st.markdown("""
+<style>
+code.st-emotion-cache-znj1k1 {
+    display: none !important;
+}
+</style>
+""", unsafe_allow_html=True)
 # ==============================
 # CLEAN BIG LOGO DISPLAY
 # ==============================
