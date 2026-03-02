@@ -210,6 +210,32 @@ h1, h2, h3 {
 </style>
 """, unsafe_allow_html=True)
 
+#Fade Animation
+st.markdown("""
+<style>
+
+/* ============================= */
+/* FULL PAGE FADE IN ANIMATION   */
+/* ============================= */
+
+.stApp {
+    animation: pageFadeIn 1.2s ease-in-out;
+}
+
+@keyframes pageFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 
 # ==============================
 # OPTIONAL SCROLL REVEAL EFFECT
