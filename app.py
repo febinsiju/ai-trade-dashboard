@@ -569,7 +569,7 @@ By combining strong engineering discipline with analytical awareness, she ensure
     # =============================
     # HEAD OF DATA SCIENCE
     # =============================
-    gania_img = get_base64_image("gania_jpeg")
+    gania_img = get_base64_image("gania_image.jpeg")
 
     st.markdown(f"""
     <div class="profile-container">
