@@ -650,22 +650,22 @@ st.markdown("---")
 # =============================
 # CO-FOUNDER
 # =============================
-founder_img = get_base64_image("founder_image.jpg")
+cofounder_img = get_base64_image("ganga_image.jpg")
 
 st.markdown(f"""
 <div class="team-card fade-in">
 
 <div class="profile-container">
-    <img src="data:image/png;base64,{founder_img}" class="profile-image">
+    <img src="data:image/png;base64,{cofounder_img}" class="profile-image">
     <div class="profile-overlay">
-        Founder & Lead Architect of QuantNova.<br><br>
-        Designed AI architecture, predictive systems,
-        and long-term intelligence infrastructure roadmap.
+        Co-Founder & Research Strategist of QuantNova.<br><br>
+        Leads validation methodology, structured experimentation,
+        and analytical intergrity across predictive systems
     </div>
 </div>
 
-<h3>Febin Siju</h3>
-<p class="role-title">Founder & Lead Architect</p>
+<h3>Ganga AR</h3>
+<p class="role-title">Co-Founder & Research Strategist</p>
 
 </div>
 """, unsafe_allow_html=True)
