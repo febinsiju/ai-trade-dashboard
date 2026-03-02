@@ -462,153 +462,153 @@ elif st.session_state.page == "Market Dashboard":
 
 elif st.session_state.page == "About":
 
-st.title("About QuantNova")
+    st.title("About QuantNova")
+    
+    st.markdown("""
+    QuantNova was conceived as a long-horizon academic research initiative by the members of Group 7, students of Computer Science and Engineering (CSE B S2) at TocH Institute Of Science And Technology (TIST), Ernakulam, Kerala.
+    
+    As Group 7, our aim extends far beyond academic submission. We are focused on building structured, research-oriented artificial intelligence systems that combine statistical rigor, engineering discipline, and scalable system architecture. Our mission is to transform theoretical knowledge into practical, measurable intelligence frameworks capable of operating in complex financial ecosystems.
+    
+    We believe markets are probabilistic systems, not deterministic machines. Through QuantNova, our objective is to design modeling frameworks that quantify uncertainty, validate predictive structures, and evolve through disciplined experimentation cycles.
+    
+    QuantNova represents our commitment to engineering infrastructure — not just features — and to approaching AI development with both academic integrity and startup ambition.
+    """)
+    
+    st.markdown("---")
+    
+    st.markdown("""
+    <style>
 
-st.markdown("""
-QuantNova was conceived as a long-horizon academic research initiative by the members of Group 7, students of Computer Science and Engineering (CSE B S2) at TocH Institute Of Science And Technology (TIST), Ernakulam, Kerala.
-
-As Group 7, our aim extends far beyond academic submission. We are focused on building structured, research-oriented artificial intelligence systems that combine statistical rigor, engineering discipline, and scalable system architecture. Our mission is to transform theoretical knowledge into practical, measurable intelligence frameworks capable of operating in complex financial ecosystems.
-
-We believe markets are probabilistic systems, not deterministic machines. Through QuantNova, our objective is to design modeling frameworks that quantify uncertainty, validate predictive structures, and evolve through disciplined experimentation cycles.
-
-QuantNova represents our commitment to engineering infrastructure — not just features — and to approaching AI development with both academic integrity and startup ambition.
-""")
-
-st.markdown("---")
-
-st.markdown("""
-<style>
-
-/* ============================= */
-/* Animated Background Gradient  */
-/* ============================= */
-body {
-background: linear-gradient(-45deg, #0E1117, #111827, #0A0F1C, #0E1117);
-background-size: 400% 400%;
-animation: gradientMove 15s ease infinite;
-}
-
-@keyframes gradientMove {
-0% { background-position: 0% 50%; }
-50% { background-position: 100% 50%; }
-100% { background-position: 0% 50%; }
-}
-
-/* ============================= */
-/* Fade In Animation             */
-/* ============================= */
-.fade-in {
-animation: fadeIn 1.2s ease-in-out;
-}
-
-@keyframes fadeIn {
-from { opacity: 0; transform: translateY(25px); }
-to { opacity: 1; transform: translateY(0); }
-}
-
-/* ============================= */
-/* Glass Card Container          */
-/* ============================= */
-.team-card {
-background: rgba(255, 255, 255, 0.05);
-backdrop-filter: blur(18px);
-border-radius: 25px;
-padding: 40px 30px;
-margin: 60px auto;
-max-width: 850px;
-transition: all 0.4s ease;
-}
-
-.team-card:hover {
-background: rgba(255, 255, 255, 0.08);
-transform: translateY(-10px);
-box-shadow: 0 0 40px rgba(0, 200, 255, 0.25);
-}
-
-/* ============================= */
-/* Profile Circle Container      */
-/* ============================= */
-.profile-container {
-position: relative;
-width: 220px;
-height: 220px;
-margin: 0 auto 30px auto;
-transition: all 0.4s ease;
-}
-
-/* Keep images perfectly circular */
-.profile-image {
-width: 100%;
-height: 100%;
-border-radius: 50%;
-object-fit: cover;
-object-position: center;
-display: block;
-transition: all 0.4s ease;
-border: 3px solid rgba(0, 200, 255, 0.3);
-}
-
-/* Hover overlay */
-.profile-overlay {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-border-radius: 50%;
-background: rgba(0, 0, 0, 0.85);
-color: white;
-opacity: 0;
-display: flex;
-align-items: center;
-justify-content: center;
-text-align: center;
-padding: 20px;
-font-size: 14px;
-transition: all 0.4s ease;
-}
-
-/* Hover Effects */
-.profile-container:hover .profile-overlay {
-opacity: 1;
-}
-
-.profile-container:hover .profile-image {
-transform: scale(1.07);
-}
-
-/* ============================= */
-/* Floating Subtle Animation     */
-/* ============================= */
-@keyframes float {
-0% { transform: translateY(0px); }
-50% { transform: translateY(-6px); }
-100% { transform: translateY(0px); }
-}
-
-.profile-container {
-animation: float 6s ease-in-out infinite;
-}
-
-/* ============================= */
-/* Headings Styling              */
-/* ============================= */
-h3 {
-text-align: center;
-font-size: 22px;
-margin-bottom: 5px;
-}
-
-p.role-title {
-text-align: center;
-font-weight: 600;
-letter-spacing: 1px;
-color: #00C8FF;
-margin-bottom: 25px;
-}
-
-</style>
-""", unsafe_allow_html=True)
+    /* ============================= */
+    /* Animated Background Gradient  */
+    /* ============================= */
+    body {
+    background: linear-gradient(-45deg, #0E1117, #111827, #0A0F1C, #0E1117);
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite;
+    }
+    
+    @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+    }
+    
+    /* ============================= */
+    /* Fade In Animation             */
+    /* ============================= */
+    .fade-in {
+    animation: fadeIn 1.2s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* ============================= */
+    /* Glass Card Container          */
+    /* ============================= */
+    .team-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(18px);
+    border-radius: 25px;
+    padding: 40px 30px;
+    margin: 60px auto;
+    max-width: 850px;
+    transition: all 0.4s ease;
+    }
+    
+    .team-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-10px);
+    box-shadow: 0 0 40px rgba(0, 200, 255, 0.25);
+    }
+    
+    /* ============================= */
+    /* Profile Circle Container      */
+    /* ============================= */
+    .profile-container {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 0 auto 30px auto;
+    transition: all 0.4s ease;
+    }
+    
+    /* Keep images perfectly circular */
+    .profile-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: all 0.4s ease;
+    border: 3px solid rgba(0, 200, 255, 0.3);
+    }
+    
+    /* Hover overlay */
+    .profile-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    transition: all 0.4s ease;
+    }
+    
+    /* Hover Effects */
+    .profile-container:hover .profile-overlay {
+    opacity: 1;
+    }
+    
+    .profile-container:hover .profile-image {
+    transform: scale(1.07);
+    }
+    
+    /* ============================= */
+    /* Floating Subtle Animation     */
+    /* ============================= */
+    @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0px); }
+    }
+    
+    .profile-container {
+    animation: float 6s ease-in-out infinite;
+    }
+    
+    /* ============================= */
+    /* Headings Styling              */
+    /* ============================= */
+    h3 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 5px;
+    }
+    
+    p.role-title {
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #00C8FF;
+    margin-bottom: 25px;
+    }
+    
+    </style>
+    """, unsafe_allow_html=True)
 
 # =============================
 # IMAGE ENCODING FUNCTION
