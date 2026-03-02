@@ -113,7 +113,6 @@ div[style*="position: fixed"] {
 
 </style>
 """, unsafe_allow_html=True)
-
 /* ============================= */
 /* PAGE FADE IN                  */
 /* ============================= */
