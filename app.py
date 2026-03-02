@@ -27,20 +27,24 @@ st.set_page_config(layout="wide")
 st.set_page_config(layout="wide")
 
 # =====================================================
-# DARK SaaS STYLE
+# QUANTNOVA PREMIUM AURORA UI STYLE
 # =====================================================
 
 st.markdown("""
 <style>
 
-/* Full Animated Aurora Background */
+/* ============================= */
+/* AURORA ANIMATED BACKGROUND    */
+/* ============================= */
+
 .stApp {
-    background: radial-gradient(circle at 20% 30%, rgba(0,255,163,0.15), transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(0,200,255,0.15), transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(140,0,255,0.12), transparent 50%),
-                linear-gradient(135deg, #050510, #0a0f1c, #0e1117);
+    background:
+        radial-gradient(circle at 20% 30%, rgba(0,255,163,0.18), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(0,200,255,0.18), transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(140,0,255,0.15), transparent 50%),
+        linear-gradient(135deg, #050510, #0a0f1c, #0e1117);
     background-size: 200% 200%;
-    animation: auroraMove 15s ease infinite;
+    animation: auroraMove 18s ease infinite;
 }
 
 @keyframes auroraMove {
@@ -49,17 +53,91 @@ st.markdown("""
     100% { background-position: 0% 50%; }
 }
 
-</style>
-""", unsafe_allow_html=True)
+/* ============================= */
+/* PAGE FADE IN                  */
+/* ============================= */
 
-st.markdown("""
-<style>
+.block-container {
+    animation: fadePage 0.8s ease-in-out;
+}
+
+@keyframes fadePage {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================= */
+/* SIDEBAR STYLING               */
+/* ============================= */
+
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #0a0f1c, #111827);
+    box-shadow: 5px 0 30px rgba(0,200,255,0.25);
+}
+
+/* ============================= */
+/* GLOWING BUTTONS               */
+/* ============================= */
+
+.stButton > button {
+    background: linear-gradient(90deg, #00C8FF, #00FFA3);
+    color: black;
+    border-radius: 12px;
+    font-weight: 600;
+    border: none;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(0,200,255,0.4);
+}
+
+.stButton > button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 30px rgba(0,255,163,0.8);
+}
+
+/* ============================= */
+/* GLASSMORPHISM CARDS           */
+/* ============================= */
+
+.glass-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(0,200,255,0.15);
+    transition: all 0.4s ease;
+    margin-bottom: 30px;
+}
+
+.glass-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 45px rgba(0,200,255,0.35);
+}
+
+/* ============================= */
+/* FLOATING ANIMATION            */
+/* ============================= */
+
+.float-card {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+}
+
+/* ============================= */
+/* GLOWING TITLE TEXT            */
+/* ============================= */
 
 .glow-text {
-    font-size: 42px;
-    font-weight: 700;
+    font-size: 44px;
+    font-weight: 800;
     text-align: center;
     background: linear-gradient(90deg, #00C8FF, #00FFA3, #8A2BE2);
+    background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: glowShift 6s linear infinite;
@@ -70,8 +148,47 @@ st.markdown("""
     100% { background-position: 200%; }
 }
 
+/* ============================= */
+/* METRIC CARD ENHANCEMENT       */
+/* ============================= */
+
+[data-testid="stMetric"] {
+    background: rgba(255,255,255,0.05);
+    padding: 15px;
+    border-radius: 15px;
+    backdrop-filter: blur(15px);
+    transition: 0.3s ease;
+}
+
+[data-testid="stMetric"]:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(0,200,255,0.3);
+}
+
+/* ============================= */
+/* DATAFRAME STYLING             */
+/* ============================= */
+
+[data-testid="stDataFrame"] {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* ============================= */
+/* HEADERS                       */
+/* ============================= */
+
+h1, h2, h3 {
+    letter-spacing: 1px;
+}
+
 </style>
 """, unsafe_allow_html=True)
+
+
+# ==============================
+# OPTIONAL SCROLL REVEAL EFFECT
+# ==============================
 
 import streamlit.components.v1 as components
 
@@ -86,84 +203,6 @@ ScrollReveal().reveal('.glass-card', {
 });
 </script>
 """, height=0)
-
-st.markdown("""
-<style>
-
-section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #0a0f1c, #111827);
-    box-shadow: 5px 0 30px rgba(0,200,255,0.2);
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<style>
-
-.glass-card {
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(20px);
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 0 25px rgba(0,200,255,0.1);
-    transition: 0.4s ease;
-}
-
-.glass-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 0 40px rgba(0,200,255,0.3);
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<style>
-
-/* ============================= */
-/* GLOW BUTTON STYLE             */
-/* ============================= */
-
-div.stButton > button {
-    background: linear-gradient(90deg, #00C8FF, #00FFA3);
-    color: white;
-    font-weight: 600;
-    border: none;
-    border-radius: 12px;
-    padding: 0.6em 1.4em;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(0, 200, 255, 0.4);
-}
-
-/* Hover Glow Effect */
-div.stButton > button:hover {
-    transform: translateY(-3px);
-    box-shadow: 
-        0 0 15px rgba(0, 200, 255, 0.8),
-        0 0 30px rgba(0, 255, 163, 0.6),
-        0 0 45px rgba(0, 200, 255, 0.4);
-}
-
-/* Click Effect */
-div.stButton > button:active {
-    transform: scale(0.96);
-    box-shadow: 0 0 20px rgba(0, 200, 255, 1);
-}
-
-/* Optional: smooth glow pulse */
-@keyframes pulseGlow {
-    0% { box-shadow: 0 0 10px rgba(0, 200, 255, 0.4); }
-    50% { box-shadow: 0 0 25px rgba(0, 200, 255, 0.8); }
-    100% { box-shadow: 0 0 10px rgba(0, 200, 255, 0.4); }
-}
-
-div.stButton > button {
-    animation: pulseGlow 3s infinite;
-}
-
-</style>
-""", unsafe_allow_html=True)
 
 # =====================================================
 # SESSION STATE
