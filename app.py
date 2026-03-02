@@ -209,8 +209,8 @@ elif st.session_state.page == "AI Intelligence Engine":
                 data = data.reset_index()
 
 # If columns are multi-index (Cloud issue), flatten them
-if isinstance(data.columns, pd.MultiIndex):
-    data.columns = data.columns.get_level_values(0)
+            if isinstance(data.columns, pd.MultiIndex):
+                data.columns = data.columns.get_level_values(0)
             except Exception:
                 st.error("Error fetching market data.")
                 st.stop()
