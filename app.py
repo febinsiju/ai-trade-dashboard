@@ -202,36 +202,36 @@ elif st.session_state.page == "AI Intelligence Engine":
 
     if st.button("Run QuantNova AI Engine"):
 
-    with st.spinner("Training Multiple AI Models..."):
+        with st.spinner("Training Multiple AI Models..."):
 
-        try:
-            data = yf.download(symbol, period="2y")
-        except Exception:
-            st.error("Error fetching market data.")
-            st.stop()
+            try:
+                data = yf.download(symbol, period="2y")
+            except Exception:
+                st.error("Error fetching market data.")
+                st.stop()
 
-        if data.empty:
-            st.error("No data found. Please enter a valid stock symbol.")
-            st.stop()
+            if data.empty:
+                st.error("No data found. Please enter a valid stock symbol.")
+                st.stop()
 
-        if len(data) < 60:
-            st.error("Not enough historical data.")
-            st.stop()
+            if len(data) < 60:
+                st.error("Not enough historical data.")
+                st.stop()
 
-        # Feature Engineering
-        data["Return"] = data["Close"].pct_change()
-        data["Target"] = np.where(data["Return"] > 0, 1, 0)
+            # Feature Engineering
+            data["Return"] = data["Close"].pct_change()
+            data["Target"] = np.where(data["Return"] > 0, 1, 0)
 
-        data["MA10"] = data["Close"].rolling(10).mean()
-        data["MA50"] = data["Close"].rolling(50).mean()
-        data["Volatility"] = data["Return"].rolling(10).std()
+            data["MA10"] = data["Close"].rolling(10).mean()
+            data["MA50"] = data["Close"].rolling(50).mean()
+            data["Volatility"] = data["Return"].rolling(10).std()
 
-        data = data.dropna()
-
-        if len(data) < 50:
-            st.error("Insufficient data after preprocessing.")
-            st.stop()
-
+            data = data.dropna()
+    
+            if len(data) < 50:
+                st.error("Insufficient data after preprocessing.")
+                st.stop()
+    
         # FEATURE ENGINEERING
         data["Return"] = data["Close"].pct_change()
         data["Target"] = np.where(data["Return"] > 0, 1, 0)
