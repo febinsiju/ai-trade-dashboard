@@ -476,28 +476,79 @@ QuantNova represents our commitment to engineering infrastructure — not just f
 
     st.markdown("---")
 
-    # =============================
-    # HOVER STYLE (ONLY ONCE)
-    # =============================
     st.markdown("""
 <style>
+
+/* ============================= */
+/* Animated Background Gradient  */
+/* ============================= */
+body {
+    background: linear-gradient(-45deg, #0E1117, #111827, #0A0F1C, #0E1117);
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ============================= */
+/* Fade In Animation             */
+/* ============================= */
+.fade-in {
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================= */
+/* Glass Card Container          */
+/* ============================= */
+.team-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(18px);
+    border-radius: 25px;
+    padding: 40px 30px;
+    margin: 60px auto;
+    max-width: 850px;
+    transition: all 0.4s ease;
+}
+
+.team-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-10px);
+    box-shadow: 0 0 40px rgba(0, 200, 255, 0.25);
+}
+
+/* ============================= */
+/* Profile Circle Container      */
+/* ============================= */
 .profile-container {
     position: relative;
     width: 220px;
     height: 220px;
-    margin: 30px auto;
+    margin: 0 auto 30px auto;
+    transition: all 0.4s ease;
 }
 
+/* Keep images perfectly circular */
 .profile-image {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    object-fit: cover;      /* 🔥 prevents stretching */
-    object-position: center;/* 🔥 centers the face */
+    object-fit: cover;
+    object-position: center;
     display: block;
-    transition: 0.4s ease;
+    transition: all 0.4s ease;
+    border: 3px solid rgba(0, 200, 255, 0.3);
 }
 
+/* Hover overlay */
 .profile-overlay {
     position: absolute;
     top: 0;
@@ -512,45 +563,48 @@ QuantNova represents our commitment to engineering infrastructure — not just f
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 15px;
+    padding: 20px;
     font-size: 14px;
-    transition: 0.4s ease;
+    transition: all 0.4s ease;
 }
 
+/* Hover Effects */
 .profile-container:hover .profile-overlay {
     opacity: 1;
 }
 
 .profile-container:hover .profile-image {
-    transform: scale(1.05);
-}
-</style>
-""", unsafe_allow_html=True)
-    st.markdown("""
-<style>
-
-/* Fade In Animation */
-.fade-in {
-    animation: fadeIn 1.2s ease-in-out;
+    transform: scale(1.07);
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+/* ============================= */
+/* Floating Subtle Animation     */
+/* ============================= */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0px); }
 }
 
-/* Card Glow Effect */
 .profile-container {
-    position: relative;
-    width: 220px;
-    height: 220px;
-    margin: 40px auto;
-    transition: 0.4s ease;
+    animation: float 6s ease-in-out infinite;
 }
 
-.profile-container:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 0 30px rgba(0, 200, 255, 0.3);
+/* ============================= */
+/* Headings Styling              */
+/* ============================= */
+h3 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+p.role-title {
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #00C8FF;
+    margin-bottom: 25px;
 }
 
 </style>
@@ -566,24 +620,27 @@ QuantNova represents our commitment to engineering infrastructure — not just f
             return base64.b64encode(img.read()).decode()
 
     # =============================
-    # FOUNDER
-    # =============================
-    founder_img = get_base64_image("founder_image.jpg")
+# FOUNDER
+# =============================
+founder_img = get_base64_image("founder_image.jpg")
 
-    st.markdown(f"""
+st.markdown(f"""
+<div class="team-card fade-in">
+
     <div class="profile-container">
         <img src="data:image/png;base64,{founder_img}" class="profile-image">
         <div class="profile-overlay">
-            Founder & Lead Architect of QuantNova.<br>
-            Designed AI architecture, predictive systems, 
+            Founder & Lead Architect of QuantNova.<br><br>
+            Designed AI architecture, predictive systems,
             and long-term intelligence infrastructure roadmap.
         </div>
     </div>
 
-    <h3 style="text-align:center;">Febin Siju</h3>
-    <p style="text-align:center; font-weight:600;">Founder & Lead Architect</p>
-    """, unsafe_allow_html=True)
+    <h3>Febin Siju</h3>
+    <p class="role-title">Founder & Lead Architect</p>
 
+</div>
+""", unsafe_allow_html=True)
     st.markdown("""
 Febin Siju architected QuantNova from its foundational system design to its advanced modeling logic. His work integrates ensemble learning systems, statistical validation processes, and modular intelligence frameworks into a unified predictive architecture. His focus is long-term scalability, structural clarity, and measurable AI performance.
 """)
