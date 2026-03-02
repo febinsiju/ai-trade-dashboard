@@ -61,23 +61,12 @@ st.markdown(f"""
 
 st.set_page_config(layout="wide")
 
-# =====================================================
-# QUANTNOVA PREMIUM AURORA UI STYLE
-# =====================================================
-
-import streamlit as st
-
-# =====================================================
-# QUANTNOVA PREMIUM AURORA UI STYLE + FADE-IN
-# =====================================================
-
 import streamlit as st
 import streamlit.components.v1 as components
 
 # =====================================================
-# QUANTNOVA PREMIUM AURORA UI STYLE + FADE-IN
+# QUANTNOVA PREMIUM DYNAMIC AURORA UI STYLE
 # =====================================================
-
 st.markdown("""
 <style>
 
@@ -103,30 +92,66 @@ div[style*="position: fixed"] {
 }
 
 /* ============================ */
-/* Animated Aurora Layer        */
+/* DYNAMIC AURORA LAYER         */
 /* ============================ */
 .stApp::before {
     content: "";
     position: fixed;
     inset: -50%;
     z-index: -1;
-    background:
-        radial-gradient(circle at 20% 30%, rgba(0,255,163,0.35), transparent 60%),
-        radial-gradient(circle at 80% 70%, rgba(0,200,255,0.35), transparent 60%),
-        radial-gradient(circle at 50% 50%, rgba(140,0,255,0.30), transparent 70%),
-        linear-gradient(135deg, #050510, #0a0f1c, #0e1117);
-    background-size: 200% 200%;
-    animation: auroraMove 25s ease-in-out infinite alternate;
-    filter: blur(60px);
+    background: radial-gradient(circle at 20% 30%, rgba(0,255,163,0.4), transparent 60%),
+                radial-gradient(circle at 80% 70%, rgba(0,200,255,0.4), transparent 60%),
+                radial-gradient(circle at 50% 50%, rgba(140,0,255,0.35), transparent 70%),
+                linear-gradient(135deg, #050510, #0a0f1c, #0e1117);
+    background-size: 400% 400%;
+    filter: blur(70px);
     opacity: 0.9;
+    animation: auroraMove 30s ease-in-out infinite alternate, auroraColorShift 60s ease-in-out infinite;
 }
 
+/* Move the aurora */
 @keyframes auroraMove {
-    0% { transform: translate(-5%, -5%) scale(1); }
-    50% { transform: translate(5%, 5%) scale(1.1); }
-    100% { transform: translate(-5%, 5%) scale(1); }
+    0% { transform: translate(-10%, -5%) scale(1); }
+    50% { transform: translate(10%, 5%) scale(1.1); }
+    100% { transform: translate(-10%, 5%) scale(1); }
 }
 
+/* Slowly shift the gradient colors */
+@keyframes auroraColorShift {
+    0% {
+        background: radial-gradient(circle at 20% 30%, rgba(0,255,163,0.4), transparent 60%),
+                    radial-gradient(circle at 80% 70%, rgba(0,200,255,0.4), transparent 60%),
+                    radial-gradient(circle at 50% 50%, rgba(140,0,255,0.35), transparent 70%),
+                    linear-gradient(135deg, #050510, #0a0f1c, #0e1117);
+    }
+    25% {
+        background: radial-gradient(circle at 20% 30%, rgba(0,200,255,0.4), transparent 60%),
+                    radial-gradient(circle at 80% 70%, rgba(140,0,255,0.4), transparent 60%),
+                    radial-gradient(circle at 50% 50%, rgba(0,255,163,0.35), transparent 70%),
+                    linear-gradient(135deg, #050510, #111827, #0a0f1c);
+    }
+    50% {
+        background: radial-gradient(circle at 20% 30%, rgba(140,0,255,0.4), transparent 60%),
+                    radial-gradient(circle at 80% 70%, rgba(0,255,163,0.4), transparent 60%),
+                    radial-gradient(circle at 50% 50%, rgba(0,200,255,0.35), transparent 70%),
+                    linear-gradient(135deg, #050510, #0a0f1c, #111827);
+    }
+    75% {
+        background: radial-gradient(circle at 20% 30%, rgba(0,255,163,0.4), transparent 60%),
+                    radial-gradient(circle at 80% 70%, rgba(0,200,255,0.4), transparent 60%),
+                    radial-gradient(circle at 50% 50%, rgba(140,0,255,0.35), transparent 70%),
+                    linear-gradient(135deg, #050510, #111827, #0a0f1c);
+    }
+    100% {
+        background: radial-gradient(circle at 20% 30%, rgba(0,255,163,0.4), transparent 60%),
+                    radial-gradient(circle at 80% 70%, rgba(0,200,255,0.4), transparent 60%),
+                    radial-gradient(circle at 50% 50%, rgba(140,0,255,0.35), transparent 70%),
+                    linear-gradient(135deg, #050510, #0a0f1c, #0e1117);
+    }
+}
+
+</style>
+""", unsafe_allow_html=True)
 /* ============================ */
 /* Sidebar Styling              */
 /* ============================ */
