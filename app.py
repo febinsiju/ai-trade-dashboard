@@ -650,13 +650,13 @@ st.markdown("---")
 # =============================
 # CO-FOUNDER
 # =============================
-cofounder_img = get_base64_image("ganga_image.jpg")
+ganga_img = get_base64_image("ganga_image.jpg")
 
 st.markdown(f"""
 <div class="team-card fade-in">
 
     <div class="profile-container">
-        <img src="data:image/png;base64,{ganga_imgage}" class="profile-image">
+        <img src="data:image/png;base64,{ganga_img}" class="profile-image">
         <div class="profile-overlay">
             Co-Founder & Research Strategist of QuantNova.<br><br>
             Leads validation methodology, structured experimentation,
