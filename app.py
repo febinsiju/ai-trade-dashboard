@@ -206,13 +206,13 @@ elif st.session_state.page == "AI Intelligence Engine":
 
             data = yf.download(symbol, period="2y")
 
-if data.empty:
-    st.error("No data found. Please enter a valid stock symbol.")
-    st.stop()
+    if data.empty:
+        st.error("No data found. Please enter a valid stock symbol.")
+        st.stop()
 
-if len(data) < 60:
-    st.error("Not enough historical data to train AI model.")
-    st.stop()
+    if len(data) < 60:
+        st.error("Not enough historical data to train AI model.")
+        st.stop()
             data["Return"] = data["Close"].pct_change()
             data["Target"] = np.where(data["Return"] > 0, 1, 0)
 
