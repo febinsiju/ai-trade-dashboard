@@ -65,80 +65,79 @@ st.set_page_config(layout="wide")
 # QUANTNOVA PREMIUM AURORA UI STYLE
 # =====================================================
 
+import streamlit as st
+
+# =====================================================
+# QUANTNOVA PREMIUM AURORA UI STYLE + FADE-IN
+# =====================================================
+
+import streamlit as st
+import streamlit.components.v1 as components
+
+# =====================================================
+# QUANTNOVA PREMIUM AURORA UI STYLE + FADE-IN
+# =====================================================
+
 st.markdown("""
 <style>
 
+/* ============================ */
 /* Hide debug/floating elements */
+/* ============================ */
 div[style*="position: fixed"] {
     display: none !important;
 }
 
-/* Main app base color */
+/* ============================ */
+/* Page fade-in animation       */
+/* ============================ */
 .stApp {
     background: #050510;
     overflow: hidden;
+    animation: pageFadeIn 1s ease-in-out;
 }
 
-/* Animated Aurora Layer */
+@keyframes pageFadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0px); }
+}
+
+/* ============================ */
+/* Animated Aurora Layer        */
+/* ============================ */
 .stApp::before {
     content: "";
     position: fixed;
     inset: -50%;
     z-index: -1;
-
     background:
         radial-gradient(circle at 20% 30%, rgba(0,255,163,0.35), transparent 60%),
         radial-gradient(circle at 80% 70%, rgba(0,200,255,0.35), transparent 60%),
         radial-gradient(circle at 50% 50%, rgba(140,0,255,0.30), transparent 70%),
         linear-gradient(135deg, #050510, #0a0f1c, #0e1117);
-
     background-size: 200% 200%;
     animation: auroraMove 25s ease-in-out infinite alternate;
     filter: blur(60px);
     opacity: 0.9;
 }
 
-/* Smooth Floating Motion */
 @keyframes auroraMove {
-    0% {
-        transform: translate(-5%, -5%) scale(1);
-    }
-    50% {
-        transform: translate(5%, 5%) scale(1.1);
-    }
-    100% {
-        transform: translate(-5%, 5%) scale(1);
-    }
+    0% { transform: translate(-5%, -5%) scale(1); }
+    50% { transform: translate(5%, 5%) scale(1.1); }
+    100% { transform: translate(-5%, 5%) scale(1); }
 }
 
-</style>
-""", unsafe_allow_html=True)
-/* ============================= */
-/* PAGE FADE IN                  */
-/* ============================= */
-
-.block-container {
-    animation: fadePage 0.8s ease-in-out;
-}
-
-@keyframes fadePage {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* ============================= */
-/* SIDEBAR STYLING               */
-/* ============================= */
-
+/* ============================ */
+/* Sidebar Styling              */
+/* ============================ */
 section[data-testid="stSidebar"] {
     background: linear-gradient(180deg, #0a0f1c, #111827);
     box-shadow: 5px 0 30px rgba(0,200,255,0.25);
 }
 
-/* ============================= */
-/* GLOWING BUTTONS               */
-/* ============================= */
-
+/* ============================ */
+/* Glowing Buttons              */
+/* ============================ */
 .stButton > button {
     background: linear-gradient(90deg, #00C8FF, #00FFA3);
     color: black;
@@ -155,10 +154,9 @@ section[data-testid="stSidebar"] {
     box-shadow: 0 0 30px rgba(0,255,163,0.8);
 }
 
-/* ============================= */
-/* GLASSMORPHISM CARDS           */
-/* ============================= */
-
+/* ============================ */
+/* Glassmorphism Cards           */
+/* ============================ */
 .glass-card {
     background: rgba(255,255,255,0.05);
     backdrop-filter: blur(20px);
@@ -174,10 +172,9 @@ section[data-testid="stSidebar"] {
     box-shadow: 0 0 45px rgba(0,200,255,0.35);
 }
 
-/* ============================= */
-/* FLOATING ANIMATION            */
-/* ============================= */
-
+/* ============================ */
+/* Floating Animation           */
+/* ============================ */
 .float-card {
     animation: float 6s ease-in-out infinite;
 }
@@ -188,10 +185,9 @@ section[data-testid="stSidebar"] {
     100% { transform: translateY(0px); }
 }
 
-/* ============================= */
-/* GLOWING TITLE TEXT            */
-/* ============================= */
-
+/* ============================ */
+/* Glowing Title Text           */
+/* ============================ */
 .glow-text {
     font-size: 44px;
     font-weight: 800;
@@ -208,10 +204,9 @@ section[data-testid="stSidebar"] {
     100% { background-position: 200%; }
 }
 
-/* ============================= */
-/* METRIC CARD ENHANCEMENT       */
-/* ============================= */
-
+/* ============================ */
+/* Metric Card Enhancement      */
+/* ============================ */
 [data-testid="stMetric"] {
     background: rgba(255,255,255,0.05);
     padding: 15px;
@@ -225,57 +220,24 @@ section[data-testid="stSidebar"] {
     box-shadow: 0 0 25px rgba(0,200,255,0.3);
 }
 
-/* ============================= */
-/* DATAFRAME STYLING             */
-/* ============================= */
-
+/* ============================ */
+/* Dataframe Styling            */
+/* ============================ */
 [data-testid="stDataFrame"] {
     border-radius: 15px;
     overflow: hidden;
 }
 
-/* ============================= */
-/* HEADERS                       */
-/* ============================= */
-
+/* ============================ */
+/* Headers                      */
+/* ============================ */
 h1, h2, h3 {
     letter-spacing: 1px;
 }
 
-</style>
-""", unsafe_allow_html=True)
-
-#Fade Animation
-st.markdown("""
-<style>
-
-/* ============================= */
-/* FULL PAGE FADE IN ANIMATION   */
-/* ============================= */
-
-.stApp {
-    animation: pageFadeIn 1.2s ease-in-out;
-}
-
-@keyframes pageFadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0px);
-    }
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-
-st.markdown("""
-<style>
-
-/* SCROLL REVEAL */
+/* ============================ */
+/* Scroll Reveal                 */
+/* ============================ */
 .reveal {
     opacity: 0;
     transform: translateY(40px);
@@ -288,36 +250,34 @@ st.markdown("""
 }
 
 </style>
+""", unsafe_allow_html=True)
 
+# ==============================
+# Scroll Reveal JS
+# ==============================
+st.markdown("""
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-
     function revealOnScroll() {
         var reveals = document.querySelectorAll(".reveal");
-
         for (var i = 0; i < reveals.length; i++) {
             var windowHeight = window.innerHeight;
             var elementTop = reveals[i].getBoundingClientRect().top;
             var elementVisible = 100;
-
             if (elementTop < windowHeight - elementVisible) {
                 reveals[i].classList.add("active");
             }
         }
     }
-
     window.addEventListener("scroll", revealOnScroll);
     revealOnScroll();
-
 });
 </script>
 """, unsafe_allow_html=True)
-# ==============================
-# OPTIONAL SCROLL REVEAL EFFECT
-# ==============================
 
-import streamlit.components.v1 as components
-
+# ==============================
+# ScrollReveal library for glass cards
+# ==============================
 components.html("""
 <script src="https://unpkg.com/scrollreveal"></script>
 <script>
@@ -330,12 +290,11 @@ ScrollReveal().reveal('.glass-card', {
 </script>
 """, height=0)
 
-#Particle Background
-import streamlit.components.v1 as components
-
+# ==============================
+# Particle Background
+# ==============================
 components.html("""
 <div id="particles-js"></div>
-
 <style>
 #particles-js {
   position: fixed;
@@ -346,7 +305,6 @@ components.html("""
   left: 0;
 }
 </style>
-
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script>
 particlesJS("particles-js", {
@@ -370,7 +328,9 @@ particlesJS("particles-js", {
 </script>
 """, height=0)
 
-#Glowing Cursor
+# ==============================
+# Glowing Cursor
+# ==============================
 components.html("""
 <style>
 .cursor-glow {
@@ -384,9 +344,7 @@ components.html("""
     z-index: 0;
 }
 </style>
-
 <div class="cursor-glow" id="cursorGlow"></div>
-
 <script>
 const glow = document.getElementById("cursorGlow");
 document.addEventListener("mousemove", e => {
