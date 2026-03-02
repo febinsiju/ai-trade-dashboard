@@ -57,30 +57,7 @@ st.set_page_config(layout="wide")
 # =====================================================
 # QUANTNOVA PREMIUM AURORA UI STYLE
 # =====================================================
-st.markdown("""
-<style>
 
-/* Hide Streamlit Menu */
-#MainMenu {
-    visibility: hidden;
-}
-
-/* Hide Footer */
-footer {
-    visibility: hidden;
-}
-
-/* Hide Header */
-header {
-    visibility: hidden;
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-
-st.markdown("""
-<style>
 
 /* ============================= */
 /* AURORA ANIMATED BACKGROUND    */
