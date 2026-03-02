@@ -526,6 +526,35 @@ QuantNova represents our commitment to engineering infrastructure — not just f
 }
 </style>
 """, unsafe_allow_html=True)
+    st.markdown("""
+<style>
+
+/* Fade In Animation */
+.fade-in {
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Card Glow Effect */
+.profile-container {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 40px auto;
+    transition: 0.4s ease;
+}
+
+.profile-container:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 30px rgba(0, 200, 255, 0.3);
+}
+
+</style>
+""", unsafe_allow_html=True)
 
     # =============================
     # IMAGE ENCODING FUNCTION
