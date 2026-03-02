@@ -177,7 +177,9 @@ Integrated risk diagnostics ensure that exposure levels are evaluated relative t
 
     st.header("Follow Us On")
     st.write("@ f_eb_in_")
-    st.write("@ gan.ga_")
+    st.write("@ _gan.ga_")
+    st.write("@ fiza.farshad")
+    st.write("@ its_g4nia")
 
 # =====================================================
 # AI ENGINE
