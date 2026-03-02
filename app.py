@@ -479,7 +479,7 @@ The Strategy Lab serves as the experimental research and validation layer of Qua
 Inside the lab, strategies undergo parameter optimization, walk-forward testing, Monte Carlo simulations, and drawdown sensitivity analysis. 
 Each model is evaluated across multiple volatility regimes to ensure structural robustness rather than curve-fitted performance.
 
-This architecture enables disciplined experimentation while maintaining mathematical integrity — transforming theoretical ideas into deployable quantitative systems.
+This architecture enables disciplined experimentation while maintaining mathematical integrity transforming theoretical ideas into deployable quantitative systems.
 """)
 
     st.markdown("---")
