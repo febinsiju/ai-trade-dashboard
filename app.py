@@ -15,28 +15,37 @@ import streamlit.components.v1 as components
 import streamlit as st
 import sqlite3
 import hashlib
-import os
-st.write("Current directory:", os.getcwd())
-st.write("Files in directory:", os.listdir())
-
 # =====================================================
 # PAGE CONFIG (MUST BE FIRST STREAMLIT COMMAND)
 # =====================================================
 st.set_page_config(layout="wide")
-import os
+# ==============================
+# LOGO DISPLAY (WORKING VERSION)
+# ==============================
+
 import base64
+import os
 
-def load_logo(filename):
-    current_dir = os.path.dirname(__file__)
-    logo_path = os.path.join(current_dir, filename)
-
-    if not os.path.exists(logo_path):
-        st.error(f"Logo file not found: {logo_path}")
+def get_logo_base64(path):
+    if not os.path.exists(path):
+        st.warning(f"Logo not found at: {path}")
         return None
-
-    with open(logo_path, "rb") as f:
+    
+    with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
-        logo_base64 = load_logo("quantnova_logo.png")
+
+logo_base64 = get_logo_base64("quantnova_logo.png")
+
+if logo_base64:
+    st.markdown(
+        f"""
+        <div style="display:flex; align-items:center; gap:15px;">
+            <img src="data:image/png;base64,{logo_base64}" width="70">
+            <h1 style="margin:0; font-size:28px;">QuantNova</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 # =====================================================
 # PAGE CONFIG
 # =====================================================
