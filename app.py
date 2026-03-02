@@ -20,20 +20,20 @@ import hashlib
 # PAGE CONFIG (MUST BE FIRST STREAMLIT COMMAND)
 # =====================================================
 st.set_page_config(layout="wide")
+import os
 import base64
 
-def load_logo(path):
-    with open(path, "rb") as f:
+def load_logo(filename):
+    current_dir = os.path.dirname(__file__)
+    logo_path = os.path.join(current_dir, filename)
+
+    if not os.path.exists(logo_path):
+        st.error(f"Logo file not found: {logo_path}")
+        return None
+
+    with open(logo_path, "rb") as f:
         return base64.b64encode(f.read()).decode()
-
-logo_base64 = load_logo("quantnova_logo.png")
-
-st.markdown(f"""
-<div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;">
-    <img src="data:image/png;base64,{logo_base64}" width="60">
-    <h1 style="margin:0; font-size:28px;">QuantNova</h1>
-</div>
-""", unsafe_allow_html=True)
+        logo_base64 = load_logo("quantnova_logo.png")
 # =====================================================
 # PAGE CONFIG
 # =====================================================
