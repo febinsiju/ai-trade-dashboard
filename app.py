@@ -348,18 +348,10 @@ Integrated risk diagnostics ensure that exposure levels are evaluated relative t
 
     st.markdown("""
     <style>
-    .follow-line {
-        width: 120px;
-        height: 2px;
-        background-color: white;
-        margin: 8px 0 20px 0;
-    }
-
     .insta-link {
         display: block;
-        text-align: center;
-        font-size: 16px;
-        margin: 10px 0;
+        font-size: 15px;
+        margin: 6px 0;
         color: white;
         text-decoration: none;
         transition: 0.3s ease;
@@ -368,19 +360,16 @@ Integrated risk diagnostics ensure that exposure levels are evaluated relative t
 
     .insta-link:hover {
         color: #00FFA3;
-        transform: scale(1.05);
-        text-shadow: 0 0 10px rgba(0,255,163,0.8);
+        text-shadow: 0 0 8px rgba(0,255,163,0.8);
+        transform: translateX(4px);
     }
     </style>
-
-    <div class="follow-line"></div>
 
     <a href="https://www.instagram.com/f_eb_in_" target="_blank" class="insta-link">f_eb_in_</a>
     <a href="https://www.instagram.com/_gan.ga_" target="_blank" class="insta-link">gan.ga</a>
     <a href="https://www.instagram.com/fiza.farshad" target="_blank" class="insta-link">fiza.farshad</a>
     <a href="https://www.instagram.com/its_g4nia" target="_blank" class="insta-link">its_g4nia</a>
     """, unsafe_allow_html=True)
-
 # =====================================================
 # AI ENGINE
 # =====================================================
