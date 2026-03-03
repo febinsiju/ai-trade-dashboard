@@ -359,7 +359,7 @@ Integrated risk diagnostics ensure that exposure levels are evaluated relative t
     }
 
     .insta-link:hover {
-        color: #00FFA3;
+        color: white;
         text-shadow: 0 0 8px rgba(0,255,163,0.8);
         transform: translateX(4px);
     }
