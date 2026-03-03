@@ -347,21 +347,29 @@ Integrated risk diagnostics ensure that exposure levels are evaluated relative t
     st.header("Follow Us On")
 
 st.markdown("""
-<div style="text-align:center; font-size:18px; line-height:2.2;">
+<style>
+.insta-link {
+    display:block;
+    text-align:center;
+    font-size:18px;
+    margin:12px 0;
+    color:#00C8FF;
+    text-decoration:none;
+    transition:0.3s ease;
+    font-weight:600;
+}
 
-<a href="https://www.instagram.com/f_eb_in_" target="_blank" 
-style="color:#00C8FF; text-decoration:none;">@f_eb_in_</a><br>
+.insta-link:hover {
+    color:#00FFA3;
+    transform:scale(1.05);
+    text-shadow:0 0 12px rgba(0,255,163,0.7);
+}
+</style>
 
-<a href="https://www.instagram.com/_gan.ga_" target="_blank" 
-style="color:#00C8FF; text-decoration:none;">@_gan.ga_</a><br>
-
-<a href="https://www.instagram.com/fiza.farshad" target="_blank" 
-style="color:#00C8FF; text-decoration:none;">@fiza.farshad</a><br>
-
-<a href="https://www.instagram.com/its_g4nia" target="_blank" 
-style="color:#00C8FF; text-decoration:none;">@its_g4nia</a>
-
-</div>
+<a href="https://www.instagram.com/f_eb_in_" target="_blank" class="insta-link">@f_eb_in_</a>
+<a href="https://www.instagram.com/_gan.ga_" target="_blank" class="insta-link">@_gan.ga_</a>
+<a href="https://www.instagram.com/fiza.farshad" target="_blank" class="insta-link">@fiza.farshad</a>
+<a href="https://www.instagram.com/its_g4nia" target="_blank" class="insta-link">@its_g4nia</a>
 """, unsafe_allow_html=True)
 
 # =====================================================
