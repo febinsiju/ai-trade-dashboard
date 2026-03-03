@@ -67,7 +67,7 @@ import streamlit.components.v1 as components
 import streamlit as st
 import streamlit.components.v1 as components
 
-```python
+
 # =====================================================
 # QUANTNOVA REALISTIC NORTHERN LIGHTS AURORA UI
 # =====================================================
