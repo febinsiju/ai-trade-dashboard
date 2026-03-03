@@ -44,137 +44,65 @@ import hashlib
 st.set_page_config(layout="wide")
 
 # =====================================================
-# NORTHERN LIGHTS ANIMATED BACKGROUND
+# CLEAN PROFESSIONAL UI STYLE
 # =====================================================
 
 st.markdown("""
 <style>
 
-/* Main background */
+/* Main App Background */
 .stApp {
-background: radial-gradient(circle at bottom, #02040a, #000000);
+    background: linear-gradient(135deg, #0f172a, #111827);
 }
 
-/* Aurora layer */
-.stApp::before {
-content:"";
-position:fixed;
-top:-50%;
-left:-50%;
-width:200%;
-height:200%;
-z-index:-1;
-
-background:
-radial-gradient(circle at 20% 30%, rgba(0,255,200,0.45), transparent 40%),
-radial-gradient(circle at 80% 40%, rgba(0,200,255,0.45), transparent 40%),
-radial-gradient(circle at 50% 80%, rgba(140,0,255,0.35), transparent 45%);
-
-filter:blur(120px);
-animation:auroraMove 20s ease-in-out infinite alternate;
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background: #0b1220;
+    border-right: 1px solid rgba(255,255,255,0.05);
 }
 
-/* Aurora animation */
-@keyframes auroraMove {
-
-0%{
-transform:translate(-10%,-10%) scale(1);
+/* Remove default padding */
+.block-container {
+    padding-top: 2rem;
 }
 
-50%{
-transform:translate(10%,5%) scale(1.15);
+/* Clean Button Style */
+.stButton > button {
+    background: #00C8FF;
+    color: black;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    padding: 10px 20px;
+    transition: 0.3s ease;
 }
 
-100%{
-transform:translate(-5%,10%) scale(1);
+.stButton > button:hover {
+    background: #00FFA3;
+    transform: translateY(-2px);
 }
 
+/* Glass Cards */
+.glass-card {
+    background: rgba(255,255,255,0.04);
+    padding: 30px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.06);
 }
 
-/* Sidebar styling */
-section[data-testid="stSidebar"]{
-background:linear-gradient(180deg,#0a0f1c,#111827);
-box-shadow:5px 0 30px rgba(0,200,255,0.25);
+/* Headline Styling */
+.main-title {
+    font-size: 52px;
+    font-weight: 800;
+    text-align: center;
+    color: white;
 }
 
-/* Buttons */
-.stButton > button{
-background:linear-gradient(90deg,#00C8FF,#00FFA3);
-color:black;
-border-radius:12px;
-font-weight:600;
-border:none;
-padding:10px 20px;
-transition:all 0.3s ease;
-box-shadow:0 0 15px rgba(0,200,255,0.4);
-}
-
-.stButton > button:hover{
-transform:translateY(-3px);
-box-shadow:0 0 30px rgba(0,255,163,0.8);
-}
-
-/* Glass cards */
-.glass-card{
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(20px);
-padding:30px;
-border-radius:20px;
-box-shadow:0 0 25px rgba(0,200,255,0.15);
-transition:all 0.4s ease;
-margin-bottom:30px;
-}
-
-.glass-card:hover{
-transform:translateY(-8px);
-box-shadow:0 0 45px rgba(0,200,255,0.35);
-}
-
-/* Floating animation */
-.float-card{
-animation:float 6s ease-in-out infinite;
-}
-
-@keyframes float{
-0%{transform:translateY(0px);}
-50%{transform:translateY(-8px);}
-100%{transform:translateY(0px);}
-}
-
-/* Glow text */
-.glow-text{
-font-size:44px;
-font-weight:800;
-text-align:center;
-background:linear-gradient(90deg,#00C8FF,#00FFA3,#8A2BE2);
-background-size:200% auto;
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-animation:glowShift 6s linear infinite;
-}
-
-@keyframes glowShift{
-0%{background-position:0%;}
-100%{background-position:200%;}
-}
-
-/* Metric cards */
-[data-testid="stMetric"]{
-background:rgba(255,255,255,0.05);
-padding:15px;
-border-radius:15px;
-backdrop-filter:blur(15px);
-transition:0.3s ease;
-}
-
-[data-testid="stMetric"]:hover{
-transform:translateY(-5px);
-box-shadow:0 0 25px rgba(0,200,255,0.3);
-}
-
-/* Hide code blocks */
-code.st-emotion-cache-znj1k1{
-display:none !important;
+.subtitle {
+    text-align: center;
+    font-size: 18px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 40px;
 }
 
 </style>
