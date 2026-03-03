@@ -345,10 +345,24 @@ Integrated risk diagnostics ensure that exposure levels are evaluated relative t
     st.write("quantnova.ai.com")
 
     st.header("Follow Us On")
-    st.write("@f_eb_in_")
-    st.write("@_ gan.ga_")
-    st.write("@fiza.farshad")
-    st.write("@its_g4nia")
+
+st.markdown("""
+<div style="text-align:center; font-size:18px; line-height:2.2;">
+
+<a href="https://www.instagram.com/f_eb_in_" target="_blank" 
+style="color:#00C8FF; text-decoration:none;">@f_eb_in_</a><br>
+
+<a href="https://www.instagram.com/_gan.ga_" target="_blank" 
+style="color:#00C8FF; text-decoration:none;">@_gan.ga_</a><br>
+
+<a href="https://www.instagram.com/fiza.farshad" target="_blank" 
+style="color:#00C8FF; text-decoration:none;">@fiza.farshad</a><br>
+
+<a href="https://www.instagram.com/its_g4nia" target="_blank" 
+style="color:#00C8FF; text-decoration:none;">@its_g4nia</a>
+
+</div>
+""", unsafe_allow_html=True)
 
 # =====================================================
 # AI ENGINE
