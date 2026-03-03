@@ -18,85 +18,171 @@ import streamlit.components.v1 as components
 import streamlit as st
 import sqlite3
 import hashlib
+# -*- coding: utf-8 -*-
+
+import streamlit as st
+import streamlit.components.v1 as components
+import yfinance as yf
+import pandas as pd
+import numpy as np
+import plotly.graph_objects as go
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, confusion_matrix
+from PIL import Image
+import base64
+from io import BytesIO
+import os
+import datetime
+import sqlite3
+import hashlib
+
 # =====================================================
 # PAGE CONFIG (MUST BE FIRST STREAMLIT COMMAND)
 # =====================================================
+
 st.set_page_config(layout="wide")
+
+# =====================================================
+# NORTHERN LIGHTS ANIMATED BACKGROUND
+# =====================================================
+
 st.markdown("""
 <style>
 
-/* make page transparent */
+/* Main background */
 .stApp {
-background: transparent;
-}
-
-/* main animated aurora */
-.stApp::before {
-content: "";
-position: fixed;
-top: -50%;
-left: -50%;
-width: 200%;
-height: 200%;
-z-index: -1;
-
-background:
-radial-gradient(circle at 20% 30%, rgba(0,255,200,0.5), transparent 40%),
-radial-gradient(circle at 80% 40%, rgba(0,200,255,0.5), transparent 40%),
-radial-gradient(circle at 50% 80%, rgba(140,0,255,0.4), transparent 45%);
-
-filter: blur(120px);
-animation: auroraMove 18s ease-in-out infinite alternate;
-}
-
-/* moving aurora animation */
-@keyframes auroraMove {
-
-0% {
-transform: translate(-10%, -10%) scale(1);
-}
-
-50% {
-transform: translate(10%, 5%) scale(1.2);
-}
-
-100% {
-transform: translate(-5%, 10%) scale(1);
-}
-
-}
-
-/* darker base sky */
-body {
 background: radial-gradient(circle at bottom, #02040a, #000000);
 }
 
-/* transparent main container */
-.block-container {
-background: transparent;
+/* Aurora layer */
+.stApp::before {
+content:"";
+position:fixed;
+top:-50%;
+left:-50%;
+width:200%;
+height:200%;
+z-index:-1;
+
+background:
+radial-gradient(circle at 20% 30%, rgba(0,255,200,0.45), transparent 40%),
+radial-gradient(circle at 80% 40%, rgba(0,200,255,0.45), transparent 40%),
+radial-gradient(circle at 50% 80%, rgba(140,0,255,0.35), transparent 45%);
+
+filter:blur(120px);
+animation:auroraMove 20s ease-in-out infinite alternate;
 }
 
-/* sidebar glow */
-section[data-testid="stSidebar"] {
-background: linear-gradient(180deg,#0a0f1c,#111827);
-box-shadow: 5px 0 30px rgba(0,200,255,0.25);
+/* Aurora animation */
+@keyframes auroraMove {
+
+0%{
+transform:translate(-10%,-10%) scale(1);
+}
+
+50%{
+transform:translate(10%,5%) scale(1.15);
+}
+
+100%{
+transform:translate(-5%,10%) scale(1);
+}
+
+}
+
+/* Sidebar styling */
+section[data-testid="stSidebar"]{
+background:linear-gradient(180deg,#0a0f1c,#111827);
+box-shadow:5px 0 30px rgba(0,200,255,0.25);
+}
+
+/* Buttons */
+.stButton > button{
+background:linear-gradient(90deg,#00C8FF,#00FFA3);
+color:black;
+border-radius:12px;
+font-weight:600;
+border:none;
+padding:10px 20px;
+transition:all 0.3s ease;
+box-shadow:0 0 15px rgba(0,200,255,0.4);
+}
+
+.stButton > button:hover{
+transform:translateY(-3px);
+box-shadow:0 0 30px rgba(0,255,163,0.8);
+}
+
+/* Glass cards */
+.glass-card{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(20px);
+padding:30px;
+border-radius:20px;
+box-shadow:0 0 25px rgba(0,200,255,0.15);
+transition:all 0.4s ease;
+margin-bottom:30px;
+}
+
+.glass-card:hover{
+transform:translateY(-8px);
+box-shadow:0 0 45px rgba(0,200,255,0.35);
+}
+
+/* Floating animation */
+.float-card{
+animation:float 6s ease-in-out infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0px);}
+50%{transform:translateY(-8px);}
+100%{transform:translateY(0px);}
+}
+
+/* Glow text */
+.glow-text{
+font-size:44px;
+font-weight:800;
+text-align:center;
+background:linear-gradient(90deg,#00C8FF,#00FFA3,#8A2BE2);
+background-size:200% auto;
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+animation:glowShift 6s linear infinite;
+}
+
+@keyframes glowShift{
+0%{background-position:0%;}
+100%{background-position:200%;}
+}
+
+/* Metric cards */
+[data-testid="stMetric"]{
+background:rgba(255,255,255,0.05);
+padding:15px;
+border-radius:15px;
+backdrop-filter:blur(15px);
+transition:0.3s ease;
+}
+
+[data-testid="stMetric"]:hover{
+transform:translateY(-5px);
+box-shadow:0 0 25px rgba(0,200,255,0.3);
+}
+
+/* Hide code blocks */
+code.st-emotion-cache-znj1k1{
+display:none !important;
 }
 
 </style>
 """, unsafe_allow_html=True)
-st.markdown("""
-<style>
-code.st-emotion-cache-znj1k1 {
-    display: none !important;
-}
-</style>
-""", unsafe_allow_html=True)
-# ==============================
+
+# =====================================================
 # CLEAN BIG LOGO DISPLAY
-# ==============================
-
-import base64
-import os
+# =====================================================
 
 def load_logo(path):
     if not os.path.exists(path):
@@ -108,167 +194,14 @@ logo_base64 = load_logo("quantnova_logo.png")
 
 st.markdown(f"""
 <div style="text-align:center; margin-top:20px; margin-bottom:40px;">
-    <img src="data:image/png;base64,{logo_base64}"
-         style="
-            width:220px;
-            max-width:80%;
-            transition: all 0.4s ease;
-            filter: drop-shadow(0 0 25px rgba(0,200,255,0.4));
-         ">
+<img src="data:image/png;base64,{logo_base64}"
+style="
+width:220px;
+max-width:80%;
+transition:all 0.4s ease;
+filter:drop-shadow(0 0 25px rgba(0,200,255,0.4));
+">
 </div>
-""", unsafe_allow_html=True)
-# =====================================================
-# PAGE CONFIG
-# =====================================================
-
-st.set_page_config(layout="wide")
-
-import streamlit as st
-import streamlit.components.v1 as components
-
-import streamlit as st
-import streamlit.components.v1 as components
-
-
-# =====================================================
-# QUANTNOVA REALISTIC NORTHERN LIGHTS AURORA UI
-# =====================================================
-
-st.markdown("""
-<style>
-
-/* Base background */
-.stApp {
-    background: radial-gradient(circle at bottom, #030309, #050510, #000000);
-}
-
-/* Aurora layer */
-.stApp::before {
-    content: "";
-    position: fixed;
-    inset: -40%;
-    z-index: -1;
-
-    background:
-        radial-gradient(ellipse at 20% 40%, rgba(0,255,180,0.45), transparent 60%),
-        radial-gradient(ellipse at 70% 60%, rgba(0,200,255,0.45), transparent 60%),
-        radial-gradient(ellipse at 50% 30%, rgba(140,0,255,0.35), transparent 70%);
-
-    filter: blur(90px);
-    opacity: 0.9;
-    animation: auroraWave 20s ease-in-out infinite alternate;
-}
-
-/* Aurora movement */
-@keyframes auroraWave {
-0% {transform: translateX(-8%) translateY(-4%) scale(1);}
-50% {transform: translateX(8%) translateY(4%) scale(1.1);}
-100% {transform: translateX(-8%) translateY(2%) scale(1);}
-}
-
-/* Extra Aurora Glow Layer */
-.stApp::after {
-content:"";
-position:fixed;
-inset:-30%;
-z-index:-2;
-
-background:
-radial-gradient(circle at 30% 50%, rgba(0,255,200,0.2), transparent 60%),
-radial-gradient(circle at 70% 40%, rgba(0,120,255,0.2), transparent 60%);
-
-filter:blur(120px);
-animation: glowMove 40s ease-in-out infinite alternate;
-}
-
-@keyframes glowMove {
-0% {transform:translate(-5%,0%) scale(1);}
-50% {transform:translate(5%,5%) scale(1.1);}
-100% {transform:translate(-5%,5%) scale(1);}
-}
-
-/* Sidebar Styling */
-section[data-testid="stSidebar"] {
-background: linear-gradient(180deg, #0a0f1c, #111827);
-box-shadow: 5px 0 30px rgba(0,200,255,0.25);
-}
-
-/* Glowing Buttons */
-.stButton > button {
-background: linear-gradient(90deg, #00C8FF, #00FFA3);
-color: black;
-border-radius: 12px;
-font-weight: 600;
-border: none;
-padding: 10px 20px;
-transition: all 0.3s ease;
-box-shadow: 0 0 15px rgba(0,200,255,0.4);
-}
-
-.stButton > button:hover {
-transform: translateY(-3px);
-box-shadow: 0 0 30px rgba(0,255,163,0.8);
-}
-
-/* Glass Cards */
-.glass-card {
-background: rgba(255,255,255,0.05);
-backdrop-filter: blur(20px);
-padding: 30px;
-border-radius: 20px;
-box-shadow: 0 0 25px rgba(0,200,255,0.15);
-transition: all 0.4s ease;
-margin-bottom: 30px;
-}
-
-.glass-card:hover {
-transform: translateY(-8px);
-box-shadow: 0 0 45px rgba(0,200,255,0.35);
-}
-
-/* Floating Animation */
-.float-card {
-animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-0% { transform: translateY(0px); }
-50% { transform: translateY(-8px); }
-100% { transform: translateY(0px); }
-}
-
-/* Glow Title */
-.glow-text {
-font-size: 44px;
-font-weight: 800;
-text-align: center;
-background: linear-gradient(90deg, #00C8FF, #00FFA3, #8A2BE2);
-background-size: 200% auto;
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-animation: glowShift 6s linear infinite;
-}
-
-@keyframes glowShift {
-0% { background-position: 0%; }
-100% { background-position: 200%; }
-}
-
-/* Metric Cards */
-[data-testid="stMetric"] {
-background: rgba(255,255,255,0.05);
-padding: 15px;
-border-radius: 15px;
-backdrop-filter: blur(15px);
-transition: 0.3s ease;
-}
-
-[data-testid="stMetric"]:hover {
-transform: translateY(-5px);
-box-shadow: 0 0 25px rgba(0,200,255,0.3);
-}
-
-</style>
 """, unsafe_allow_html=True)
 
 # =====================================================
@@ -283,6 +216,7 @@ if "page" not in st.session_state:
 # =====================================================
 
 def circular_image(image_path, size=180):
+
     if not os.path.exists(image_path):
         st.warning(f"{image_path} not found.")
         return
@@ -307,11 +241,11 @@ def circular_image(image_path, size=180):
     st.markdown(
         f"""
         <div style="text-align:center;">
-            <img src="data:image/png;base64,{encoded}"
-                 style="border-radius:50%;
-                        width:{size}px;
-                        height:{size}px;
-                        object-fit:cover;">
+        <img src="data:image/png;base64,{encoded}"
+        style="border-radius:50%;
+        width:{size}px;
+        height:{size}px;
+        object-fit:cover;">
         </div>
         """,
         unsafe_allow_html=True
@@ -324,6 +258,7 @@ def circular_image(image_path, size=180):
 st.sidebar.title("QuantNova Platform")
 
 pages = ["Home", "AI Intelligence Engine", "Strategy Lab", "Market Dashboard", "About"]
+
 if st.session_state.page in pages:
     idx = pages.index(st.session_state.page)
 else:
@@ -331,10 +266,11 @@ else:
 
 selected = st.sidebar.radio("Navigate", pages, index=idx)
 
-# Only update if current page is a sidebar page
 if selected != st.session_state.page:
     st.session_state.page = selected
     st.rerun()
+
+if "username" in st.session_state:
     st.sidebar.write(f"Logged in as: {st.session_state.username}")
 
 # =====================================================
