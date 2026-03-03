@@ -366,7 +366,7 @@ Integrated risk diagnostics ensure that exposure levels are evaluated relative t
     </style>
 
     <a href="https://www.instagram.com/f_eb_in_" target="_blank" class="insta-link">f_eb_in_</a>
-    <a href="https://www.instagram.com/_gan.ga_" target="_blank" class="insta-link">gan.ga</a>
+    <a href="https://www.instagram.com/_gan.ga___?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="insta-link">gan.ga</a>
     <a href="https://www.instagram.com/fiza.farshad" target="_blank" class="insta-link">fiza.farshad</a>
     <a href="https://www.instagram.com/its_g4nia" target="_blank" class="insta-link">its_g4nia</a>
     """, unsafe_allow_html=True)
