@@ -344,33 +344,33 @@ Integrated risk diagnostics ensure that exposure levels are evaluated relative t
     st.header("Contact Us")
     st.write("quantnova.ai.com")
 
-   st.header("Follow Us On")
+       st.header("Follow Us On")
 
-    st.markdown("""
-    <style>
-    .insta-link {
-        display:block;
-        text-align:center;
-        font-size:18px;
-        margin:12px 0;
-        color:#00C8FF;
-        text-decoration:none;
-        transition:0.3s ease;
-        font-weight:600;
-    }
-
-    .insta-link:hover {
-        color:#00FFA3;
-        transform:scale(1.05);
-        text-shadow:0 0 12px rgba(0,255,163,0.7);
-    }
-    </style>
-
-    <a href="https://www.instagram.com/f_eb_in_" target="_blank" class="insta-link">@f_eb_in_</a>
-    <a href="https://www.instagram.com/_gan.ga_" target="_blank" class="insta-link">@_gan.ga_</a>
-    <a href="https://www.instagram.com/fiza.farshad" target="_blank" class="insta-link">@fiza.farshad</a>
-    <a href="https://www.instagram.com/its_g4nia" target="_blank" class="insta-link">@its_g4nia</a>
-    """, unsafe_allow_html=True)
+       st.markdown("""
+       <style>
+       .insta-link {
+           display:block;
+           text-align:center;
+           font-size:18px;
+           margin:12px 0;
+           color:#00C8FF;
+           text-decoration:none;
+           transition:0.3s ease;
+           font-weight:600;
+       }
+   
+       .insta-link:hover {
+           color:#00FFA3;
+           transform:scale(1.05);
+           text-shadow:0 0 12px rgba(0,255,163,0.7);
+       }
+       </style>
+   
+       <a href="https://www.instagram.com/f_eb_in_" target="_blank" class="insta-link">@f_eb_in_</a>
+       <a href="https://www.instagram.com/_gan.ga_" target="_blank" class="insta-link">@_gan.ga_</a>
+       <a href="https://www.instagram.com/fiza.farshad" target="_blank" class="insta-link">@fiza.farshad</a>
+       <a href="https://www.instagram.com/its_g4nia" target="_blank" class="insta-link">@its_g4nia</a>
+       """, unsafe_allow_html=True)
 
 # =====================================================
 # AI ENGINE
