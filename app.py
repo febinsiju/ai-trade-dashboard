@@ -44,33 +44,101 @@ import hashlib
 st.set_page_config(layout="wide")
 
 # =====================================================
-# CLEAN PROFESSIONAL UI STYLE
+# ANIMATED FUTURISTIC BACKGROUND
 # =====================================================
 
 st.markdown("""
 <style>
 
-/* Main App Background */
+/* ================================
+   MAIN BACKGROUND ANIMATION
+================================ */
+
 .stApp {
-    background: linear-gradient(135deg, #0f172a, #111827);
+    background: linear-gradient(-45deg, #0f172a, #111827, #0b1220, #0e1a2b);
+    background-size: 400% 400%;
+    animation: gradientShift 18s ease infinite;
+    overflow-x: hidden;
 }
 
-/* Sidebar */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ================================
+   FLOATING GLOW ORBS
+================================ */
+
+.orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.6;
+    z-index: 0;
+    animation: floatMove 20s infinite alternate ease-in-out;
+}
+
+.orb1 {
+    width: 400px;
+    height: 400px;
+    background: rgba(0, 200, 255, 0.4);
+    top: 10%;
+    left: 5%;
+}
+
+.orb2 {
+    width: 350px;
+    height: 350px;
+    background: rgba(0, 255, 163, 0.3);
+    bottom: 10%;
+    right: 10%;
+    animation-delay: 4s;
+}
+
+.orb3 {
+    width: 300px;
+    height: 300px;
+    background: rgba(138, 43, 226, 0.35);
+    top: 50%;
+    left: 40%;
+    animation-delay: 8s;
+}
+
+@keyframes floatMove {
+    0% { transform: translateY(0px) translateX(0px) scale(1); }
+    50% { transform: translateY(-40px) translateX(30px) scale(1.1); }
+    100% { transform: translateY(30px) translateX(-20px) scale(1); }
+}
+
+/* ================================
+   MAKE CONTENT ABOVE BACKGROUND
+================================ */
+
+.block-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* ================================
+   SIDEBAR
+================================ */
+
 section[data-testid="stSidebar"] {
-    background: #0b1220;
+    background: rgba(10,15,28,0.85);
+    backdrop-filter: blur(12px);
     border-right: 1px solid rgba(255,255,255,0.05);
 }
 
-/* Remove default padding */
-.block-container {
-    padding-top: 2rem;
-}
+/* ================================
+   BUTTONS
+================================ */
 
-/* Clean Button Style */
 .stButton > button {
-    background: #00C8FF;
+    background: linear-gradient(90deg, #00C8FF, #00FFA3);
     color: black;
-    border-radius: 8px;
+    border-radius: 10px;
     font-weight: 600;
     border: none;
     padding: 10px 20px;
@@ -78,34 +146,36 @@ section[data-testid="stSidebar"] {
 }
 
 .stButton > button:hover {
-    background: #00FFA3;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(0,255,163,0.6);
 }
 
-/* Glass Cards */
-.glass-card {
-    background: rgba(255,255,255,0.04);
-    padding: 30px;
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.06);
-}
+/* ================================
+   HERO TITLE
+================================ */
 
-/* Headline Styling */
 .main-title {
     font-size: 52px;
     font-weight: 800;
     text-align: center;
     color: white;
+    margin-top: 10px;
 }
 
 .subtitle {
     text-align: center;
     font-size: 18px;
-    color: rgba(255,255,255,0.6);
+    color: rgba(255,255,255,0.7);
     margin-bottom: 40px;
 }
 
 </style>
+
+<!-- Floating Orbs -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
 """, unsafe_allow_html=True)
 
 # =====================================================
@@ -121,12 +191,12 @@ def load_logo(path):
 logo_base64 = load_logo("quantnova_logo.png")
 
 st.markdown(f"""
-<div style="text-align:center; margin-top:40px; margin-bottom:30px;">
+<div style="text-align:center; margin-top:60px; margin-bottom:20px;">
     <img src="data:image/png;base64,{logo_base64}"
     style="
         width:260px;
         max-width:85%;
-        filter: drop-shadow(0 0 35px rgba(0,200,255,0.35));
+        filter: drop-shadow(0 0 40px rgba(0,200,255,0.5));
     ">
 </div>
 
