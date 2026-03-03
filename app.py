@@ -75,28 +75,12 @@ import streamlit.components.v1 as components
 st.markdown("""
 <style>
 
-/* Hide floating debug elements */
-div[style*="position: fixed"] {
-    display: none !important;
-}
-
-/* Base App Styling */
+/* Base background */
 .stApp {
     background: radial-gradient(circle at bottom, #030309, #050510, #000000);
-    overflow: hidden;
-    animation: pageFadeIn 1s ease-in-out;
 }
 
-@keyframes pageFadeIn {
-    from {opacity:0; transform:translateY(20px);}
-    to {opacity:1; transform:translateY(0);}
-}
-
-
-/* ============================= */
-/* Northern Lights Layer         */
-/* ============================= */
-
+/* Aurora layer */
 .stApp::before {
     content: "";
     position: fixed;
@@ -110,69 +94,18 @@ div[style*="position: fixed"] {
 
     filter: blur(90px);
     opacity: 0.9;
-
-    animation:
-        auroraWave 18s ease-in-out infinite alternate,
-        auroraDrift 35s linear infinite;
+    animation: auroraWave 20s ease-in-out infinite alternate;
 }
 
-
-/* ============================= */
-/* Aurora Wave Motion            */
-/* ============================= */
-
+/* Aurora movement */
 @keyframes auroraWave {
-
-0% {
-transform: translateX(-8%) translateY(-4%) scale(1);
+0% {transform: translateX(-8%) translateY(-4%) scale(1);}
+50% {transform: translateX(8%) translateY(4%) scale(1.1);}
+100% {transform: translateX(-8%) translateY(2%) scale(1);}
 }
 
-25% {
-transform: translateX(6%) translateY(4%) scale(1.05);
-}
-
-50% {
-transform: translateX(10%) translateY(-2%) scale(1.1);
-}
-
-75% {
-transform: translateX(-5%) translateY(6%) scale(1.05);
-}
-
-100% {
-transform: translateX(-10%) translateY(2%) scale(1);
-}
-
-}
-
-
-/* ============================= */
-/* Slow Aurora Drift             */
-/* ============================= */
-
-@keyframes auroraDrift {
-
-0% {
-background-position: 0% 50%;
-}
-
-50% {
-background-position: 100% 50%;
-}
-
-100% {
-background-position: 0% 50%;
-}
-
-}
-
-
-/* ============================= */
-/* Extra Aurora Glow Layer       */
-/* ============================= */
-
+/* Extra Aurora Glow Layer */
 .stApp::after {
-
 content:"";
 position:fixed;
 inset:-30%;
@@ -184,21 +117,97 @@ radial-gradient(circle at 70% 40%, rgba(0,120,255,0.2), transparent 60%);
 
 filter:blur(120px);
 animation: glowMove 40s ease-in-out infinite alternate;
-
 }
 
 @keyframes glowMove {
-
 0% {transform:translate(-5%,0%) scale(1);}
 50% {transform:translate(5%,5%) scale(1.1);}
 100% {transform:translate(-5%,5%) scale(1);}
+}
 
+/* Sidebar Styling */
+section[data-testid="stSidebar"] {
+background: linear-gradient(180deg, #0a0f1c, #111827);
+box-shadow: 5px 0 30px rgba(0,200,255,0.25);
+}
+
+/* Glowing Buttons */
+.stButton > button {
+background: linear-gradient(90deg, #00C8FF, #00FFA3);
+color: black;
+border-radius: 12px;
+font-weight: 600;
+border: none;
+padding: 10px 20px;
+transition: all 0.3s ease;
+box-shadow: 0 0 15px rgba(0,200,255,0.4);
+}
+
+.stButton > button:hover {
+transform: translateY(-3px);
+box-shadow: 0 0 30px rgba(0,255,163,0.8);
+}
+
+/* Glass Cards */
+.glass-card {
+background: rgba(255,255,255,0.05);
+backdrop-filter: blur(20px);
+padding: 30px;
+border-radius: 20px;
+box-shadow: 0 0 25px rgba(0,200,255,0.15);
+transition: all 0.4s ease;
+margin-bottom: 30px;
+}
+
+.glass-card:hover {
+transform: translateY(-8px);
+box-shadow: 0 0 45px rgba(0,200,255,0.35);
+}
+
+/* Floating Animation */
+.float-card {
+animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+0% { transform: translateY(0px); }
+50% { transform: translateY(-8px); }
+100% { transform: translateY(0px); }
+}
+
+/* Glow Title */
+.glow-text {
+font-size: 44px;
+font-weight: 800;
+text-align: center;
+background: linear-gradient(90deg, #00C8FF, #00FFA3, #8A2BE2);
+background-size: 200% auto;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+animation: glowShift 6s linear infinite;
+}
+
+@keyframes glowShift {
+0% { background-position: 0%; }
+100% { background-position: 200%; }
+}
+
+[data-testid="stMetric"] {
+background: rgba(255,255,255,0.05);
+padding: 15px;
+border-radius: 15px;
+backdrop-filter: blur(15px);
+transition: 0.3s ease;
+}
+
+[data-testid="stMetric"]:hover {
+transform: translateY(-5px);
+box-shadow: 0 0 25px rgba(0,200,255,0.3);
 }
 
 </style>
 """, unsafe_allow_html=True)
-```
-
+"""
 /* ============================ */
 /* Sidebar Styling              */
 /* ============================ */
