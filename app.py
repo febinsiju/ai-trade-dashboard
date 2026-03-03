@@ -1,5 +1,60 @@
 # -*- coding: utf-8 -*-
 import streamlit as st
+st.markdown("""
+<style>
+
+/* Make Streamlit background transparent */
+.stApp {
+    background: transparent;
+}
+
+/* Animated Gradient Base */
+body {
+    margin: 0;
+    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1c1c2b);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+/* Floating glow circles */
+.background-animation::before,
+.background-animation::after {
+    content: "";
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,200,255,0.15), transparent 70%);
+    animation: float 20s infinite ease-in-out;
+    z-index: -1;
+}
+
+.background-animation::after {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0,255,163,0.12), transparent 70%);
+    animation-delay: 10s;
+}
+
+/* Animations */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+    0% { transform: translate(-10%, -10%); }
+    50% { transform: translate(60%, 60%); }
+    100% { transform: translate(-10%, -10%); }
+}
+
+</style>
+
+<div class="background-animation"></div>
+
+""", unsafe_allow_html=True)
+import streamlit as st
 ...
 import streamlit as st
 import yfinance as yf
