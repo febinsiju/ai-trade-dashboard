@@ -24,6 +24,68 @@ import hashlib
 st.set_page_config(layout="wide")
 st.markdown("""
 <style>
+
+/* make page transparent */
+.stApp {
+background: transparent;
+}
+
+/* main animated aurora */
+.stApp::before {
+content: "";
+position: fixed;
+top: -50%;
+left: -50%;
+width: 200%;
+height: 200%;
+z-index: -1;
+
+background:
+radial-gradient(circle at 20% 30%, rgba(0,255,200,0.5), transparent 40%),
+radial-gradient(circle at 80% 40%, rgba(0,200,255,0.5), transparent 40%),
+radial-gradient(circle at 50% 80%, rgba(140,0,255,0.4), transparent 45%);
+
+filter: blur(120px);
+animation: auroraMove 18s ease-in-out infinite alternate;
+}
+
+/* moving aurora animation */
+@keyframes auroraMove {
+
+0% {
+transform: translate(-10%, -10%) scale(1);
+}
+
+50% {
+transform: translate(10%, 5%) scale(1.2);
+}
+
+100% {
+transform: translate(-5%, 10%) scale(1);
+}
+
+}
+
+/* darker base sky */
+body {
+background: radial-gradient(circle at bottom, #02040a, #000000);
+}
+
+/* transparent main container */
+.block-container {
+background: transparent;
+}
+
+/* sidebar glow */
+section[data-testid="stSidebar"] {
+background: linear-gradient(180deg,#0a0f1c,#111827);
+box-shadow: 5px 0 30px rgba(0,200,255,0.25);
+}
+
+</style>
+""", unsafe_allow_html=True)
+st.markdown("""
+<style>
 code.st-emotion-cache-znj1k1 {
     display: none !important;
 }
