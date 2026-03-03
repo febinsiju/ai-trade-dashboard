@@ -121,14 +121,18 @@ def load_logo(path):
 logo_base64 = load_logo("quantnova_logo.png")
 
 st.markdown(f"""
-<div style="text-align:center; margin-top:20px; margin-bottom:40px;">
-<img src="data:image/png;base64,{logo_base64}"
-style="
-width:220px;
-max-width:80%;
-transition:all 0.4s ease;
-filter:drop-shadow(0 0 25px rgba(0,200,255,0.4));
-">
+<div style="text-align:center; margin-top:40px; margin-bottom:30px;">
+    <img src="data:image/png;base64,{logo_base64}"
+    style="
+        width:260px;
+        max-width:85%;
+        filter: drop-shadow(0 0 35px rgba(0,200,255,0.35));
+    ">
+</div>
+
+<div class="main-title">QuantNova</div>
+<div class="subtitle">
+AI-Powered Quantitative Intelligence Platform
 </div>
 """, unsafe_allow_html=True)
 
