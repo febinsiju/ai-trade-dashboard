@@ -344,7 +344,7 @@ Integrated risk diagnostics ensure that exposure levels are evaluated relative t
     st.header("Contact Us")
     st.write("quantnova.ai.com")
 
-        st.header("Follow Us On")
+   st.header("Follow Us On")
 
     st.markdown("""
     <style>
