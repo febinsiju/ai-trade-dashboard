@@ -37,78 +37,75 @@ import datetime
 import sqlite3
 import hashlib
 import streamlit as st
+import streamlit.components.v1 as components
 # ==============================
 # Neural Particle Background
 # ==============================
 
-st.markdown("""
+# ===================================
+# Neural Particle Background (WORKING)
+# ===================================
+
+particles_html = """
+<!DOCTYPE html>
+<html>
+<head>
 <style>
+body {
+    margin: 0;
+}
 #particles-js {
     position: fixed;
     width: 100%;
     height: 100%;
-    z-index: -1;
-    top: 0;
-    left: 0;
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
 }
 </style>
-
+</head>
+<body>
 <div id="particles-js"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-
 <script>
 particlesJS("particles-js", {
-  "particles": {
-    "number": {
-      "value": 70,
-      "density": { "enable": true, "value_area": 800 }
+  particles: {
+    number: { value: 70, density: { enable: true, value_area: 800 }},
+    color: { value: "#00C8FF" },
+    shape: { type: "circle" },
+    opacity: { value: 0.3 },
+    size: { value: 3, random: true },
+    line_linked: {
+      enable: true,
+      distance: 150,
+      color: "#00C8FF",
+      opacity: 0.2,
+      width: 1
     },
-    "color": { "value": "#00C8FF" },
-    "shape": { "type": "circle" },
-    "opacity": {
-      "value": 0.3,
-      "random": false
-    },
-    "size": {
-      "value": 3,
-      "random": true
-    },
-    "line_linked": {
-      "enable": true,
-      "distance": 150,
-      "color": "#00C8FF",
-      "opacity": 0.2,
-      "width": 1
-    },
-    "move": {
-      "enable": true,
-      "speed": 1.2,
-      "direction": "none",
-      "random": false,
-      "straight": false,
-      "out_mode": "out"
-    }
+    move: { enable: true, speed: 1 }
   },
-  "interactivity": {
-    "detect_on": "canvas",
-    "events": {
-      "onhover": { "enable": true, "mode": "grab" },
-      "onclick": { "enable": false }
-    },
-    "modes": {
-      "grab": {
-        "distance": 140,
-        "line_linked": { "opacity": 0.4 }
-      }
-    }
+  interactivity: {
+    events: { onhover: { enable: true, mode: "grab" }},
+    modes: { grab: { distance: 140, line_linked: { opacity: 0.4 }}}
   },
-  "retina_detect": true
+  retina_detect: true
 });
 </script>
-""", unsafe_allow_html=True)
+</body>
+</html>
+"""
 
+components.html(particles_html, height=0)
+
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background: transparent;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 # =====================================================
 # PAGE CONFIG (MUST BE FIRST STREAMLIT COMMAND)
 # =====================================================
