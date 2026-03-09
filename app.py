@@ -755,92 +755,113 @@ elif st.session_state.page == "Strategy Lab":
 
 elif st.session_state.page == "Market Dashboard":
 
-    st.title("📊 Market Dashboard")
-
+    import streamlit as st
     import yfinance as yf
     import plotly.graph_objects as go
     import pandas as pd
+
+    st.title("📊 Market Dashboard")
 
     symbol = st.text_input("Enter Stock Symbol", "AAPL")
 
     if symbol:
 
-        data = yf.download(symbol, period="6mo")
+        try:
+            data = yf.download(symbol, period="6mo", auto_adjust=True)
+        except Exception:
+            st.error("Error fetching stock data.")
+            st.stop()
 
         if data.empty:
             st.error("Invalid stock symbol.")
-        else:
+            st.stop()
 
-            # -------- Key Metrics --------
-            latest = data.iloc[-1]
-            prev = data.iloc[-2]
+        # Fix multi index issue (Streamlit Cloud problem)
+        if isinstance(data.columns, pd.MultiIndex):
+            data.columns = data.columns.get_level_values(0)
 
-            price = latest["Close"]
-            change = price - prev["Close"]
-            percent = (change / prev["Close"]) * 100
+        # Get latest values
+        latest = data.iloc[-1]
+        prev = data.iloc[-2]
 
-            col1, col2, col3, col4 = st.columns(4)
+        price = float(latest["Close"])
+        prev_close = float(prev["Close"])
 
-            col1.metric("Current Price", f"${price:.2f}")
-            col2.metric("Daily Change", f"{change:.2f}", f"{percent:.2f}%")
-            col3.metric("Day High", f"${latest['High']:.2f}")
-            col4.metric("Day Low", f"${latest['Low']:.2f}")
+        change = price - prev_close
+        percent = (change / prev_close) * 100
 
-            st.divider()
+        high = float(latest["High"])
+        low = float(latest["Low"])
+        volume = int(latest["Volume"])
 
-            # -------- Moving Averages --------
-            data["MA20"] = data["Close"].rolling(20).mean()
-            data["MA50"] = data["Close"].rolling(50).mean()
+        # -------- Metrics --------
+        col1, col2, col3, col4 = st.columns(4)
 
-            # -------- Candlestick Chart --------
-            fig = go.Figure()
+        col1.metric("Current Price", f"${price:.2f}")
+        col2.metric("Daily Change", f"{change:.2f}", f"{percent:.2f}%")
+        col3.metric("Day High", f"${high:.2f}")
+        col4.metric("Day Low", f"${low:.2f}")
 
-            fig.add_trace(go.Candlestick(
-                x=data.index,
-                open=data["Open"],
-                high=data["High"],
-                low=data["Low"],
-                close=data["Close"],
-                name="Price"
-            ))
+        st.divider()
 
-            fig.add_trace(go.Scatter(
-                x=data.index,
-                y=data["MA20"],
-                mode="lines",
-                name="MA20"
-            ))
+        # -------- Moving Averages --------
+        data["MA20"] = data["Close"].rolling(20).mean()
+        data["MA50"] = data["Close"].rolling(50).mean()
 
-            fig.add_trace(go.Scatter(
-                x=data.index,
-                y=data["MA50"],
-                mode="lines",
-                name="MA50"
-            ))
+        # -------- Candlestick Chart --------
+        st.subheader("Price Chart")
 
-            fig.update_layout(
-                title=f"{symbol} Price Chart",
-                xaxis_title="Date",
-                yaxis_title="Price",
-                height=600
-            )
+        fig = go.Figure()
 
-            st.plotly_chart(fig, use_container_width=True)
+        fig.add_trace(go.Candlestick(
+            x=data.index,
+            open=data["Open"],
+            high=data["High"],
+            low=data["Low"],
+            close=data["Close"],
+            name="Price"
+        ))
 
-            # -------- Volume Chart --------
-            st.subheader("Trading Volume")
+        fig.add_trace(go.Scatter(
+            x=data.index,
+            y=data["MA20"],
+            mode="lines",
+            name="MA20"
+        ))
 
-            volume_fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=data.index,
+            y=data["MA50"],
+            mode="lines",
+            name="MA50"
+        ))
 
-            volume_fig.add_bar(
-                x=data.index,
-                y=data["Volume"],
-                name="Volume"
-            )
+        fig.update_layout(
+            title=f"{symbol} Market Chart",
+            xaxis_title="Date",
+            yaxis_title="Price",
+            height=600
+        )
 
-            volume_fig.update_layout(height=300)
+        st.plotly_chart(fig, use_container_width=True)
 
-            st.plotly_chart(volume_fig, use_container_width=True)
+        # -------- Volume Chart --------
+        st.subheader("Trading Volume")
+
+        volume_fig = go.Figure()
+
+        volume_fig.add_bar(
+            x=data.index,
+            y=data["Volume"],
+            name="Volume"
+        )
+
+        volume_fig.update_layout(
+            title="Volume Activity",
+            height=300
+        )
+
+        st.plotly_chart(volume_fig, use_container_width=True)
 
 # =====================================================
 # ABOUT PAGE (HOVER VERSION - FIXED INDENTATION)
