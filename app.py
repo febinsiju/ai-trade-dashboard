@@ -181,7 +181,7 @@ st.markdown("""
 .stApp {
     background: linear-gradient(-45deg, #0f172a, #111827, #0b1220, #0e1a2b);
     background-size: 400% 400%;
-    animation: gradientShift 18s ease infinite;
+    animation: gradientShift 20s ease infinite;
     overflow-x: hidden;
 }
 
