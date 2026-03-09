@@ -508,6 +508,7 @@ elif st.session_state.page == "AI Intelligence Engine":
     from sklearn.ensemble import RandomForestClassifier
     from sklearn.linear_model import LogisticRegression
     from sklearn.svm import SVC
+    from sklearn.preprocessing import StandardScaler
     from sklearn.model_selection import train_test_split
     from sklearn.metrics import accuracy_score
     import plotly.graph_objects as go
@@ -519,59 +520,104 @@ elif st.session_state.page == "AI Intelligence Engine":
         with st.spinner("Initializing QuantNova Neural Core..."):
 
             # -----------------------------
-            # Download Data (Cloud Safe)
+            # Download Latest Data
             # -----------------------------
             try:
-                data = yf.download(symbol, period="5y", auto_adjust=True)
+                data = yf.download(
+                    symbol,
+                    period="5y",
+                    interval="1d",
+                    auto_adjust=True,
+                    progress=False
+                )
             except Exception:
                 st.error("Error fetching market data.")
                 st.stop()
 
             if data.empty:
-                st.error("No data found. Please enter a valid stock symbol.")
+                st.error("No data found.")
                 st.stop()
 
-            # Fix possible multi-index columns (Streamlit Cloud issue)
             if isinstance(data.columns, pd.MultiIndex):
                 data.columns = data.columns.get_level_values(0)
-
-            if "Close" not in data.columns:
-                st.error("Close price not found in dataset.")
-                st.stop()
 
             # -----------------------------
             # Feature Engineering
             # -----------------------------
             data["Return"] = data["Close"].pct_change()
-            data["Target"] = np.where(data["Return"] > 0, 1, 0)
 
+            # Moving averages
             data["MA10"] = data["Close"].rolling(10).mean()
             data["MA50"] = data["Close"].rolling(50).mean()
+            data["MA200"] = data["Close"].rolling(200).mean()
+
+            # Volatility
             data["Volatility"] = data["Return"].rolling(10).std()
+
+            # Momentum
+            data["Momentum"] = data["Close"] - data["Close"].shift(10)
+
+            # RSI
+            delta = data["Close"].diff()
+            gain = delta.clip(lower=0)
+            loss = -delta.clip(upper=0)
+
+            avg_gain = gain.rolling(14).mean()
+            avg_loss = loss.rolling(14).mean()
+
+            rs = avg_gain / avg_loss
+            data["RSI"] = 100 - (100 / (1 + rs))
+
+            # Target
+            data["Target"] = np.where(data["Return"].shift(-1) > 0, 1, 0)
 
             data = data.dropna()
 
-            if len(data) < 30:
-                st.error("Insufficient data after preprocessing.")
-                st.stop()
+            # -----------------------------
+            # Features
+            # -----------------------------
+            features = [
+                "MA10",
+                "MA50",
+                "MA200",
+                "Volatility",
+                "Momentum",
+                "RSI"
+            ]
+
+            X = data[features]
+            y = data["Target"]
+
+            # Normalize
+            scaler = StandardScaler()
+            X = scaler.fit_transform(X)
 
             # -----------------------------
             # Train/Test Split
             # -----------------------------
-            X = data[["MA10", "MA50", "Volatility"]]
-            y = data["Target"]
-
             X_train, X_test, y_train, y_test = train_test_split(
-                X, y, test_size=0.3, shuffle=False
+                X,
+                y,
+                test_size=0.25,
+                shuffle=False
             )
 
             # -----------------------------
-            # Model Definitions
+            # Models
             # -----------------------------
             models = {
-                "Random Forest": RandomForestClassifier(),
-                "Logistic Regression": LogisticRegression(max_iter=1000),
-                "Support Vector Machine": SVC(probability=True)
+                "Random Forest": RandomForestClassifier(
+                    n_estimators=300,
+                    max_depth=12,
+                    random_state=42
+                ),
+                "Logistic Regression": LogisticRegression(
+                    max_iter=2000
+                ),
+                "Support Vector Machine": SVC(
+                    probability=True,
+                    kernel="rbf"
+                )
             }
 
             leaderboard = []
@@ -580,13 +626,15 @@ elif st.session_state.page == "AI Intelligence Engine":
             best_name = ""
 
             # -----------------------------
-            # Train & Evaluate
+            # Train Models
             # -----------------------------
             for name, model in models.items():
 
                 model.fit(X_train, y_train)
-                predictions = model.predict(X_test)
-                accuracy = accuracy_score(y_test, predictions)
+
+                preds = model.predict(X_test)
+
+                accuracy = accuracy_score(y_test, preds)
 
                 leaderboard.append((name, accuracy))
 
@@ -606,42 +654,47 @@ elif st.session_state.page == "AI Intelligence Engine":
             st.success(f"Best Performing Model: {best_name}")
 
             # -----------------------------
-            # Latest AI Signal
+            # AI Signal
             # -----------------------------
-            probabilities = best_model.predict_proba(X_test)[:, 1]
+            probs = best_model.predict_proba(X_test)[:,1]
 
             st.subheader("Latest AI Signal")
 
             col1, col2, col3 = st.columns(3)
+
             col1.metric("Best Model", best_name)
             col2.metric("Accuracy", f"{best_score*100:.2f}%")
             col3.metric(
                 "Signal",
-                "BUY" if probabilities[-1] > 0.5 else "SELL"
+                "BUY" if probs[-1] > 0.55 else "SELL"
             )
 
             # -----------------------------
             # Strategy Backtest
             # -----------------------------
-            data_test = data.iloc[-len(probabilities):].copy()
+            data_test = data.iloc[-len(probs):].copy()
+
             data_test["AI_Strategy"] = (
-                data_test["Return"] * (probabilities > 0.5)
+                data_test["Return"] * (probs > 0.55)
             )
 
             cumulative_market = (1 + data_test["Return"]).cumprod()
             cumulative_ai = (1 + data_test["AI_Strategy"]).cumprod()
 
             fig = go.Figure()
+
             fig.add_trace(go.Scatter(
                 y=cumulative_market,
                 name="Market"
             ))
+
             fig.add_trace(go.Scatter(
                 y=cumulative_ai,
                 name="AI Strategy"
             ))
 
             fig.update_layout(title="Best Model Strategy vs Market")
+
             st.plotly_chart(fig, use_container_width=True)
 
             # -----------------------------
@@ -653,7 +706,8 @@ elif st.session_state.page == "AI Intelligence Engine":
             ) * np.sqrt(252)
 
             volatility = (
-                data_test["AI_Strategy"].std() * np.sqrt(252)
+                data_test["AI_Strategy"].std() *
+                np.sqrt(252)
             )
 
             drawdown = (
@@ -664,6 +718,7 @@ elif st.session_state.page == "AI Intelligence Engine":
             st.subheader("Risk Metrics")
 
             r1, r2, r3 = st.columns(3)
+
             r1.metric("Sharpe Ratio", f"{sharpe:.2f}")
             r2.metric("Volatility", f"{volatility:.2f}")
             r3.metric("Max Drawdown", f"{drawdown:.2%}")
