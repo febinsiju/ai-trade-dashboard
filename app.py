@@ -1087,4 +1087,4 @@ elif st.session_state.page == "About":
 # =====================================================
 
 st.markdown("---")
-st.markdown(f"© {datetime.datetime.now().year} QuantNova | Febin's Research Build v1.0")
+st.markdown(f"© {datetime.datetime.now().year} QuantNova | Research Build v1.0")
