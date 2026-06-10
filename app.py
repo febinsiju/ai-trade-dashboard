@@ -1049,7 +1049,7 @@ elif st.session_state.page == "About":
     """, unsafe_allow_html=True)
 
     st.markdown("""
-    Devanandhana architected QuantNova from its foundational system design to its advanced modeling logic. His work integrates ensemble learning systems, statistical validation processes, and modular intelligence frameworks into a unified predictive architecture. His focus is long-term scalability, structural clarity, and measurable AI performance.
+    Devanandhana architected QuantNova from its foundational system design to its advanced modeling logic. Her work integrates ensemble learning systems, statistical validation processes, and modular intelligence frameworks into a unified predictive architecture. Her focus is long-term scalability, structural clarity, and measurable AI performance.
     """)
 
     st.markdown("---")
