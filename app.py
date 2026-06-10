@@ -1051,7 +1051,7 @@ elif st.session_state.page == "About":
     <div class="team-card">
 
     <div class="profile-container">
-        <img src="data:image/png;base64,{nanna_image}" class="profile-image">
+        <img src="data:image/png;base64,{nanna_img}" class="profile-image">
         <div class="profile-overlay">
             Founder & Lead Architect of QuantNova.<br><br>
             Designed AI architecture, predictive systems,
