@@ -470,30 +470,6 @@ Integrated risk diagnostics ensure that exposure levels are evaluated relative t
 
     st.header("Follow Us On")
 
-    st.markdown("""
-    <style>
-    .insta-link {
-        display: block;
-        font-size: 15px;
-        margin: 6px 0;
-        color: white;
-        text-decoration: none;
-        transition: 0.3s ease;
-        font-weight: 400;
-    }
-
-    .insta-link:hover {
-        color: white;
-        text-shadow: 0 0 8px rgba(0,255,163,0.8);
-        transform: translateX(4px);
-    }
-    </style>
-
-    <a href="https://www.instagram.com/f_eb_in_" target="_blank" class="insta-link">f_eb_in_</a>
-    <a href="https://www.instagram.com/_gan.ga___?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="insta-link">gan.ga</a>
-    <a href="https://www.instagram.com/fiza.farshad" target="_blank" class="insta-link">fiza.farshad</a>
-    <a href="https://www.instagram.com/its_g4nia" target="_blank" class="insta-link">its_g4nia</a>
-    """, unsafe_allow_html=True)
 # =====================================================
 # AI ENGINE
 # =====================================================
