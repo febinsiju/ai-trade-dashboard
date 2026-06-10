@@ -1045,7 +1045,7 @@ elif st.session_state.page == "About":
     # =============================
     # FOUNDER
     # =============================
-    nanna_img = get_base64_image("nanna_image.jpg")
+    nanna_img = get_base64_image("nanna_image1.jpg")
 
     st.markdown(f"""
     <div class="team-card">
@@ -1074,7 +1074,7 @@ elif st.session_state.page == "About":
     # =============================
     # CO-FOUNDER
     # =============================
-    deva_img = get_base64_image("deva_image.jpg")
+    deva_img = get_base64_image("deva_image1.jpg")
 
     st.markdown(f"""
     <div class="team-card">
