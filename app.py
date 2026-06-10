@@ -973,12 +973,13 @@ elif st.session_state.page == "About":
     }
 
     .profile-image {
-        width: 220px;
-        height: 220px;
-        border-radius: 50%;
-        object-fit: cover;
-        object-position: center top;
-        display: block;
+        width: 220px !important;
+        height: 220px !important;
+        border-radius: 50% !important;
+        object-fit: cover !important;
+        object-position: center center !important;
+        display: block !important;
+    }
         transition: all 0.4s ease;
         border: 3px solid rgba(0, 200, 255, 0.3);
     }
