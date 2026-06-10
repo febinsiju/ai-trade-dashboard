@@ -1045,13 +1045,13 @@ elif st.session_state.page == "About":
     # =============================
     # FOUNDER
     # =============================
-    founder_img = get_base64_image("founder_image.jpg")
+    nanna_img = get_base64_image("nanna_image.jpg")
 
     st.markdown(f"""
     <div class="team-card">
 
     <div class="profile-container">
-        <img src="data:image/png;base64,{founder_img}" class="profile-image">
+        <img src="data:image/png;base64,{nanna_image}" class="profile-image">
         <div class="profile-overlay">
             Founder & Lead Architect of QuantNova.<br><br>
             Designed AI architecture, predictive systems,
@@ -1059,14 +1059,14 @@ elif st.session_state.page == "About":
         </div>
     </div>
 
-    <h3>Febin Siju</h3>
+    <h3>Devanandhana</h3>
     <p class="role-title">Founder & Lead Architect</p>
 
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown("""
-    Febin Siju architected QuantNova from its foundational system design to its advanced modeling logic. His work integrates ensemble learning systems, statistical validation processes, and modular intelligence frameworks into a unified predictive architecture. His focus is long-term scalability, structural clarity, and measurable AI performance.
+    Devanandhana architected QuantNova from its foundational system design to its advanced modeling logic. His work integrates ensemble learning systems, statistical validation processes, and modular intelligence frameworks into a unified predictive architecture. His focus is long-term scalability, structural clarity, and measurable AI performance.
     """)
 
     st.markdown("---")
@@ -1074,13 +1074,13 @@ elif st.session_state.page == "About":
     # =============================
     # CO-FOUNDER
     # =============================
-    cofounder_img = get_base64_image("ganga_image.jpg")
+    deva_img = get_base64_image("deva.jpg")
 
     st.markdown(f"""
     <div class="team-card">
 
     <div class="profile-container">
-        <img src="data:image/png;base64,{cofounder_img}" class="profile-image">
+        <img src="data:image/png;base64,{deva_img}" class="profile-image">
         <div class="profile-overlay">
             Co-Founder & Research Strategist of QuantNova.<br><br>
             Leads validation methodology, structured experimentation,
@@ -1088,14 +1088,14 @@ elif st.session_state.page == "About":
         </div>
     </div>
 
-    <h3>Ganga AR</h3>
+    <h3>Devadarshana</h3>
     <p class="role-title">Co-Founder & Research Strategist</p>
 
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown("""
-    Ganga AR strengthens QuantNova’s research discipline through structured validation frameworks, reproducible experimentation processes, and rigorous analytical documentation. Her focus ensures the platform maintains academic integrity while evolving toward scalable AI intelligence infrastructure.
+    Devadarshana strengthens QuantNova’s research discipline through structured validation frameworks, reproducible experimentation processes, and rigorous analytical documentation. Her focus ensures the platform maintains academic integrity while evolving toward scalable AI intelligence infrastructure.
     """)
 
     st.markdown("---")
@@ -1103,66 +1103,7 @@ elif st.session_state.page == "About":
     # =============================
     # CHIEF TECHNOLOGY ENGINEER
     # =============================
-    fiza_img = get_base64_image("fiza_image.jpg")
-
-    st.markdown(f"""
-    <div class="team-card">
-
-    <div class="profile-container">
-        <img src="data:image/png;base64,{fiza_img}" class="profile-image">
-        <div class="profile-overlay">
-            Chief Technology Engineer.<br><br>
-            Leads system optimization, backend architecture,
-            and infrastructure scalability.
-        </div>
-    </div>
-
-    <h3>Fiza KF</h3>
-    <p class="role-title">Chief Technology Engineer</p>
-
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    Fiza plays a critical role in transforming QuantNova’s conceptual AI frameworks into stable, production-ready systems. As Chief Technology Engineer, she is responsible for backend system optimization, database architecture structuring, and performance-level engineering decisions that ensure computational efficiency.
-
-    Her contributions extend into building modular pipelines that allow scalable model experimentation without compromising system stability. She focuses on reducing latency in model execution, improving data ingestion workflows, and maintaining secure authentication mechanisms within the platform.
-
-    By combining strong engineering discipline with analytical awareness, she ensures QuantNova operates not just as a research prototype, but as a scalable SaaS intelligence infrastructure capable of handling increasing computational complexity and expanding feature layers.
-    """)
-
-    st.markdown("---")
-
-    # =============================
-    # HEAD OF DATA SCIENCE
-    # =============================
-    gania_img = get_base64_image("gania_image.jpeg")
-
-    st.markdown(f"""
-    <div class="team-card">
-
-    <div class="profile-container">
-        <img src="data:image/png;base64,{gania_img}" class="profile-image">
-        <div class="profile-overlay">
-            Head of Data Science.<br><br>
-            Oversees model validation, feature engineering,
-            and statistical research frameworks.
-        </div>
-    </div>
-
-    <h3>Gania Gibu</h3>
-    <p class="role-title">Head of Data Science</p>
-
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    Gania leads QuantNova’s data science initiatives with a focus on predictive accuracy, statistical robustness, and reproducible experimentation. As Head of Data Science, she oversees feature engineering strategies, volatility modeling techniques, and classification framework validation.
-
-    Her expertise lies in transforming raw market data into structured analytical features that enhance model performance while minimizing overfitting risks. She ensures that every predictive structure undergoes rigorous validation processes, including cross-validation testing, sensitivity analysis, and regime-specific performance evaluation.
-
-    By integrating disciplined research methodology with applied machine learning, she strengthens the probabilistic foundations of QuantNova. Her role ensures that the platform’s AI outputs are grounded in measurable statistical evidence rather than speculative interpretation.
-    """)
+    
 # =====================================================
 # FOOTER
 # =====================================================
