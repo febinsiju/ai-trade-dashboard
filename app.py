@@ -1074,7 +1074,7 @@ elif st.session_state.page == "About":
     # =============================
     # CO-FOUNDER
     # =============================
-    deva_img = get_base64_image("deva.jpg")
+    deva_img = get_base64_image("deva_image.jpg")
 
     st.markdown(f"""
     <div class="team-card">
