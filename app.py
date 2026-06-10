@@ -991,20 +991,31 @@ elif st.session_state.page == "About":
         width: 100%;
         height: 100%;
         border-radius: 50%;
-        background: rgba(0, 0, 0, 0.85);
+
+        background: rgba(0,0,0,0.78);
         color: white;
+
         opacity: 0;
+        visibility: hidden;
+
         display: flex;
         align-items: center;
         justify-content: center;
+
         text-align: center;
-        padding: 20px;
-        font-size: 14px;
-        transition: all 0.4s ease;
+        padding: 22px;
+        box-sizing: border-box;
+
+        font-size: 13px;
+        line-height: 1.5;
+
+        transition: opacity 0.4s ease;
     }
 
     .profile-container:hover .profile-overlay {
         opacity: 1;
+        visibility: visible;
+    }
     }
 
     .profile-container:hover .profile-image {
